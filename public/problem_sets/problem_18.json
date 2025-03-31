@@ -21,24 +21,24 @@
         "notes": ""
       },
       {
-        "expression": "(S (NP (PossNP's Jason) (N friend)) (VP (V cooked) (NP (Det these) (N food)) (AdjP (Deg very) (Adj fast))))",
+        "expression": "(S (NP (PossNP's (PossN Jason's#Jason#Jason)) (N friend)) (VP (V cooked) (NP (Det these) (N food)) (AdjP (Deg very) (Adj fast))))",
         "notes": ""
       },
       {
         "expression": "(S (NP (N Sarah)) (VP (V delivered) (NP (Det the) (N gift)) (PP (P to) (NP (Det a) (N girl) (PP (P with) (NP (N car)))))))",
-        "notes": ""
+        "notes": "The girl is with the car."
       },
       {
         "expression": "(S (NP (N Sarah)) (VP (V delivered) (NP (Det the) (N gift)) (PP (P to) (NP (Det a) (N girl))) (PP (P with) (NP (N car)))))",
-        "notes": ""
+        "notes": "Sarah is the one with the car."
       },
       {
         "expression": "(S (NP (N Emily)) (VP (V kicked) (NP (Det the) (N ball)) (PP (P with) (NP (Det the) (N dolls)))))",
-        "notes": ""
+        "notes": "Emily has dolls in her hand as she is kicking the ball."
       },
       {
         "expression": "(S (NP (N Emily)) (VP (V kicked) (NP (Det the) (N ball) (PP (P with) (NP (Det the) (N dolls))))))",
-        "notes": ""
+        "notes": "Emily is kicking a ball that has dolls printed on it."
       }
     ],
     "description": "Module 16: The Possessive Noun Phrase"

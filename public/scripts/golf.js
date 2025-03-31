@@ -101,7 +101,7 @@ function loadSentence(sentenceID) {
         }
     $("#sentenceContainer").attr("data-currentSentenceID", sentenceID)
     $("#sentenceContainer").attr("data-bracketedSentence", bracketedSentence)
-    $("#problemConstituent").attr("data-stepsUsed", 0)
+    $("#problemConstituent").attr("data-strokes", 0)
     let minStep = getMinStep(bracketedSentence)
     let parFactor = getParFactor(minStep)
     $("#problemConstituent").attr("data-positivePoint", 0)
@@ -139,7 +139,7 @@ function loadSentence(sentenceID) {
             // e.stopPropagation();
             // if ($("#tenseSelect").length){
             //     document.getElementById("tenseSelect").addEventListener('change', ()=>{
-            //         ++stepsUsed
+            //         ++strokes
             //         constituent = ("-").concat(document.getElementById("tenseSelect").value)
             //         console.log(constituent)
         
@@ -414,7 +414,7 @@ function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wron
                             ) {
                         makeSelectable(constituent, row + 1, newIndex, selectionMode, wrongAnswers, xlabel);
                         selectedJQ.addClass("faded").removeClass("selected")
-                        $("#problemConstituent").attr("data-stepsUsed", parseInt($("#problemConstituent").attr("data-stepsUsed"))+1)
+                        $("#problemConstituent").attr("data-strokes", parseInt($("#problemConstituent").attr("data-strokes"))+1)
                         $("#problemConstituent").attr("data-positivePoint", parseInt($("#problemConstituent").attr("data-positivePoint"))+1)
                     } else {
                         let wrongArray = selectedJQ.toArray().map(item => $(item).attr("data-uid")).join("")
@@ -422,7 +422,7 @@ function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wron
                         if (!wrongAnswers.find((item) => item == wrongArray)) {
                             wrongAnswers.push(wrongArray)
                             // console.log(treeToRows(parse(bracketedSentence))[row + 1])
-                            $("#problemConstituent").attr("data-stepsUsed", parseInt($("#problemConstituent").attr("data-stepsUsed"))+1)
+                            $("#problemConstituent").attr("data-strokes", parseInt($("#problemConstituent").attr("data-strokes"))+1)
                         }
                         selectedJQ.addClass("animateWrong")
                         selectedJQ[0].addEventListener("animationend", (event) => {
@@ -743,7 +743,7 @@ function setUpDrake() {
             newBlockIndex = parseInt($(el).attr("data-blockindex")) //update blockIndex
             let trace = $(el).attr("data-traceIndex");
             let dest =  $(`#${destID}`).attr("data-dest");
-            $("#problemConstituent").attr("data-stepsUsed", parseInt($("#problemConstituent").attr("data-stepsUsed"))+1)
+            $("#problemConstituent").attr("data-strokes", parseInt($("#problemConstituent").attr("data-strokes"))+1)
             console.log(trace, dest)
             // console.log(treeToRows(parse(bracketedSentence)))
             // trueRow.some(x => ((x.constituent === constituent)
@@ -1029,7 +1029,7 @@ function generateMenu(e) {
             let label = $(this).html() + symbol
             console.log(label)
             // replace ? with label and close menu
-            $("#problemConstituent").attr("data-stepsUsed", parseInt($("#problemConstituent").attr("data-stepsUsed"))+1)
+            $("#problemConstituent").attr("data-strokes", parseInt($("#problemConstituent").attr("data-strokes"))+1)
             // console.log(label,goldlabel)
             if ((mode == 'manual') || (mode == 'automatic' && label == correctLabel)) {
                 // if (treeRow[row+1] && treeRow[row+1].some(x => x.label =="aux") && (goldlabel == "S" || goldlabel == "TP")) {
@@ -1190,6 +1190,7 @@ function showProblem(event, problem) {
     ${displayProblemRight(problem.expression)} `
     // <hr/>   ${note} 
     $(menu).append($("<div/>", { id: "problemInfo", html: problemInfo}))
+    // $(sentenceContainer).append($("<div/", { id: "note", html: problem.notes}))
 }
 
 function displayProblemRight(bracketedString) {
@@ -1530,9 +1531,9 @@ function isAncestor(node1, node2, pcm) {
 function updatePoints() {
     let minStep = getMinStep($("#sentenceContainer").attr("data-bracketedSentence"))
     let parFactor = getParFactor(minStep)
-    let stepsUsed = parseInt($("#problemConstituent").attr("data-stepsUsed"))
-    // console.log($("#problemConstituent").attr("data-stepsUsed"))
-    $("#points").html(`Par: ${parseInt(minStep+parFactor)}<br/>Steps Used: ${stepsUsed}`)
+    let strokes = parseInt($("#problemConstituent").attr("data-strokes"))
+    // console.log($("#problemConstituent").attr("data-strokes"))
+    $("#points").html(`Par: ${parseInt(minStep+parFactor)}<br/>Strokes: ${strokes}`)
 }
 
 function finishAlarm() {
@@ -1540,14 +1541,14 @@ function finishAlarm() {
     let currentSentenceID = parseInt($("#sentenceContainer").attr("data-currentSentenceID"))
     let minStep = getMinStep($("#sentenceContainer").attr("data-bracketedSentence"))
     let parFactor = getParFactor(minStep)
-    let stepsUsed = parseInt($("#problemConstituent").attr("data-stepsUsed"))
+    let strokes = parseInt($("#problemConstituent").attr("data-strokes"))
     let positivePoint = parseInt($("#problemConstituent").attr("data-positivePoint"))
     let good = parseInt(minStep+parFactor)
     if (positivePoint == minStep) {
         let PJ=globals.problemJSON.holes[currentSentenceID];
         PJ.progress = PJ.progress || [] 
-        PJ.progress.push(stepsUsed);
-       console.log(JSON.stringify(PJ),stepsUsed)
+        PJ.progress.push(strokes);
+       console.log(JSON.stringify(PJ),strokes)
 	let bestStep = bestProgress(PJ.progress)
 	 let {flagColor, alarmForBest} = getProgressSignal(bestStep,good,minStep)
         console.log(bestStep, good, minStep)
@@ -1564,7 +1565,7 @@ function finishAlarm() {
     }
     
     JSON_API(globals.problemJSON, problem_id,"POST").then(console.log)
-    let {flagColor1, alarm} = getProgressSignal(stepsUsed,good,minStep)
+    let {flagColor1, alarm} = getProgressSignal(strokes,good,minStep)
     finishDialog(alarm)
     
 }}
@@ -1585,19 +1586,19 @@ function finishDialog(properties) {
     // $("#dialog").append(meme)
 }
 
-function getProgressSignal(stepUsed, weightedPar, minStep) {
-    if (stepUsed == undefined) {
+function getProgressSignal(strokes, weightedPar, minStep) {
+    if (strokes == undefined) {
         // problemJSON.holes[currentSentenceID].progress = []
         return {"flagColor":"white", "alarm":""}
     }
-    if (stepUsed == minStep) {
-        return {"flagColor":"blue", "alarm":{ div: ["Wonderful! You got it perfect!", `You completed this hole in ${stepUsed} attempts.`, "<img src='images/blueFlag.png' id='finishMeme' />"]}}
+    if (strokes == minStep) {
+        return {"flagColor":"blue", "alarm":{ div: ["Wonderful! You got it perfect!", `You completed this hole in ${strokes} strokes.`, "<img src='images/blueFlag.png' id='finishMeme' />"]}}
     }
-    else if (stepUsed > weightedPar) {
-        return {"flagColor":"red", "alarm": { div: [`You did not complete this hole under par: ${stepUsed} attempts.`, "<img src='images/redFlag.png' id='finishMeme' />"]}}
+    else if (strokes > weightedPar) {
+        return {"flagColor":"red", "alarm": { div: [`You did not complete this hole under par: ${strokes} strokes.`, "<img src='images/redFlag.png' id='finishMeme' />"]}}
     }
-    else if (stepUsed <= weightedPar) {
-        return {"flagColor":"green", "alarm":{ div: ["Wonderful! You got par!", `You completed this hole in ${stepUsed} attempts.`, "<img src='images/greenFlag.png' id='finishMeme' />"]}}
+    else if (strokes <= weightedPar) {
+        return {"flagColor":"green", "alarm":{ div: ["Good job! You made par!", `You completed this hole in ${strokes} strokes. Try to complete this hole in ${minStep} for a perfect score! :)`, "<img src='images/greenFlag.png' id='finishMeme' />"]}}
     }
 }
 

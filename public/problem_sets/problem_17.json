@@ -13,7 +13,7 @@
         "notes": ""
       },
       {
-        "expression": "(S (NP (N You)) (VP (V saw) (NP (PossNP's (PossNP's (PossNP's (PossN Amy's#Amy) (PossN friend's#friend#friend)) (PossN dog's#dog#dog#dog)) (N food)) (PP (P at) (NP (Det the) (N supermarket)))))",
+        "expression": "(S (NP (N You)) (VP (V saw) (NP (PossNP's (PossNP's (PossNP's (PossN Amy's#Amy#Amy)) (N friend's#friend#friend#friend)) (N dog's#dog#dog#dog#dog)) (N food)) (PP (P at) (NP (Det the) (N supermarket))))",
         "notes": ""
       },
       {
@@ -29,7 +29,7 @@
         "notes": ""
       },
       {
-        "expression": "(S (NP (PossNP's John) (N brother)) (VP (V played) (NP (PossNP's Mike) (N phone))))",
+        "expression": "(S (NP (PossNP's (PossN John's#John#John#John)) (N brother)) (VP (V played) (NP (PossNP's (PossN Mike's#Mike#Mike)) (N phone))))",
         "notes": ""
       },
       {
