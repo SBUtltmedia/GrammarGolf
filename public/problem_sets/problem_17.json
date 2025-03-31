@@ -1,0 +1,45 @@
+{
+    "holes": [
+      {
+        "expression": "(S (NP (N Jack)) (VP (V closed) (NP (Det the) (N door))))",
+        "notes": ""
+      },
+      {
+        "expression": "(S (NP (PossNP's (PossN Sarah's#Sarah#Sarah#Sarah)) (N mother)) (VP (V filled) (NP (Det her) (N bag)) (PP (P with) (NP (Det many) (N oranges)))))",
+        "notes": ""
+      },
+      {
+        "expression": "(S (NP (Det Many) (N students)) (VP (V jumped)))",
+        "notes": ""
+      },
+      {
+        "expression": "(S (NP (N You)) (VP (V saw) (NP (PossNP's (PossNP's (PossNP's (PossN Amy's#Amy) (PossN friend's#friend#friend)) (PossN dog's#dog#dog#dog)) (N food)) (PP (P at) (NP (Det the) (N supermarket)))))",
+        "notes": ""
+      },
+      {
+        "expression": "(S (NP (Det Many) (Adj big) (N producers)) (VP (V make) (NP (Adj good) (N movies))))",
+        "notes": ""
+      },
+      {
+        "expression": "(S (NP (Det Some) (N cats)) (VP (V eat) (PP (P with) (NP (Det that) (N dog)))))",
+        "notes": ""
+      },
+      {
+        "expression": "(S (NP (Det The) (Adj lousy) (N car)) (VP (V makes) (NP (Det the) (Adj worst) (N sound)) (PP (P during) (NP (Det the) (N night)))))",
+        "notes": ""
+      },
+      {
+        "expression": "(S (NP (PossNP's John) (N brother)) (VP (V played) (NP (PossNP's Mike) (N phone))))",
+        "notes": ""
+      },
+      {
+        "expression": "(S (NP (N Michael)) (VP (V wrote) (NP (Det the) (N novel) (PP (P about) (NP (Det their) (N experience))))))",
+        "notes": ""
+      },
+      {
+        "expression": "(S (NP (N May)) (VP (V colored) (NP (Det the) (Adj beautiful) (N sky) (PP (P of) (NP (Det the) (Adj busy) (N world)))) (PP (P with) (NP (Det a) (Adj quiet) (N breeze))))))",
+        "notes": ""
+      }
+    ],
+    "description": "Module 17: The Verb Phrase"
+  }

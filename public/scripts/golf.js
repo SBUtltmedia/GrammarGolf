@@ -514,7 +514,7 @@ function totalColumn(nodeSentence) {
 ["hashchange" ].forEach( event=>    addEventListener(event,hashLoadSentence))
 
 function hashLoadSentence() {
-    let sentenceID = location.hash.split("#")[1] || 0
+    let sentenceID = parseInt(location.hash.split("#")[1])-1 || 0
     loadSentence(sentenceID)
 }
 
@@ -1591,13 +1591,13 @@ function getProgressSignal(stepUsed, weightedPar, minStep) {
         return {"flagColor":"white", "alarm":""}
     }
     if (stepUsed == minStep) {
-        return {"flagColor":"blue", "alarm":{ div: ["Wonderful! You got it perfect!", `You completed this hole in ${stepUsed} attempts.`, "<img src='images/syntax_meme.png' id='finishMeme' />"]}}
+        return {"flagColor":"blue", "alarm":{ div: ["Wonderful! You got it perfect!", `You completed this hole in ${stepUsed} attempts.`, "<img src='images/blueFlag.png' id='finishMeme' />"]}}
     }
     else if (stepUsed > weightedPar) {
-        return {"flagColor":"red", "alarm": { div: [`You did not complete this hole under par: ${stepUsed} attempts.`, "<img src='images/Chomsky_meme.png' id='finishMeme' />"]}}
+        return {"flagColor":"red", "alarm": { div: [`You did not complete this hole under par: ${stepUsed} attempts.`, "<img src='images/redFlag.png' id='finishMeme' />"]}}
     }
     else if (stepUsed <= weightedPar) {
-        return {"flagColor":"green", "alarm":{ div: ["Wonderful! You got par!", `You completed this hole in ${stepUsed} attempts.`, "<img src='images/tree_meme.png' id='finishMeme' />"]}}
+        return {"flagColor":"green", "alarm":{ div: ["Wonderful! You got par!", `You completed this hole in ${stepUsed} attempts.`, "<img src='images/greenFlag.png' id='finishMeme' />"]}}
     }
 }
 

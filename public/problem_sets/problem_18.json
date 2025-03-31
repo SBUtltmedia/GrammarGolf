@@ -1,0 +1,45 @@
+{
+    "holes": [
+      {
+        "expression": "(S (NP (N Joseph)) (VP (V lend) (NP (Det a) (Adj large) (N amount) (PP (P of) (NP (N money)))) (PP (P to) (NP (N Sarah)))))",
+        "notes": ""
+      },
+      {
+        "expression": "(S (NP (N Joseph)) (VP (V lend) (NP (N Sarah)) (NP (Det a) (Adj large) (N amount) (PP (P of) (NP (N money))))))",
+        "notes": ""
+      },
+      {
+        "expression": "(S (NP (N Austin)) (VP (V read) (NP (Det a) (AdjP (Deg very) (Adj interesting)) (N book)) (PP (P to) (NP (N Ally)))))",
+        "notes": ""
+      },
+      {
+        "expression": "(S (NP (N Austin)) (VP (V read) (NP (N Ally)) (NP (Det a) (AdjP (Deg very) (Adj interesting)) (N book))))",
+        "notes": ""
+      },
+      {
+        "expression": "(S (NP (Det Those) (N machines)) (VP (V are) (AdjP (Deg extremely) (Adj expensive))))",
+        "notes": ""
+      },
+      {
+        "expression": "(S (NP (PossNP's Jason) (N friend)) (VP (V cooked) (NP (Det these) (N food)) (AdjP (Deg very) (Adj fast))))",
+        "notes": ""
+      },
+      {
+        "expression": "(S (NP (N Sarah)) (VP (V delivered) (NP (Det the) (N gift)) (PP (P to) (NP (Det a) (N girl) (PP (P with) (NP (N car)))))))",
+        "notes": ""
+      },
+      {
+        "expression": "(S (NP (N Sarah)) (VP (V delivered) (NP (Det the) (N gift)) (PP (P to) (NP (Det a) (N girl))) (PP (P with) (NP (N car)))))",
+        "notes": ""
+      },
+      {
+        "expression": "(S (NP (N Emily)) (VP (V kicked) (NP (Det the) (N ball)) (PP (P with) (NP (Det the) (N dolls)))))",
+        "notes": ""
+      },
+      {
+        "expression": "(S (NP (N Emily)) (VP (V kicked) (NP (Det the) (N ball) (PP (P with) (NP (Det the) (N dolls))))))",
+        "notes": ""
+      }
+    ],
+    "description": "Module 16: The Possessive Noun Phrase"
+  }

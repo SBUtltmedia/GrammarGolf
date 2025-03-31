@@ -1,4 +1,4 @@
 # SyntaxGolf
-https://sbutltmedia.github.io/SyntaxGolf/public  
-https://sbutltmedia.github.io/SyntaxGolf/public/test.html
-https://sbutltmedia.github.io/SyntaxGolf/public/?problem_id=1
+https://sbutltmedia.github.io/GrammarGolf/public  
+https://sbutltmedia.github.io/GrammarGolf/public/test.html
+https://sbutltmedia.github.io/GrammarGolf/public/?problem_id=17
