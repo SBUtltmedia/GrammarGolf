@@ -80,6 +80,7 @@ function loadMenu() {
     })
     let button = `<img src="images/questionmark.svg" alt="Tour" id="tourButton"></img>`
     $(stage).append(button)
+
     // let numberOfTryHoles = problemJSON.holes.length() - $(".disable").length();
     // enableNext();
 }
@@ -90,8 +91,9 @@ function enableNext() {
 }
 // ready function
 function loadSentence(sentenceID) {
-    document.querySelector("#dialog")?.remove();
     let problemJSON = globals.problemJSON;
+    document.querySelector("#next")?.remove();
+    document.querySelector("#dialog")?.remove();
     let bracketedSentence = problemJSON.holes[sentenceID].expression
     if (bracketedSentence) {
         bracketedSentence = bracketedSentence.replaceAll("[", "(").replaceAll("]", ")");
@@ -148,6 +150,12 @@ function loadSentence(sentenceID) {
         }
     })
     setUpDrake();
+    if (!location.hash || location.hash.split("#")[1] != problemJSON.holes.length) {
+        $("#menu").append(Object.assign(document.createElement("button"),{id:"next", innerHTML:"Next Hole"}))
+    }
+    document.querySelector("#next")?.addEventListener('click', ()=>{
+        window.location.hash=parseInt(location.hash.split("#")[1])+1 || 2
+    }); 
     // document.getElementsByClassName("wordContainer")[0].focus()
 }
 
