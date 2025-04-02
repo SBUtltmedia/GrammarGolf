@@ -1,11 +1,11 @@
 {
     "holes": [
       {
-        "expression": "(S (NP (N Joseph)) (VP (V lend) (NP (Det a) (Adj large) (N amount) (PP (P of) (NP (N money)))) (PP (P to) (NP (N Sarah)))))",
+        "expression": "(S (NP (N Joseph)) (VP (V lent) (NP (Det a) (AP (A large)) (N amount) (PP (P of) (NP (N money)))) (PP (P to) (NP (N Sarah)))))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (N Joseph)) (VP (V lend) (NP (N Sarah)) (NP (Det a) (Adj large) (N amount) (PP (P of) (NP (N money))))))",
+        "expression": "(S (NP (N Joseph)) (VP (V lent) (NP (N Sarah)) (NP (Det a) (AP (A large)) (N amount) (PP (P of) (NP (N money))))))",
         "notes": ""
       },
       {
@@ -13,15 +13,15 @@
         "notes": ""
       },
       {
-        "expression": "(S (NP (N Austin)) (VP (V read) (NP (N Ally)) (NP (Det a) (AdjP (Deg very) (Adj interesting)) (N book))))",
+        "expression": "(S (NP (N Austin)) (VP (V read) (NP (N Ally)) (NP (Det a) (AP (Deg very) (A interesting)) (N book))))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (Det Those) (N machines)) (VP (V are) (AdjP (Deg extremely) (Adj expensive))))",
+        "expression": "(S (NP (Det Those) (N machines)) (VP (V are) (AP (Deg extremely) (A expensive))))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (PossNP's (PossN Jason's#Jason#Jason)) (N friend)) (VP (V cooked) (NP (Det these) (N food)) (AdjP (Deg very) (Adj fast))))",
+        "expression": "(S (NP (PossNP's (PossN Jason's#Jason#Jason)) (N friend)) (VP (V cooked) (NP (Det the) (N food)) (AP (Deg very) (A fast))))",
         "notes": ""
       },
       {

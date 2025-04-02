@@ -173,7 +173,7 @@
 
         #next {
             padding: 0.5rem;
-    margin-top: 3rem;
+            margin-top: 3rem;
         }
 
         #sentenceContainer div {
@@ -316,12 +316,23 @@
             text-align: center;
         }
 
+        #note {
+            position: absolute;
+            min-width: fit-content;
+            height: fit-content;
+            padding: 1rem !important;
+            text-align: center;
+            font-size: 2.4rem;
+            color:white;
+        }
+
         .bar::after {
             content: "'"
         }
 
         .phrase::after {
             content: "P"
+            
         }
 
         .possPhrase::after {
@@ -430,7 +441,7 @@
         }
 
         #sentenceContainer {
-            left: 20%;
+            left: 21%;
             width: 80%;
             height: 100%;
             /* background-color:bisque; */

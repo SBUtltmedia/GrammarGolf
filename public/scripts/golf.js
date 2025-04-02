@@ -64,7 +64,7 @@ function loadMenu() {
         <svg style="width:3rem;" viewBox="0 0 208 334">
         <use xlink:href="images/flag.svg#flag" id="${i}" style="--color_fill: ${flagColor};"></use>
         </svg>
-        <div style="font-size:1em">hole ${i + 1} <br/> Par: ${par}</div>
+        <div style="font-size:1em">hole ${i + 1} <br/> par: ${par}</div>
         </div>`
         let link = $("<a/>", { class: "hole", href: `javascript: window.location.hash = ${i+1}`, style: `grid-column:1; grid-row:${i+1}` }).append(problemList).on("mouseover", ((e) => {
             mousePosition = {
@@ -92,6 +92,7 @@ function enableNext() {
 // ready function
 function loadSentence(sentenceID) {
     let problemJSON = globals.problemJSON;
+    document.querySelector("#note")?.remove();
     document.querySelector("#next")?.remove();
     document.querySelector("#dialog")?.remove();
     let bracketedSentence = problemJSON.holes[sentenceID].expression
@@ -150,12 +151,8 @@ function loadSentence(sentenceID) {
         }
     })
     setUpDrake();
-    if (!location.hash || location.hash.split("#")[1] != problemJSON.holes.length) {
-        $("#menu").append(Object.assign(document.createElement("button"),{id:"next", innerHTML:"Next Hole"}))
-    }
-    document.querySelector("#next")?.addEventListener('click', ()=>{
-        window.location.hash=parseInt(location.hash.split("#")[1])+1 || 2
-    }); 
+    let notes = problemJSON.holes[sentenceID].notes
+    if (notes != "") {$("#sentenceContainer").append($("<div/>", { id: "note", html: ` Note: ${notes} `}))}
     // document.getElementsByClassName("wordContainer")[0].focus()
 }
 
@@ -1198,7 +1195,6 @@ function showProblem(event, problem) {
     ${displayProblemRight(problem.expression)} `
     // <hr/>   ${note} 
     $(menu).append($("<div/>", { id: "problemInfo", html: problemInfo}))
-    // $(sentenceContainer).append($("<div/", { id: "note", html: problem.notes}))
 }
 
 function displayProblemRight(bracketedString) {
@@ -1319,7 +1315,7 @@ function treeToRows(tree, accumulator = [], row = 0, leaves = [], morphologyPart
         // console.log(constituent)
         // accumulator[row].push({label:tree.label, constituent:constituent.join(" "), column:column})
         let groupedConstituent;
-        [groupedConstituent, changed]= changedWordDetector(constituent.join(" "), row);
+        [groupedConstituent, changed]= changedWordDetector(constituent.join(" "), row) || [constituent.join(" "), constituent.join(" ")];
         if (groupedConstituent&&groupedConstituent.includes("|")) {groupedConstituent = flexiableAffix(groupedConstituent)}
         let newEntry = { label: tree.label, constituent: groupedConstituent, column: column }
         if (typeof tree.trace !== 'undefined') {
@@ -1383,7 +1379,7 @@ function changedWordDetector(constituents, row) {
     let changed = "";
     let outputConstituent = constituents
     for (i = 0; i < wordCount; i ++) {
-            if (wordsSet[i].includes("#")) {
+            if (wordsSet[i] && wordsSet[i].includes("#")) {
                 changedWordInput.push(wordsSet[i])
                 $("#sentenceContainer").attr("data-changedword", changedWordInput)
                 let changedWordSet = wordsSet[i].trim().split("#");
@@ -1579,6 +1575,12 @@ function finishAlarm() {
 }}
 
 function finishDialog(properties) {
+    if (!location.hash || location.hash.split("#")[1] != globals.problemJSON.holes.length) {
+        $("#menu").append(Object.assign(document.createElement("button"),{id:"next", innerHTML:"Next Hole"}))
+    }
+    document.querySelector("#next")?.addEventListener('click', ()=>{
+        window.location.hash=parseInt(location.hash.split("#")[1])+1 || 2
+    }); 
     document.querySelector("#dialog")?.remove();
     let dialog = Object.assign(document.createElement("dialog"), { "id": "dialog" })
     Object.keys(properties).forEach((prop) => {
@@ -1600,13 +1602,13 @@ function getProgressSignal(strokes, weightedPar, minStep) {
         return {"flagColor":"white", "alarm":""}
     }
     if (strokes == minStep) {
-        return {"flagColor":"blue", "alarm":{ div: ["Wonderful! You got it perfect!", `You completed this hole in ${strokes} strokes.`, "<img src='images/blueFlag.png' id='finishMeme' />"]}}
+        return {"flagColor":"blue", "alarm":{ div: ["<img src='images/blueFlag.png' id='finishMeme' />"]}}
     }
     else if (strokes > weightedPar) {
-        return {"flagColor":"red", "alarm": { div: [`You did not complete this hole under par: ${strokes} strokes.`, "<img src='images/redFlag.png' id='finishMeme' />"]}}
+        return {"flagColor":"red", "alarm": { div: ["<img src='images/redFlag.png' id='finishMeme' />"]}}
     }
     else if (strokes <= weightedPar) {
-        return {"flagColor":"green", "alarm":{ div: ["Good job! You made par!", `You completed this hole in ${strokes} strokes. Try to complete this hole in ${minStep} for a perfect score! :)`, "<img src='images/greenFlag.png' id='finishMeme' />"]}}
+        return {"flagColor":"green", "alarm":{ div: ["<img src='images/greenFlag.png' id='finishMeme' />"]}}
     }
 }
 

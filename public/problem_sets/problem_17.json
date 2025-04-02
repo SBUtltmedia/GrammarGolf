@@ -29,15 +29,11 @@
         "notes": ""
       },
       {
-        "expression": "(S (NP (PossNP's (PossN John's#John#John#John)) (N brother)) (VP (V played) (NP (PossNP's (PossN Mike's#Mike#Mike)) (N phone))))",
+        "expression": "(S (NP (PossNP's (PossN John's#John#John#John)) (N brother)) (VP (V played) (NP (PossNP's (PossN Mike's#Mike#Mike)) (N trumpet))))",
         "notes": ""
       },
       {
         "expression": "(S (NP (N Michael)) (VP (V wrote) (NP (Det the) (N novel) (PP (P about) (NP (Det their) (N experience))))))",
-        "notes": ""
-      },
-      {
-        "expression": "(S (NP (N May)) (VP (V colored) (NP (Det the) (Adj beautiful) (N sky) (PP (P of) (NP (Det the) (Adj busy) (N world)))) (PP (P with) (NP (Det a) (Adj quiet) (N breeze))))))",
         "notes": ""
       }
     ],
