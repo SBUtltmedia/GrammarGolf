@@ -29,7 +29,7 @@
       "notes": ""
     },
     {
-      "expression": "(S (NP (DetP (NP (Det the) (N boy)) (Det 's)) (N coat)) (VP (V hung) (PP (P on) (NP (Det a) (N hook)))))",
+      "expression": "(S (NP (detP (NP (Det the) (N boy)) (Det 's)) (N coat)) (VP (V hung) (PP (P on) (NP (Det a) (N hook)))))",
       "notes": ""
     },
     {

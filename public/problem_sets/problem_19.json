@@ -1,11 +1,11 @@
 {
     "holes": [
       {
-        "expression": "(TP (NP (N John)) (T [+present]) (VP (V sees) (NP (Det the) (N trees))))",
+        "expression": "(TP (NP (N John)) (T +present) (VP (V sees) (NP (Det the) (N trees))))",
         "notes": ""
       },
       {
-        "expression": "(TP (NP (N somebody)) (T [+past]) (VP (V stole) (NP (Det the) (N diamond))))",
+        "expression": "(TP (NP (N somebody)) (T +past) (VP (V stole) (NP (Det the) (N diamond))))",
         "notes": ""
       },
       {
@@ -37,7 +37,7 @@
         "notes": ""
       },
       {
-        "expression": "(TP (NP (Det the) (N clown)) (T [+past]) (VP (V crashed) (NP (Det the) (N car))))",
+        "expression": "(TP (NP (Det the) (N clown)) (T +past) (VP (V crashed) (NP (Det the) (N car))))",
         "notes": ""
       }
     ],

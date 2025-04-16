@@ -167,29 +167,29 @@ function intro() {
             intro: problemJSON.description || "Here is your instructions"
         }, {
             element: document.querySelector('#menu'),
-            intro: "You choose different hole and see progress by looking at the color of flag, with white for incomplete, red for do it again, green for finished but could be better, and blue for wonderful",
+            intro: "<h3>Start the Hole</h3>Click the flag to begin a new hole",
             position: 'right'
         }, {
-            element: document.querySelector('#points'),
-            intro: "You will see your progress of each question here. Par means how many steps a good grade will take, but you need to take below the Par to get 100% for each question. Steps refer to how many steps you already took.",
+            element: document.querySelector('#problemSet'),
+            intro: `<h3>Track Your Score</h3>Each hole has a "par", meaning a targrt number of strokes to complete it. To earn a 90% for the round, you must meet or beat par on every hole. A 100% requires a perfect score with no mistake on every hole.`,
             position: 'left'
         }, {
             element: document.querySelector('#problemConstituent'),
-            intro: "You will create Syntax tree here",
+            intro: "Build Your Syntax Tree</h3>This is the green, where you will construct your syntax tree.",
             position: 'left'
         }, {
             element: '#row_id_0',
-            intro: `You will parse from here. <hr/> ${parseVideo}`,
+            intro: `<h3>Parse the Sentence</h3>Begin by breaking down the sentence structure here. <hr/> ${parseVideo}`,
             position: 'left'
         }, {
             element: '#label_row_0',
-            intro: `You will choose part of the sentence that this line belong to. <hr/> ${labelInput}`,
+            intro: `<h3>Label Constituents</h3>Click on a box to assign a label to the phrase or word beneath it. <hr/> ${labelInput}`,
             position: 'left'
         }, {
-            intro: `You can drag words around the tree by moving the label. For moving to the front of a word, called B, you drag the word that you want to change space, called A, to cover B. For moving to the back of a word, called B, you drag the word that you want to change space, called A, to the right of B. <hr/> ${dragVideo}`
+            intro: `<h3>Move Words & Phrases</h3>Click and drag labels to adjust their position in the syntax tree.<hr/> ${dragVideo}`
         }, {
             element: '#tourButton',
-            intro: 'This button can be clicked to view this tour again at any time. You can click anywhere outside thie popup to begin.',
+            intro: '<h3>Review Instructions</h3>Click this button anytime to revisit these instructions.',
             position:'bottom'
           }]
     })
@@ -320,11 +320,11 @@ function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wron
         }).css({ "cursor": "pointer" }): $("<div/>", { class: "labelDiv morphoHide"})),
         $("<div/>", { class: "constituentContainer", id:`row_id_${row}` }).append(sentenceArray)]
 
-    if (different == "auxItem") {
+    if (different == "tenseItem") {
         blockElement = [$("<div/>", { class: "labelDiv", id: `label_row_${row}`, html: "?" }).on({
             "click": generateMenu}).css({ "cursor": "pointer" })]
-            // tenseSelection(blockElement)
-            blockElement.push($("<div/>", { class: "tenseItem", html: `+past` }))
+            // tenseSelection(blockElement) 
+            blockElement.push($("<div/>", { class: "tenseItem", html: `+tns` }))
             console.log(blockElement)
         } //create selection box for tense
     // put constituent block div in proper row div
@@ -968,12 +968,12 @@ function generateMenu(e) {
     console.log(reference, correctLabel, constituent, column, treeRow[row])
 
     $(this).css({ "cursor": "auto"})
-    let labelArrayID = 1;
+    let labelArrayID = 0;
     if (bracketedSentence.includes("(Aux ")) {
         labelArrayID = 1
     }
     let labels = [
-    ["N", "V", "P", "Adj", "Adv", "Det", "Conj", "T", "S", "Deg", "C", "Perf", "Prog"],
+    ["N", "V", "P", "Adj", "Adv", "det", "Conj", "T", "S", "Deg", "C", "Perf", "Prog"],
     ["N", "V", "P", "adj", "adv", "det", "T", "S", "deg", "PossN", "C", "A"],
     ["N", "V", "P", "adj", "adv", "Af"]
     ]
@@ -1036,10 +1036,11 @@ function generateMenu(e) {
             console.log(label)
             // replace ? with label and close menu
             $("#problemConstituent").attr("data-strokes", parseInt($("#problemConstituent").attr("data-strokes"))+1)
-            // console.log(label,correctLabel)
+            console.log(label,correctLabel)
+            if (correctLabel == undefined) {correctLabel = "T"}
             if ((mode == 'manual') || (mode == 'automatic' && label == correctLabel)) {
-                if (treeRow[row+1] && treeRow[row+1].some(x => x.label =="T") && (correctLabel == "S" || correctLabel == "TP")) {
-                    makeSelectable("", row+1, 1, "syntax",[], "auxItem")
+                if (treeRow[row+1] && $("#sentenceContainer").attr("data-tense") != undefined && (correctLabel == "S" || correctLabel == "TP")) {
+                    makeSelectable("", row+1, 1, "syntax",[], "tenseItem")
                 } //creating selection box for tense like -past
                 removeMenu($(this).parent().parent(), label)
                 $("#problemConstituent").attr("data-positivePoint", parseInt($("#problemConstituent").attr("data-positivePoint"))+1)
@@ -1074,15 +1075,15 @@ function labelFilters(labelDiv, filterArray, status){
 
 function tenseSelection(tenseElement) {
     var select = Object.assign(document.createElement("select"),{id:"tenseSelect", innerHTML:"Select for tense"});
-    let optionSet = ["-","+present", "+past", "∅"]
+    let optionSet = ["+present", "+past", "∅"]
     optionSet.forEach(x => {
         let option = Object.assign(document.createElement("option"),{innerHTML:`${x}`, class: "tense"})
         select.appendChild(option);
     })
-    // console.log(select)
+    console.log(select)
     tenseElement.push(select)
 }
-
+ 
 function removeMenu(labelItem = $(".labelDiv"), label = "?") {
     // labelItem.css({ "width": "1.5em" })
     labelItem.removeAttr("style")
@@ -1227,6 +1228,9 @@ function displayProblemRight(bracketedString) {
             let affixIntersect = word.indexOf("|")
             word = word.slice(0, affixIntersect)
         }
+        if (word.includes("+")) {
+            word = ""
+        }
         if (word.startsWith("'") || morphoDetecter) {
             displayString = displayString.concat(word);
         } else {
@@ -1291,7 +1295,10 @@ function treeToRows(tree, accumulator = [], row = 0, leaves = [], morphologyPart
         if (typeof tree.index !== 'undefined') {
             newEntry['destination'] = tree.index
         }
-        accumulator[row].push(newEntry)
+        if (constituent.includes("+") && constituent.split(" ").length == 1) {
+            $("#sentenceContainer").attr("data-tense", constituent)
+        } else {
+        accumulator[row].push(newEntry)}
         return [tree.children, index]
     } else {
         let constituent = []
@@ -1332,7 +1339,17 @@ function treeToRows(tree, accumulator = [], row = 0, leaves = [], morphologyPart
         if (typeof tree.index !== 'undefined') {
             newEntry['destination'] = tree.index
         }
-        accumulator[row].push(newEntry)
+        if (groupedConstituent.split(" ").length == 1&&groupedConstituent.includes("+")) {
+            $("#sentenceContainer").attr("data-tense", groupedConstituent)
+        } else if (groupedConstituent.includes("+")){
+            let tenseIntersect = groupedConstituent.indexOf("+")
+            let firstPartWithoutTense = groupedConstituent.slice(0, tenseIntersect)
+            let secondPartWithTense = groupedConstituent.slice(tenseIntersect+1)
+            let secondPartWithoutTense = secondPartWithTense.slice(secondPartWithTense.indexOf(" ")+1)
+            groupedConstituent = firstPartWithoutTense + secondPartWithoutTense
+            newEntry.constituent = groupedConstituent
+            accumulator[row].push(newEntry)
+        } else {accumulator[row].push(newEntry)}
         if (row == 0) {
             return accumulator
         } else {
@@ -1860,6 +1877,7 @@ function getMinStep(bracketedSentence) {
     }
     minStep = minStep * 2 - 1;
     minStep -= numberOfAf;
+    if (bracketedSentence.includes("+")) {minStep-=1}
     return minStep
 }
 
