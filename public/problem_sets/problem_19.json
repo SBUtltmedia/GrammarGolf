@@ -1,0 +1,46 @@
+{
+    "holes": [
+      {
+        "expression": "(TP (NP (N John)) (T [+present]) (VP (V sees) (NP (Det the) (N trees))))",
+        "notes": ""
+      },
+      {
+        "expression": "(TP (NP (N somebody)) (T [+past]) (VP (V stole) (NP (Det the) (N diamond))))",
+        "notes": ""
+      },
+      {
+        "expression": "(TP (NP (Det the) (N boat)) (T has) (VP (V sailed)))",
+        "notes": ""
+      },
+      {
+        "expression": "(TP (NP (N she)) (T was) (VP (V watching) (NP (N birds))))",
+        "notes": ""
+      },
+      {
+        "expression": "(TP (NP (N nobody)) (T is) (VP (V eating) (NP (Det their) (N dinner))))",
+        "notes": ""
+      },
+      {
+        "expression": "(TP (NP (PossNP's (PossN John)) (N sister)) (T is) (VP (V painting) (NP (Det the) (N bridge))))",
+        "notes": ""
+      },
+      {
+        "expression": "(TP (NP (Det the) (AP (A angry)) (N sailors)) (T have) (VP (V overthrown) (NP (Det the) (N captain))))",
+        "notes": ""
+      },
+      {
+        "expression": "(TP (NP (Det no) (N dogs)) (T would) (VP (V look) (AP (Deg very) (A happy)) (PP (P at) (NP (Det the) (N vet)))))",
+        "notes": ""
+      },
+      {
+        "expression": "(TP (NP (Det the) (N wizards)) (T will) (VP (V play) (PP (P with) (NP (Det their) (N wands)))))",
+        "notes": ""
+      },
+      {
+        "expression": "(TP (NP (Det the) (N clown)) (T [+past]) (VP (V crashed) (NP (Det the) (N car))))",
+        "notes": ""
+      }
+    ],
+    "description": "Module 19: TP and Modals"
+  }
+  

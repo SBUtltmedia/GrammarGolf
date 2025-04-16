@@ -320,12 +320,13 @@ function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wron
         }).css({ "cursor": "pointer" }): $("<div/>", { class: "labelDiv morphoHide"})),
         $("<div/>", { class: "constituentContainer", id:`row_id_${row}` }).append(sentenceArray)]
 
-    // if (different == "auxItem") {
-    //     blockElement = [$("<div/>", { class: "labelDiv", id: `label_row_${row}`, html: "?" }).on({
-    //         "click": generateMenu}).css({ "cursor": "pointer" })]
-    //         tenseSelection(blockElement)
-    //         console.log(blockElement)
-    //     } //create selection box for tense
+    if (different == "auxItem") {
+        blockElement = [$("<div/>", { class: "labelDiv", id: `label_row_${row}`, html: "?" }).on({
+            "click": generateMenu}).css({ "cursor": "pointer" })]
+            // tenseSelection(blockElement)
+            blockElement.push($("<div/>", { class: "tenseItem", html: `+past` }))
+            console.log(blockElement)
+        } //create selection box for tense
     // put constituent block div in proper row div
     
     // get unique ID from timestamp
@@ -576,7 +577,7 @@ function sentenceArrayToSentence(sentenceArray, selectionMode, sentence) {
 }
 
 function containerSetUpAndInput(text, index, traceIndexOffset, fudge, className, sentenceArray) {
-    if (text.includes("-")) {
+    if (text.includes("+")) {
         return sentenceArray
     }
     // console.log(text, index,traceIndexOffset, fudge, className, sentenceArray)
@@ -949,11 +950,11 @@ function generateMenu(e) {
     // //console.log($(this).parent().attr("data-blockindex"))
     let column = parseInt($(this).parent().attr("data-blockindex"))
     let treeRow = treeToRows(parse(bracketedSentence))
-    // let filterForTense = treeRow[row].find(item => item.constituent.includes("-"))
-    // // if (filterForTense) {
-    // //     filterForTense.constituent = filterForTense.constituent.replace(/ -(\w+)/g, "")
-    // //     console.log(filterForTense)
-    // // }
+    let filterForTense = treeRow[row].find(item => item.constituent.includes("+"))
+    if (filterForTense) {
+        filterForTense.constituent = filterForTense.constituent.replace(/ +(\w+)/g, "")
+        console.log(filterForTense)
+    }
     let reference = treeRow[row].find(item => item.constituent.replace(/\s/g, '') === constituent.replace(/\s/g, '') && item.column === column + (tracePad(row+1, item.column, column, treeRow)))
     if ($(this).parent().find(".constituentContainer").find(".letterContainer").length) {
         constituent = $(this).parent().find(".constituentContainer").find(".letterContainer").toArray().map((letterContainer) => { return letterContainer.innerHTML }).join("")
@@ -1035,11 +1036,11 @@ function generateMenu(e) {
             console.log(label)
             // replace ? with label and close menu
             $("#problemConstituent").attr("data-strokes", parseInt($("#problemConstituent").attr("data-strokes"))+1)
-            // console.log(label,goldlabel)
+            // console.log(label,correctLabel)
             if ((mode == 'manual') || (mode == 'automatic' && label == correctLabel)) {
-                // if (treeRow[row+1] && treeRow[row+1].some(x => x.label =="aux") && (goldlabel == "S" || goldlabel == "TP")) {
-                //     makeSelectable("", row+1, 1, "syntax", wrongAnswer, "auxItem")
-                // } //creating selection box for tense like -past
+                if (treeRow[row+1] && treeRow[row+1].some(x => x.label =="T") && (correctLabel == "S" || correctLabel == "TP")) {
+                    makeSelectable("", row+1, 1, "syntax",[], "auxItem")
+                } //creating selection box for tense like -past
                 removeMenu($(this).parent().parent(), label)
                 $("#problemConstituent").attr("data-positivePoint", parseInt($("#problemConstituent").attr("data-positivePoint"))+1)
                 finishAlarm()
@@ -1073,7 +1074,7 @@ function labelFilters(labelDiv, filterArray, status){
 
 function tenseSelection(tenseElement) {
     var select = Object.assign(document.createElement("select"),{id:"tenseSelect", innerHTML:"Select for tense"});
-    let optionSet = ["-","-s", "past", "∅"]
+    let optionSet = ["-","+present", "+past", "∅"]
     optionSet.forEach(x => {
         let option = Object.assign(document.createElement("option"),{innerHTML:`${x}`, class: "tense"})
         select.appendChild(option);

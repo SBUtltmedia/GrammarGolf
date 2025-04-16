@@ -1,0 +1,46 @@
+{
+    "holes": [
+      {
+        "expression": "(CP (C am ^1) (TP (NP I) (T am ^t1) (VP (V seeing) (NP (Det the) (N movie)) (PP (P with) (NP (PossNP's (PossN Tom's#Tom#Tom#Tom) (N sister)))))))",
+        "notes": ""
+      },
+      {
+        "expression": "(CP (C was ^1) (TP (NP anyone) (T was ^t1) (VP (V riding) (NP (Det the) (N donkey)))))",
+        "notes": ""
+      },
+      {
+        "expression": "(CP (C have ^1) (TP (NP (Det the) (N carrots)) (T have ^t1) (VP (V steamed) (PP (P in) (NP (Det the) (N pot))))))",
+        "notes": ""
+      },
+      {
+        "expression": "(CP (C has ^1) (TP (NP (Det the) (N man)) (T has ^t1) (VP (V danced))))",
+        "notes": ""
+      },
+      {
+        "expression": "(CP (C is ^1) (TP (NP (Det my) (N dog)) (T is ^t1) (VP (V playing) (PP (P in) (NP (Det the) (N park))))))",
+        "notes": ""
+      },
+      {
+        "expression": "(CP (C was ^1) (TP (NP (PossNP's (PossN Sally's#Sally#Sally#Sally) (N mustang))) (T was ^t1) (VP (V driven) (PP (P to) (NP (Det the) (N party))))))",
+        "notes": ""
+      },
+      {
+        "expression": "(CP (C have ^1) (TP (NP (N you)) (T have ^t1) (VP (V eaten) (NP (Det the) (N tacos))))))",
+        "notes": ""
+      },
+      {
+        "expression": "(CP (C has ^1) (TP (NP (Det the) (N scientist)) (T has ^t1) (VP (V talked) (PP (P about) (NP (Det the) (N atom))))))",
+        "notes": ""
+      },
+      {
+        "expression": "(CP (C do ^1) (TP (NP (PossNP's (PossN Jack's#Jack#Jack#Jack) (N dolphins))) (T do ^t1) (VP (V swim) (PP (P with) (NP (Det the) (N humans))))))",
+        "notes": ""
+      },
+      {
+        "expression": "(CP (C does ^1) (TP (NP (Det the) (N bowler)) (T does ^t1) (VP (V roll) (NP (AP (A gutter)) (N balls))))))",
+        "notes": ""
+      }
+    ],
+    "description": "Module 20: Yes/No Questions"
+  }
+  

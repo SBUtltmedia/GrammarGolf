@@ -182,6 +182,12 @@
 
         }
 
+        .tenseItem {
+            font-size: 3em;
+            display: inline-block;
+            color: var(--word);
+        }
+
         .problemList {
             display: flex;
             flex-direction: row;
