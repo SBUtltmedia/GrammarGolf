@@ -60,11 +60,12 @@ function loadMenu() {
         // let flag = $(document.createElementNS("http://www.w3.org/2000/svg", 'svg'))
         // let flag = $("<svg/>", {style:"width:2rem", xmlns:"http://www.w3.org/2000/svg"})
         // .append($("<use/>", {"xlink:href":"images/flag.svg#flag", "style":`--color_fill: ${progress}`}))
+        //<br/> par: ${par}
         let problemList = `<div class=problemList> 
         <svg style="width:3rem;" viewBox="0 0 208 334">
         <use xlink:href="images/flag.svg#flag" id="${i}" style="--color_fill: ${flagColor};"></use>
         </svg>
-        <div style="font-size:1em">hole ${i + 1} <br/> par: ${par}</div>
+        <div style="font-size:1em; vertical-align:middle;">  <br/>hole ${i + 1} </div>
         </div>`
         let link = $("<a/>", { class: "hole", href: `javascript: window.location.hash = ${i+1}`, style: `grid-column:1; grid-row:${i+1}` }).append(problemList).on("mouseover", ((e) => {
             mousePosition = {
@@ -167,26 +168,26 @@ function intro() {
             intro: problemJSON.description || "Here is your instructions"
         }, {
             element: document.querySelector('#menu'),
-            intro: "<h3>Start the Hole</h3>Click the flag to begin a new hole",
+            intro: "<h3>Start the Hole</h3>Click the flag to begin a new hole.",
             position: 'right'
         }, {
             element: document.querySelector('#problemSet'),
-            intro: `<h3>Track Your Score</h3>Each hole has a "par", meaning a targrt number of strokes to complete it. To earn a 90% for the round, you must meet or beat par on every hole. A 100% requires a perfect score with no mistake on every hole.`,
+            intro: `<h3>Track Your Score</h3>Each hole has a "par", meaning a target number of strokes to complete it. To earn a 90% for the round, you must meet or beat par on every hole. A 100% requires a perfect score on every hole.`,
             position: 'left'
         }, {
             element: document.querySelector('#problemConstituent'),
-            intro: "Build Your Syntax Tree</h3>This is the green, where you will construct your syntax tree.",
+            intro: "<h3>Build Your Tree</h3>This is the green. You will build your tree here.",
             position: 'left'
         }, {
             element: '#row_id_0',
-            intro: `<h3>Parse the Sentence</h3>Begin by breaking down the sentence structure here. <hr/> ${parseVideo}`,
+            intro: `<h3>Parse the Sentence</h3>Begin by breaking down the sentence structure. <hr/> ${parseVideo}`,
             position: 'left'
         }, {
             element: '#label_row_0',
-            intro: `<h3>Label Constituents</h3>Click on a box to assign a label to the phrase or word beneath it. <hr/> ${labelInput}`,
+            intro: `<h3>Label Constituents</h3>Click on the boxes to assign the labels. <hr/> ${labelInput}`,
             position: 'left'
         }, {
-            intro: `<h3>Move Words & Phrases</h3>Click and drag labels to adjust their position in the syntax tree.<hr/> ${dragVideo}`
+            intro: `<h3>Move Words & Phrases</h3>Click and drag labels to adjust their position in the tree.<hr/> ${dragVideo}`
         }, {
             element: '#tourButton',
             intro: '<h3>Review Instructions</h3>Click this button anytime to revisit these instructions.',
@@ -1555,7 +1556,7 @@ function updatePoints() {
     let parFactor = getParFactor(minStep)
     let strokes = parseInt($("#problemConstituent").attr("data-strokes"))
     // console.log($("#problemConstituent").attr("data-strokes"))
-    $("#points").html(`Par: ${parseInt(minStep+parFactor)}<br/>Strokes: ${strokes}`)
+    $("#points").html(`par: ${parseInt(minStep+parFactor)}<br/>strokes: ${strokes}`)
 }
 
 function finishAlarm() {
