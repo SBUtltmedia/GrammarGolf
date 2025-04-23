@@ -1620,7 +1620,7 @@ function getProgressSignal(strokes, weightedPar, minStep) {
         return {"flagColor":"white", "alarm":""}
     }
     if (strokes == minStep) {
-        return {"flagColor":"blue", "alarm":{ div: ["<img src='images/blueFlag.png' id='finishMeme' />"]}}
+        return {"flagColor":"blue", "alarm":{ div: ["<img src='images/golf_perfect_final.png' id='finishMeme' />"]}}
     }
     else if (strokes > weightedPar) {
         return {"flagColor":"red", "alarm": { div: ["<img src='images/redFlag.png' id='finishMeme' />"]}}
