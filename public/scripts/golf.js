@@ -49,6 +49,7 @@ function loadMenu() {
             }
         }))
     } else { // display steps in automatic mode
+        $("#menu").append($("<div/>", { id: "title", html: `${problemJSON.description} <hr style="border-top: dotted 1px;" />` }))
         $("#menu").append($("<div/>", { id: "points" }))
         $("#menu").append($("<div/>", { id: "problemSet" }))
     }
