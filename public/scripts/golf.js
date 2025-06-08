@@ -66,20 +66,25 @@ function loadMenu() {
         <svg style="width:3rem;" viewBox="0 0 208 334">
         <use xlink:href="images/flag.svg#flag" id="${i}" style="--color_fill: ${flagColor};"></use>
         </svg>
-        <div style="font-size:1em; vertical-align:middle;">  <br/>hole ${i + 1} </div>
+        <div class="hole-text">  hole ${i + 1} </div>
         </div>`
-        let link = $("<a/>", { class: "hole", href: `javascript: window.location.hash = ${i+1}`, style: `grid-column:1; grid-row:${i+1}` }).append(problemList).on("mouseover", ((e) => {
-            mousePosition = {
-                x : e.clientX,
-                y : e.clientY
-            };
+        let link = $("<a/>", { class: "hole", href: `javascript: window.location.hash = ${i+1}`, style: `grid-column:1; grid-row:${i+1}` }).append(problemList)
+        .on("mouseenter", function(e) {
+            const hoveredHole = $(this);
+            const holePosition = hoveredHole.offset();
+            const holeWidth = hoveredHole.outerWidth();
             showProblem(e, problem)
-            $("#problemInfo").css('left', `${mousePosition.x}px`);
-            $("#problemInfo").css('top', `${mousePosition.y}px`);})).on("mouseout", (() => ($("#problemInfo").remove())))
-            $("#problemSet").append([link])
+            $("#problemInfo").css({
+                top: holePosition.top+5,
+                left: holePosition.left + holeWidth + 5 
+            }).on("mouseout", function() {
+                $("#problemInfo").remove();
+            })})
 
         // if (flagColor == "white") {$(`#${i}`).parent().parent().parent().addClass("disable")}
-    })
+    $("#problemSet").append([link])
+})
+    
     let button = `<img src="images/questionmark.svg" alt="Tour" id="tourButton"></img>`
     $(stage).append(button)
 
@@ -140,7 +145,7 @@ function loadSentence(sentenceID) {
             const labelList = ["labelDiv", "labelItem", "labelMenu", "typeMenu", "typeItem"]
             $(".selected").removeClass("selected"); // clicking anywhere else deselects
             if (!labelList.some(el => $(e.target).hasClass(el))) { removeMenu() }
-            document.querySelector("#dialog")?.remove();
+            if ($(e.target).closest("#next, #again").length === 0) {document.querySelector("#dialog")?.remove();}
             // e.stopPropagation();
             // if ($("#tenseSelect").length){
             //     document.getElementById("tenseSelect").addEventListener('change', ()=>{
@@ -164,9 +169,10 @@ function intro() {
     let dragVideo= "<video src='images/dragVideo.mp4'  autoplay class='introVideo' />"
     let parseVideo= "<video src='images/parseVideo.mp4'  autoplay class='introVideo' />"
     let labelInput = "<video src='images/labelInput.mp4'  autoplay class='introVideo' />"
+    let introImage = "<img src='images/intro_final.png'  autoplay class='introVideo' />"
     intro.setOptions({
         steps: [{
-            intro: problemJSON.description || "Here is your instructions"
+            intro: `Here is your instructions <hr/> ${introImage}`
         }, {
             element: document.querySelector('#menu'),
             intro: "<h3>Start the Hole</h3>Click the flag to begin a new hole.",
@@ -283,12 +289,22 @@ function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wron
             changedWord.split(",").forEach(x => {if (x.includes(word)) {changedWord = x}})
             let changedWordSet = changedWord.trim().split("#");
             let changedWordCount = changedWordSet.length;
-            // console.log(changedWordCount, changedWordSet)
+            console.log(word, changedWordCount, changedWordSet)
             let changedWordIndex = Math.abs(Math.max(changedWordCount-(numberOfRows-row), 0));
+            if (word.includes("*")) {
+                const subWords = word.split('*');
+                let wordUpdated = word 
+                subWords.forEach(subWord => {
+                    if (changedWordSet.includes(subWord) || subWord == changedWord) {   
+                        wordUpdated = wordUpdated.replace(`*${subWord}`, `*${changedWordSet[changedWordIndex]}`).replace(`${subWord}*`, `${changedWordSet[changedWordIndex]}*`).replace(`*${subWord}*`, `*${changedWordSet[changedWordIndex]}*`);
+                        sentence = sentence.replace(` ${word} `, ` ${wordUpdated} `);
+                        word = wordUpdated
+                        console.log(subWord, word, sentence,wordUpdated, changedWordIndex, changedWordSet)
+                    }})}
             if (changedWordSet.includes(word)|| word == changedWord ) {
                 sentence = sentence.replace(` ${word} `, ` ${changedWordSet[changedWordIndex]} `)
                 word = changedWordSet[changedWordIndex]
-                // console.log(word, sentence, changedWordIndex, changedWordSet)
+                console.log(word, sentence, changedWordIndex, changedWordSet)
             }}
         if ($("#sentenceContainer").attr("data-flexAf") && word.includes("|")) {
             let affixIntersect = word.indexOf("|")
@@ -311,11 +327,19 @@ function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wron
                     return
                 }
                 sentenceArray = containerSetUpAndInput(letter, index, traceIndexOffset, fudge, `letterContainer ${noPad}`, sentenceArray)
+                console.log(word, sentenceArray)
                 noPad = "noPad"
             })
         } else {
             sentenceArray = containerSetUpAndInput(word, index, traceIndexOffset, fudge, `wordContainer ${noPad}`, sentenceArray)}
     })
+    const noPadIndex = $("#problemConstituent").attr("noPadIndex")
+                if (noPadIndex !== undefined) {
+                    const targetIndex = parseInt(noPadIndex)
+                    if (sentenceArray[targetIndex]) {sentenceArray[targetIndex].removeClass('noPad');}
+                    console.log(sentenceArray)
+                    $("#problemConstituent").removeAttr("noPadIndex");
+                }
     let blockElement = [
         (af ? $("<div/>", { class: "labelDiv", id: `label_row_${row}`, html: "?" }).on({
             "click": generateMenu,
@@ -389,6 +413,10 @@ function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wron
                     // console.log(trueRow.some(x => ((x.constituent === constituent))), constituent)
                     // x.constituent === constituent
                     let match = trueRow && trueRow.some(x => {
+                        if ((x.constituent === constituent || (x.changed === constituent))) {
+                            xlabel = x.label
+                            return true
+                        }
                         if ((x.column === newIndex + (tracePad(row+1, x.column, newIndex, treeRow)))){
                             if ($("#sentenceContainer").attr("data-flexAf")){
                             let flexAfs = $("#sentenceContainer").attr("data-flexAf").split(",")
@@ -408,10 +436,6 @@ function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wron
                                     return true
                                 } 
                             }}
-                            if ((x.constituent === constituent || (x.changed === constituent))) {
-                                xlabel = x.label
-                                return true
-                            } 
                             // console.log($(this).children()[1])
                             // $(this).children()[1].attr("data-nextElLabel", x.label)
                          }return false})
@@ -551,9 +575,16 @@ function selected(el) {
 
 function sentenceArrayToSentence(sentenceArray, selectionMode, sentence) {
     if (selectionMode == "morphology") {
+        let targetElementIndex = undefined
+        sentenceArray.each(function(index, element) {
+            if (!$(element).hasClass('noPad')) {
+                console.log(index)
+                targetElementIndex = index;
+              }});
+        if (targetElementIndex != undefined) {$("#problemConstituent").attr("noPadIndex", targetElementIndex)}
         let selectedWord = $.makeArray(sentenceArray).map(wordDiv => wordDiv.innerHTML).join("");
         let comparedWord = []
-        sentence.split(" ").forEach((word) => {
+        sentence.split(/[ *]+/).forEach((word) => {
             console.log(sentenceArray, sentence, word, selectedWord)
             let preWord = word;
             let changedWord = word;
@@ -1297,7 +1328,7 @@ function treeToRows(tree, accumulator = [], row = 0, leaves = [], morphologyPart
         if (typeof tree.index !== 'undefined') {
             newEntry['destination'] = tree.index
         }
-        if (constituent.includes("+") && constituent.split(" ").length == 1) {
+        if (constituent &&constituent.includes("+") && constituent.split(" ").length == 1) {
             $("#sentenceContainer").attr("data-tense", constituent)
         } else {
         accumulator[row].push(newEntry)}
@@ -1622,13 +1653,20 @@ function getProgressSignal(strokes, weightedPar, minStep) {
         return {"flagColor":"white", "alarm":""}
     }
     if (strokes == minStep) {
-        return {"flagColor":"blue", "alarm":{ div: ["<img src='images/golf_perfect_final.png' id='finishMeme' />"]}}
+        return {"flagColor":"blue", "alarm":{ div: ["<video src='images/golf_perfect_final.mp4' autoplay id='finishMeme' />"]}}
     }
     else if (strokes > weightedPar) {
-        return {"flagColor":"red", "alarm": { div: ["<img src='images/redFlag.png' id='finishMeme' />"]}}
+        let returnItem = {"flagColor":"red", "alarm": { div: ["<video src='images/redFlag.mp4' autoplay id='finishMeme' />"]}}
+        returnItem.alarm.div.push("<button id='again'>Try Again</button>")
+        document.body.addEventListener('click', (event) => {
+            if (event.target.id === 'again') {
+              location.reload();
+            }
+          });
+        return returnItem
     }
     else if (strokes <= weightedPar) {
-        return {"flagColor":"green", "alarm":{ div: ["<img src='images/greenFlag.png' id='finishMeme' />"]}}
+        return {"flagColor":"green", "alarm":{ div: ["<video src='images/greenFlag.mp4' autoplay id='finishMeme' />"]}}
     }
 }
 

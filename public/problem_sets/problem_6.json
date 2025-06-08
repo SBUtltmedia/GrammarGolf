@@ -15,21 +15,9 @@
       {
         "expression": "(N (Adj (V (Af re) (V us#use#use)) (Af abil#able#able#)) (Af ity))",
         "notes": ""
-      }, 
-      {
-        "expression": "(N (Af non) (N (Adj (V compar#compare) (Af abil#able#able)) (Af ity)))",
-        "notes": ""
-      },
-      {
-        "expression": "(N (V (N hospital) (Af iza#ize#ize)) (Af tion))",
-        "notes": ""
       },
       {
         "expression": "(Adv (Adj (Af un) (Adj (V question) (Af ab#able#able#able))) (Af ly|y))",
-        "notes": ""
-      },
-      {
-        "expression": "(Adj (Af inter)(Adj (N continent) (Af al)))",
         "notes": ""
       },
       {
@@ -41,10 +29,6 @@
         "notes": ""
       },
       {
-        "expression": "(N (V (Af en) (N courage)) (Af ment))",
-        "notes": ""
-      },
-      {
         "expression": "(N (Adj (Af ir) (Adj regular)) (Af ity))",
         "notes": ""
       },
@@ -53,5 +37,5 @@
         "notes": ""
       }
     ],
-    "description": ""
+    "description": "Module 6: Morphology Trees"
   }

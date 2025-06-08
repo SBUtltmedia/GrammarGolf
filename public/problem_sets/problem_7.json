@@ -5,23 +5,7 @@
         "notes": ""
       },
       {
-        "expression": "(N (N air) (N port))",
-        "notes": ""
-      },
-      {
-        "expression": "(N (N bath) (N room))",
-        "notes": ""
-      },
-      {
-        "expression": "(N (N tooth) (N brush))",
-        "notes": ""
-      },
-      {
         "expression": "(N (Adj black) (N board))",
-        "notes": ""
-      },
-      {
-        "expression": "(N (N cow) (N boy))",
         "notes": ""
       },
       {
@@ -33,13 +17,26 @@
         "notes": ""
       },
       {
-        "expression": "(N (N video) (N game))",
+        "expression": "(N (Adj wet) (N suit))",
         "notes": ""
       },
       {
-        "expression": "(N (Adj wet) (N suit))",
+        "expression": "(N (N (N basket) (N ball))*(N coach))",
+        "notes": ""
+      },
+      {
+        "expression": "(N (N (Adj white) (N house))*(N cafeteria))",
+        "notes": ""
+      },
+      {
+        "expression": "(N (N (N ice)*(N cream))*(N (V mak#make) (Af er|r)))",
+        "notes": ""
+      },
+      {
+        "expression": "(N (N (N golf)*(N cart))*(N (N (V park) (Af ing))*(N lot)))",
         "notes": ""
       }
+      
     ],
-    "description": ""
+    "description": "Module 7: Compounds"
   }

@@ -1,45 +1,41 @@
 {
     "holes": [
       {
-        "expression": "(V (V writt#write) (Af en))",
+        "expression": "(Adj (Adj happi#happy) (Af er))",
         "notes": ""
       },
       {
-        "expression": "(Adj (V (Adj modern) (Af iz#ize#ize)) (Af able))",
+        "expression": "(N (N book) (Af s))",
         "notes": ""
       },
       {
-        "expression": "(N (N basket) (N ball))",
+        "expression": "(Adj (Adj silli#silly) (Af est))",
         "notes": ""
       },
       {
-        "expression": "(V (V walk) (Af ed))",
+        "expression": "(N (N Chomsky) (Af 's))",
         "notes": ""
       },
       {
-        "expression": "(N (N ice)*(N cream))",
+        "expression": "(N (N (Af work) (Af er)) (Af s))",
         "notes": ""
       },
       {
-        "expression": "(N (N (N text) (N book)) (Af s))",
+        "expression": "(N (N (N (Adj high) (N school))*(N cafeteria))*(N (N menu) (Af s)))",
         "notes": ""
       },
       {
-        "expression": "(Adv (Adj (V consider) (Af ab#able#able)) (Af ly|y))",
+        "expression": "(N (N (N sun) (N flower))*(N (N seed) (Af s)))",
         "notes": ""
       },
       {
-        "expression": "(N (V teach) (Af er))",
+        "expression": "(N (N (V (N hospital) (Af iza#ize#ize)) (Af tion)) (Af s))",
         "notes": ""
       },
       {
-        "expression": "(V (V danc#dance) (Af ed|d))",
-        "notes": ""
-      },
-      {
-        "expression": "(N (Adj (N (Af dis) (N respect)) (Af ful)) (Af ness))",
+        "expression": "(N (Adj (Adj red)*(Adj hot))*(N (N chili)*(N (N pepper) (Af s))))",
         "notes": ""
       }
     ],
-    "description": "Inflection Morphology Part 1"
+    "description": "Module 8: Inflection Morphology"
   }
