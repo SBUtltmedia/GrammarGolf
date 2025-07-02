@@ -1,10 +1,84 @@
-SetEnv PHP_VALUE "session.save_path = /home/tltsecure/apache2/htdocs/userData/sessionData"
-<IfModule mod_headers.c>
-   Header set P3P "policyref=\"/w3c/p3p.xml\", CP=\"IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT\""
- </IfModule>
-#php_admin_value session.save_path "/home/tltsecure/apache2/htdocs/userData/sessionData"
-AuthType shibboleth
-#ShibRequestSetting requireSession true 
-#require valid-user
-ShibRequestSetting requireSession false
-require shibboleth
+#AuthType shibboleth
+#ShibRequestSetting requireSession 1
+#require shibboleth
+
+#local vars 
+#SetEnv cn "test_cn"
+#SetEnv nickname "test_nickname"
+#SetEnv sn "test_sn"
+#SetEnv mail "michael.kawwa@stonybrook.edu"
+
+RewriteEngine on
+RewriteBase /
+RewriteCond $0#%{REQUEST_URI} ([^#]*)#(.*)\1$
+RewriteRule ^.*$ - [E=CWD:%2]
+Header always unset X-Frame-Options
+
+# Check if Environment is set to "local"
+#RewriteCond %{ENV:ENVIRONMENT} ^local$
+# If true, set the environment variables
+#RewriteRule ^ - [E=cn:test_cn,E=nickname:test_nickname,E=sn:test_sn,E=mail:michael.kawwa@stonybrook.edu]
+
+<If "env('ENVIRONMENT') == 'local'">
+    # Set env vars only if LOCAL=true
+    SetEnv cn test_cn
+    SetEnv nickname test_nickname
+    SetEnv givenName test_givenName
+    SetEnv sn test_sn
+    SetEnv mail xinyi.liu.1@stonybrook.edu
+</If>
+
+#conditionally set session save path for local and non-local environments
+<If "env('ENVIRONMENT') == 'local'">
+    # LOCAL environment: Set session path for local dev
+    SetEnv PHP_VALUE "session.save_path=/var/www/html"
+</If>
+<Else>
+    # NON-LOCAL environment: Set session path for production
+    SetEnv PHP_VALUE "session.save_path=."
+</Else>
+
+# Check if ENVIRONMENT is NOT "local"
+# RewriteCond %{ENV:ENVIRONMENT} !^local$
+# RewriteRule ^ - [E=PHP_VALUE:session.save_path=/home/tltsecure/apache2/htdocs/userData/sessionData]
+
+# RewriteCond %{ENV:ENVIRONMENT} ^local$
+# RewriteRule ^ - [E=PHP_VALUE:session.save_path=/var/www/html]
+
+<IfModule mod_shibboleth.c>
+    # Rules here only apply if mod_shibboleth is loaded
+    AuthType shibboleth
+    ShibRequestSetting requireSession false
+    Require shibboleth
+</IfModule>
+
+# RewriteCond %{REQUEST_URI} !.*users.*
+# RewriteCond %{REQUEST_URI} \.json$
+# RewriteRule (.*) %{ENV:CWD}users/$1 [L]
+
+
+# RewriteCond %{REQUEST_URI} !.*users.*
+# RewriteCond %{REQUEST_URI} \.mp4$
+# RewriteRule (.*) %{ENV:CWD}users/$1 [L]
+
+# RewriteCond %{ENV:REDIRECT_STATUS} 200
+# RewriteRule ^ - [L]
+# RewriteRule ^/?index.php$ - [L]
+# RewriteRule ^/?index.html$ - [L]
+# RewriteRule ^/?$ - [L]
+# RewriteCond %{REQUEST_URI} !.*users.*
+# RewriteCond %{REQUEST_URI} !.*vqEdit.*
+# RewriteCond %{REQUEST_URI} !.*vqLib.*
+# RewriteCond %{REQUEST_URI} !.*vqPlayer.*
+# RewriteCond %{REQUEST_URI} !.*vqAPI.*
+# RewriteCond %{REQUEST_URI} !.*vqFolder.*
+
+# RewriteRule (.*) %{ENV:CWD}users/$1 [NC,L]
+
+  # php_value error_log PHP_errors.log
+  # php_value upload_max_filesize 2000M
+  # php_value post_max_size 2000M
+  # php_value max_execution_time 500
+  # php_value max_input_time 500
+  # php_value date.timezone 'America/New_York'
+  # php_value memory_limit 512M

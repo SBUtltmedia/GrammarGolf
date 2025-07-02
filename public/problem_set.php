@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 $user="dummyUser";
 $id=$_GET['id'];
 $file="./problem_sets/problem_$id.json";
