@@ -4,6 +4,9 @@ session_start();
 $user="dummyUser";
 $id=$_GET['id'];
 $file="./problem_sets/problem_$id.json";
+// $file=file_get_contents($fileName);
+// $fileJSON=json_decode($file);
+
 if(isset($_SESSION['mail'])){
     list($user,$other)=explode("@",$_SESSION['mail']);
     $idFile=  "../data/$user/$id.json";   

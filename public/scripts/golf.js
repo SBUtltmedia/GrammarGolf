@@ -69,7 +69,7 @@ function loadMenu() {
         <div class="hole-text">  hole ${i + 1} </div>
         </div>`
         let link = $("<a/>", { class: "hole", href: `javascript: window.location.hash = ${i+1}`, style: `grid-column:1; grid-row:${i+1}` }).append(problemList)
-        .on("mouseenter", function(e) {
+        .on("mouseover", function(e) {
             const hoveredHole = $(this);
             const holePosition = hoveredHole.offset();
             const holeWidth = hoveredHole.outerWidth();
@@ -1770,98 +1770,75 @@ function updateIndicesAfterTrace(trace) {
 }
 
 function drawArrows() {
-    // $("#lineContainer").empty()
+    // $("#lineContainer").empty() // It's often better to clear at the beginning
 
-    // console.log($(`[data-wastraced]`), $(`[data-destination]`))
+    // Recreate defs for arrows, ensuring it's cleared and rebuilt if needed
+    $("#lineContainer").find("defs").remove(); // Remove old defs
+    var defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+    var marker = document.createElementNS("http://www.w3.org/2000/svg", "marker");
+    var triangle = document.createElementNS("http://www.w3.org/2000/svg", "path");
 
-    // recreate defs for arrows
-    var defs = document.createElementNS("http://www.w3.org/2000/svg", "defs")
-    $("#lineContainer").append(defs)
-    var marker = document.createElementNS("http://www.w3.org/2000/svg", "marker")
-    $(defs).append(marker)
     $(marker).attr({
-        id: "triangle", viewBox: "0 0 10 10", refX: "1", refY: "5",
-        markerUnits: "strokeWidth", markerWidth: "5", markerHeight: "5", orient: "auto", href: "#triangle"
-    })
-    var triangle = document.createElementNS("http://www.w3.org/2000/svg", "path")
-    $("#triangle").append(triangle)
-    $(triangle).attr({ d: "M 0 0 L 10 5 L 0 10 z" })
+        id: "triangle",
+        viewBox: "0 0 10 10",
+        refX: "1",
+        refY: "5",
+        markerUnits: "strokeWidth",
+        markerWidth: "5",
+        markerHeight: "5",
+        orient: "auto"
+    });
+    $(triangle).attr({ d: "M 0 0 L 10 5 L 0 10 z" });
 
+    $(marker).append(triangle);
+    $(defs).append(marker);
+    $("#lineContainer").append(defs);
 
-    let [containerWidth, containerHeight] = getSize()
-
-    // draw curves
+    // --- Draw curves for each traced element ---
     $(`[data-wastraced]`).each((i, block) => {
-        // if ($(block).hasClass(".gu-mirror")) {
         if (block.classList.contains("gu-mirror")) {
-            return;
+            return; // Skip the temporary drag element
         }
-        // console.log(i, block)
-        // console.log($(block).attr("data-wastraced"))
-        let endPoint = $(block).find(".constituentContainer")
 
-        // console.log($(`[data-destination=${$(block).attr("data-wastraced")}]`))
-        let startPoint = $(`[data-destination=${$(block).attr("data-wastraced")}]`).find(".constituentContainer")
+        // The arrow should go FROM the original element TO the new one.
+        // Your naming seems reversed, so let's clarify:
+        // startPoint is the new, dropped element.
+        // endPoint is the original source element.
+        let startPoint = $(block).find(".constituentContainer");
+        let endPoint = $(`[data-destination=${$(block).attr("data-wastraced")}]`).find(".constituentContainer");
 
-        // drawDot(endPoint)
-        // drawDot(startPoint)
+        if (!startPoint.length || !endPoint.length) {
+            return; // Skip if either element isn't found
+        }
 
-        // console.log(endPoint)
-        // console.log(startPoint)
+        // Get coordinates for the start and end of the arrow
+        let [, , , startBottom, startCenterX] = getCorners(startPoint);
+        let [, , , endBottom, endCenterX] = getCorners(endPoint);
 
-        // end point includes padding which is a problem
-        // note: endpoint and startpoint are mixed up?
-        // use constituentContainer instead? yes
+        // --- Define two control points for the cubic Bezier curve --- 🎨
+        // This creates a nice "S" curve shape.
+        // Control point 1 is vertically aligned with the start point.
+        let control1X = startCenterX;
+        let control1Y = startBottom + 100; // Adjust this value to change the curve steepness
 
+        // Control point 2 is vertically aligned with the end point.
+        let control2X = endCenterX;
+        let control2Y = endBottom + 100; // Adjust this value as well
 
-
-
-        // how to find control point(s)? 
-        // calculate point coordinates
-        let [, , , endbottom, endCenterX,] = getCorners(endPoint)
-        let [, , , startbottom, startCenterX,] = getCorners(startPoint)
-        // console.log(endCenterX, endbottom)
-        // console.log(startCenterX, startbottom)
-
-        let [, , , endbottomPercent, endCenterXPercent,] = getCornerPercentages(endPoint)
-        let [, , , startbottomPercent, startCenterXPercent,] = getCornerPercentages(startPoint)
-
-        // draw curves using those endpoints
+        // Create the SVG path element
         var path = document.createElementNS("http://www.w3.org/2000/svg", "path");
         $("#lineContainer").append(path);
-        // calculate control point
-        // same y as lowest + fudge factor
-        let controlY = Math.max(endbottom, startbottom) + 200
-        // let controlYPercent = Math.max(endbottomPercent, startbottomPercent) + 4
-        // x is average of both - fudge factor
-        let controlX = ((endCenterX + startCenterX) / 2) - 50
-        // let controlXPercent = ((endCenterXPercent + startCenterXPercent) / 2) - 10
 
+        // --- Use the Cubic Bezier curve command 'C' in the path data ---
+        // The format is: M(startX, startY) C(control1X, control1Y, control2X, control2Y, endX, endY)
         $(path).attr({
-            d: `M ${endCenterX} ${endbottom} Q ${controlX} ${controlY} ${startCenterX} ${startbottom}`,
-            class: "arrow", fill: "transparent", "marker-end": "url(#triangle)"
-        })
-
-        // $(path).attr({d:`M ${endCenterXPercent}% ${endbottomPercent}% Q ${controlXPercent}% ${controlYPercent}% ${startCenterXPercent}% ${startbottomPercent}%`, 
-        // class:"arrow", fill:"transparent", "marker-end":"url(#triangle)"})
-        // actually can't use percentages oops
-        // get arrows to scale with resize
-        // why don't they do this anyway
-
-
-    })
+            d: `M ${startCenterX} ${startBottom} C ${control1X} ${control1Y}, ${control2X} ${control2Y}, ${endCenterX} ${endBottom}`,
+            class: "arrow",
+            fill: "transparent",
+            "marker-end": "url(#triangle)"
+        });
+    });
 }
-
-function bezierCurve(t, initial, p1, p2, final) {
-    return (
-        (1 - t) * (1 - t) * (1 - t) * initial
-        +
-        3 * (1 - t) * (1 - t) * t * p1
-        +
-        3 * (1 - t) * t * t * p2
-        +
-        t * t * t * final
-    );}
 
 
 function getSize() {
