@@ -171,6 +171,7 @@ function intro() {
     let labelInput = "<video src='images/labelInput.mp4'  autoplay class='introVideo' />"
     let introImage = "<img src='images/intro_final.png'  autoplay class='introVideo' />"
     intro.setOptions({
+        tooltipClass: 'customTooltip',
         steps: [{
             intro: `Here is your instructions <hr/> ${introImage}`
         }, {
@@ -339,7 +340,7 @@ function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wron
                     if (sentenceArray[targetIndex]) {sentenceArray[targetIndex].removeClass('noPad');}
                     console.log(sentenceArray)
                     $("#problemConstituent").removeAttr("noPadIndex");
-                }
+                } 
     let blockElement = [
         (af ? $("<div/>", { class: "labelDiv", id: `label_row_${row}`, html: "?" }).on({
             "click": generateMenu,

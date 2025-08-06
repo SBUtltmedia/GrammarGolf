@@ -1,0 +1,506 @@
+.introjs-overlay {
+    position: absolute;
+    box-sizing: content-box;
+    z-index: 999999;
+    background-color: #000;
+    opacity: 0;
+    background: -moz-radial-gradient(center,ellipse farthest-corner,rgba(0,0,0,0.4) 0,rgba(0,0,0,0.9) 100%);
+    background: -webkit-gradient(radial,center center,0,center center,100%,color-stop(0%,rgba(0,0,0,0.4)),color-stop(100%,rgba(0,0,0,0.9)));
+    background: -webkit-radial-gradient(center,ellipse farthest-corner,rgba(0,0,0,0.4) 0,rgba(0,0,0,0.9) 100%);
+    background: -o-radial-gradient(center,ellipse farthest-corner,rgba(0,0,0,0.4) 0,rgba(0,0,0,0.9) 100%);
+    background: -ms-radial-gradient(center,ellipse farthest-corner,rgba(0,0,0,0.4) 0,rgba(0,0,0,0.9) 100%);
+    background: radial-gradient(center,ellipse farthest-corner,rgba(0,0,0,0.4) 0,rgba(0,0,0,0.9) 100%);
+    filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#66000000',endColorstr='#e6000000',GradientType=1)";
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+    filter: alpha(opacity=50);
+    -webkit-transition: all 0.3s ease-out;
+       -moz-transition: all 0.3s ease-out;
+        -ms-transition: all 0.3s ease-out;
+         -o-transition: all 0.3s ease-out;
+            transition: all 0.3s ease-out;
+  }
+  
+  .introjs-fixParent {
+    z-index: auto !important;
+    opacity: 1.0 !important;
+    -webkit-transform: none !important;
+       -moz-transform: none !important;
+        -ms-transform: none !important;
+         -o-transform: none !important;
+            transform: none !important;
+  }
+  
+  .introjs-showElement,
+  tr.introjs-showElement > td,
+  tr.introjs-showElement > th {
+    z-index: 9999999 !important;
+  }
+  
+  .introjs-disableInteraction {
+    z-index: 99999999 !important;
+    position: absolute;
+    background-color: white;
+    opacity: 0;
+    filter: alpha(opacity=0);
+  }
+  
+  .introjs-relativePosition,
+  tr.introjs-showElement > td,
+  tr.introjs-showElement > th {
+    position: relative;
+  }
+  
+  .introjs-helperLayer {
+    box-sizing: content-box;
+    position: absolute;
+    z-index: 9999998;
+    background-color: #FFF;
+    background-color: rgba(255,255,255,.9);
+    border: 0.0625rem solid #777;
+    border: 0.0625rem solid rgba(0,0,0,.5);
+    border-radius: 0.25rem;
+    box-shadow: 0 0.125rem 0.9375rem rgba(0,0,0,.4);
+    -webkit-transition: all 0.3s ease-out;
+       -moz-transition: all 0.3s ease-out;
+        -ms-transition: all 0.3s ease-out;
+         -o-transition: all 0.3s ease-out;
+            transition: all 0.3s ease-out;
+  }
+  
+  .introjs-tooltipReferenceLayer {
+    box-sizing: content-box;
+    position: absolute;
+    visibility: hidden;
+    z-index: 100000000;
+    background-color: transparent;
+    -webkit-transition: all 0.3s ease-out;
+       -moz-transition: all 0.3s ease-out;
+        -ms-transition: all 0.3s ease-out;
+         -o-transition: all 0.3s ease-out;
+            transition: all 0.3s ease-out;
+  }
+  
+  .introjs-helperLayer *,
+  .introjs-helperLayer *:before,
+  .introjs-helperLayer *:after {
+    -webkit-box-sizing: content-box;
+       -moz-box-sizing: content-box;
+        -ms-box-sizing: content-box;
+         -o-box-sizing: content-box;
+            box-sizing: content-box;
+  }
+  
+  .introjs-helperNumberLayer {
+    box-sizing: content-box;
+    position: absolute;
+    visibility: visible;
+    top: -1rem;
+    left: -1rem;
+    z-index: 9999999999 !important;
+    padding: 0.125rem;
+    font-family: Arial, verdana, tahoma;
+    font-size: 0.8125rem;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    text-shadow: 0.0625rem 0.0625rem 0.0625rem rgba(0,0,0,.3);
+    background: #ff3019; /* Old browsers */
+    background: -webkit-linear-gradient(top, #ff3019 0%, #cf0404 100%); /* Chrome10+,Safari5.1+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ff3019), color-stop(100%, #cf0404)); /* Chrome,Safari4+ */
+    background:    -moz-linear-gradient(top, #ff3019 0%, #cf0404 100%); /* FF3.6+ */
+    background:     -ms-linear-gradient(top, #ff3019 0%, #cf0404 100%); /* IE10+ */
+    background:      -o-linear-gradient(top, #ff3019 0%, #cf0404 100%); /* Opera 11.10+ */
+    background:         linear-gradient(to bottom, #ff3019 0%, #cf0404 100%);  /* W3C */
+    width: 1.25rem;
+    height:1.25rem;
+    line-height: 1.25rem;
+    border: 0.1875rem solid white;
+    border-radius: 50%;
+    filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3019', endColorstr='#cf0404', GradientType=0)"; /* IE6-9 */
+    filter: "progid:DXImageTransform.Microsoft.Shadow(direction=135, strength=2, color=ff0000)"; /* IE10 text shadows */
+    box-shadow: 0 0.125rem 0.3125rem rgba(0,0,0,.4);
+  }
+  
+  .introjs-arrow {
+    border: 0.3125rem solid transparent;
+    content:'';
+    position: absolute;
+  }
+  .introjs-arrow.top {
+    top: -0.625rem;
+    border-bottom-color:white;
+  }
+  .introjs-arrow.top-right {
+    top: -0.625rem;
+    right: 0.625rem;
+    border-bottom-color:white;
+  }
+  .introjs-arrow.top-middle {
+    top: -0.625rem;
+    left: 50%;
+    margin-left: -0.3125rem;
+    border-bottom-color:white;
+  }
+  .introjs-arrow.right {
+    right: -0.625rem;
+    top: 0.625rem;
+    border-left-color:white;
+  }
+  .introjs-arrow.right-bottom {
+    bottom:0.625rem;
+    right: -0.625rem;
+    border-left-color:white;
+  }
+  .introjs-arrow.bottom {
+    bottom: -0.625rem;
+    border-top-color:white;
+  }
+  .introjs-arrow.bottom-right {
+    bottom: -0.625rem;
+    right: 0.625rem;
+    border-top-color:white;
+  }
+  .introjs-arrow.bottom-middle {
+    bottom: -0.625rem;
+    left: 50%;
+    margin-left: -0.3125rem;
+    border-top-color:white;
+  }
+  .introjs-arrow.left {
+    left: -0.625rem;
+    top: 0.625rem;
+    border-right-color:white;
+  }
+  .introjs-arrow.left-bottom {
+    left: -0.625rem;
+    bottom:0.625rem;
+    border-right-color:white;
+  }
+  
+  .introjs-tooltip {
+    box-sizing: content-box;
+    position: absolute;
+    visibility: visible;
+    padding: 0.625rem;
+    background-color: white;
+    /* min-width: 12.5rem;
+    max-width: 18.75rem; */
+    border-radius: 0.1875rem;
+    box-shadow: 0 0.0625rem 0.625rem rgba(0,0,0,.4);
+    -webkit-transition: opacity 0.1s ease-out;
+       -moz-transition: opacity 0.1s ease-out;
+        -ms-transition: opacity 0.1s ease-out;
+         -o-transition: opacity 0.1s ease-out;
+            transition: opacity 0.1s ease-out;
+  }
+  
+  .introjs-tooltipbuttons {
+    text-align: right;
+    white-space: nowrap;
+  }
+  
+  /*
+   Buttons style by http://nicolasgallagher.com/lab/css3-github-buttons/
+   Changed by Afshin Mehrabani
+  */
+  .introjs-button {
+    box-sizing: content-box;
+    position: relative;
+    overflow: visible;
+    display: inline-block;
+    padding: 0.3em 0.8em;
+    border: 0.0625rem solid #d4d4d4;
+    margin: 0;
+    text-decoration: none;
+    text-shadow: 0.0625rem 0.0625rem 0 #fff;
+    font: 0.6875rem/normal sans-serif;
+    color: #333;
+    white-space: nowrap;
+    cursor: pointer;
+    outline: none;
+    background-color: #ececec;
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f4f4f4), to(#ececec));
+    background-image: -moz-linear-gradient(#f4f4f4, #ececec);
+    background-image: -o-linear-gradient(#f4f4f4, #ececec);
+    background-image: linear-gradient(#f4f4f4, #ececec);
+    -webkit-background-clip: padding;
+    -moz-background-clip: padding;
+    -o-background-clip: padding-box;
+    /*background-clip: padding-box;*/ /* commented out due to Opera 11.10 bug */
+    -webkit-border-radius: 0.2em;
+    -moz-border-radius: 0.2em;
+    border-radius: 0.2em;
+    /* IE hacks */
+    zoom: 1;
+    *display: inline;
+    margin-top: 0.625rem;
+  }
+  
+  .introjs-button:hover {
+    border-color: #bcbcbc;
+    text-decoration: none;
+    box-shadow: 0rem 0.0625rem 0.0625rem #e3e3e3;
+  }
+  
+  .introjs-button:focus,
+  .introjs-button:active {
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ececec), to(#f4f4f4));
+    background-image: -moz-linear-gradient(#ececec, #f4f4f4);
+    background-image: -o-linear-gradient(#ececec, #f4f4f4);
+    background-image: linear-gradient(#ececec, #f4f4f4);
+  }
+  
+  /* overrides extra padding on button elements in Firefox */
+  .introjs-button::-moz-focus-inner {
+    padding: 0;
+    border: 0;
+  }
+  
+  .introjs-skipbutton {
+    box-sizing: content-box;
+    margin-right: 0.3125rem;
+    color: #7a7a7a;
+  }
+  
+  .introjs-prevbutton {
+    -webkit-border-radius: 0.2em 0 0 0.2em;
+    -moz-border-radius: 0.2em 0 0 0.2em;
+    border-radius: 0.2em 0 0 0.2em;
+    border-right: none;
+  }
+  
+  .introjs-prevbutton.introjs-fullbutton {
+    border: 0.0625rem solid #d4d4d4;
+    -webkit-border-radius: 0.2em;
+    -moz-border-radius: 0.2em;
+    border-radius: 0.2em;
+  }
+  
+  .introjs-nextbutton {
+    -webkit-border-radius: 0 0.2em 0.2em 0;
+    -moz-border-radius: 0 0.2em 0.2em 0;
+    border-radius: 0 0.2em 0.2em 0;
+  }
+  
+  .introjs-nextbutton.introjs-fullbutton {
+    -webkit-border-radius: 0.2em;
+    -moz-border-radius: 0.2em;
+    border-radius: 0.2em;
+  }
+  
+  .introjs-disabled, .introjs-disabled:hover, .introjs-disabled:focus {
+    color: #9a9a9a;
+    border-color: #d4d4d4;
+    box-shadow: none;
+    cursor: default;
+    background-color: #f4f4f4;
+    background-image: none;
+    text-decoration: none;
+  }
+  
+  .introjs-hidden {
+       display: none;
+  }
+  
+  .introjs-bullets {
+    text-align: center;
+  }
+  .introjs-bullets ul {
+    box-sizing: content-box;
+    clear: both;
+    margin: 0.9375rem auto 0;
+    padding: 0;
+    display: inline-block;
+  }
+  .introjs-bullets ul li {
+    box-sizing: content-box;
+    list-style: none;
+    float: left;
+    margin: 0 0.125rem;
+  }
+  .introjs-bullets ul li a {
+    box-sizing: content-box;
+    display: block;
+    width: 0.375rem;
+    height: 0.375rem;
+    background: #ccc;
+    border-radius: 0.625rem;
+    -moz-border-radius: 0.625rem;
+    -webkit-border-radius: 0.625rem;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .introjs-bullets ul li a:hover {
+    background: #999;
+  }
+  .introjs-bullets ul li a.active {
+    background: #999;
+  }
+  
+  .introjs-progress {
+    box-sizing: content-box;
+    overflow: hidden;
+    height: 0.625rem;
+    margin: 0.625rem 0 0.3125rem 0;
+    border-radius: 0.25rem;
+    background-color: #ecf0f1
+  }
+  .introjs-progressbar {
+    box-sizing: content-box;
+    float: left;
+    width: 0%;
+    height: 100%;
+    font-size: 0.625rem;
+    line-height: 0.625rem;
+    text-align: center;
+    background-color: #08c;
+  }
+  
+  .introjsFloatingElement {
+    position: absolute;
+    height: 0;
+    width: 0;
+    left: 50%;
+    top: 50%;
+  }
+  
+  .introjs-fixedTooltip {
+    position: fixed;
+  }
+  
+  .introjs-hint {
+    box-sizing: content-box;
+    position: absolute;
+    background: transparent;
+    width: 1.25rem;
+    height: 0.9375rem;
+    cursor: pointer;
+  }
+  .introjs-hint:focus {
+      border: 0;
+      outline: 0;
+  }
+  .introjs-hidehint {
+    display: none;
+  }
+  
+  .introjs-fixedhint {
+    position: fixed;
+  }
+  
+  .introjs-hint:hover > .introjs-hint-pulse {
+    border: 0.3125rem solid rgba(60, 60, 60, 0.57);
+  }
+  
+  .introjs-hint-pulse {
+    box-sizing: content-box;
+    width: 0.625rem;
+    height: 0.625rem;
+    border: 0.3125rem solid rgba(60, 60, 60, 0.27);
+    -webkit-border-radius: 1.875rem;
+    -moz-border-radius: 1.875rem;
+    border-radius: 1.875rem;
+    background-color: rgba(136, 136, 136, 0.24);
+    z-index: 10;
+    position: absolute;
+    -webkit-transition: all 0.2s ease-out;
+       -moz-transition: all 0.2s ease-out;
+        -ms-transition: all 0.2s ease-out;
+         -o-transition: all 0.2s ease-out;
+            transition: all 0.2s ease-out;
+  }
+  .introjs-hint-no-anim .introjs-hint-dot {
+    -webkit-animation: none;
+    -moz-animation: none;
+    animation: none;
+  }
+  .introjs-hint-dot {
+    box-sizing: content-box;
+    border: 0.625rem solid rgba(146, 146, 146, 0.36);
+    background: transparent;
+    -webkit-border-radius: 3.75rem;
+    -moz-border-radius: 3.75rem;
+    border-radius: 3.75rem;
+    height: 3.125rem;
+    width: 3.125rem;
+    -webkit-animation: introjspulse 3s ease-out;
+    -moz-animation: introjspulse 3s ease-out;
+    animation: introjspulse 3s ease-out;
+    -webkit-animation-iteration-count: infinite;
+    -moz-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+    position: absolute;
+    top: -1.5625rem;
+    left: -1.5625rem;
+    z-index: 1;
+    opacity: 0;
+  }
+  
+  @-webkit-keyframes introjspulse {
+      0% {
+          -webkit-transform: scale(0);
+          opacity: 0.0;
+      }
+      25% {
+          -webkit-transform: scale(0);
+          opacity: 0.1;
+      }
+      50% {
+          -webkit-transform: scale(0.1);
+          opacity: 0.3;
+      }
+      75% {
+          -webkit-transform: scale(0.5);
+          opacity: 0.5;
+      }
+      100% {
+          -webkit-transform: scale(1);
+          opacity: 0.0;
+      }
+  }
+  
+  @-moz-keyframes introjspulse {
+      0% {
+          -moz-transform: scale(0);
+          opacity: 0.0;
+      }
+      25% {
+          -moz-transform: scale(0);
+          opacity: 0.1;
+      }
+      50% {
+          -moz-transform: scale(0.1);
+          opacity: 0.3;
+      }
+      75% {
+          -moz-transform: scale(0.5);
+          opacity: 0.5;
+      }
+      100% {
+          -moz-transform: scale(1);
+          opacity: 0.0;
+      }
+  }
+  
+  @keyframes introjspulse {
+      0% {
+          transform: scale(0);
+          opacity: 0.0;
+      }
+      25% {
+          transform: scale(0);
+          opacity: 0.1;
+      }
+      50% {
+          transform: scale(0.1);
+          opacity: 0.3;
+      }
+      75% {
+          transform: scale(0.5);
+          opacity: 0.5;
+      }
+      100% {
+          transform: scale(1);
+          opacity: 0.0;
+      }
+  }

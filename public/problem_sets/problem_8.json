@@ -1,41 +1,41 @@
 {
-    "holes": [
-      {
-        "expression": "(Adj (Adj happi#happy) (Af er))",
-        "notes": ""
-      },
-      {
-        "expression": "(N (N book) (Af s))",
-        "notes": ""
-      },
-      {
-        "expression": "(Adj (Adj silli#silly) (Af est))",
-        "notes": ""
-      },
-      {
-        "expression": "(N (N Chomsky) (Af 's))",
-        "notes": ""
-      },
-      {
-        "expression": "(N (N (V work) (Af er)) (Af s))",
-        "notes": ""
-      },
-      {
-        "expression": "(N (N (N (Adj high) (N school))*(N cafeteria))*(N (N menu) (Af s)))",
-        "notes": ""
-      },
-      {
-        "expression": "(N (N (N sun) (N flower))*(N (N seed) (Af s)))",
-        "notes": ""
-      },
-      {
-        "expression": "(N (N (V (N hospital) (Af iza#ize#ize)) (Af tion)) (Af s))",
-        "notes": ""
-      },
-      {
-        "expression": "(N (Adj (Adj red)*(Adj hot))*(N (N chili)*(N (N pepper) (Af s))))",
-        "notes": ""
-      }
-    ],
-    "description": "Module 8: Inflection Morphology"
-  }
+  "holes": [
+    {
+      "expression": "(Adj (Adj happi#happy) (Af er))",
+      "notes": ""
+    },
+    {
+      "expression": "(N (N book) (Af s))",
+      "notes": ""
+    },
+    {
+      "expression": "(Adj (Adj silli#silly) (Af est))",
+      "notes": ""
+    },
+    {
+      "expression": "(N (N Chomsky) (Af 's))",
+      "notes": ""
+    },
+    {
+      "expression": "(N (N (V work) (Af er)) (Af s))",
+      "notes": ""
+    },
+    {
+      "expression": "(N (N (N (Adj high) (N school))*(N cafeteria))*(N (N menu) (Af s)))",
+      "notes": ""
+    },
+    {
+      "expression": "(N (N (N (N sun) (N flower))*(N seed)) (Af s))",
+      "notes": ""
+    },
+    {
+      "expression": "(N (N (V (N hospital) (Af iz#ize#ize)) (Af ation#tion#tion|tion)) (Af s))",
+      "notes": ""
+    },
+    {
+      "expression": "(N (N (Adj (Adj red)*(Adj hot))*(N (N chili)*(N pepper)))))",
+      "notes": ""
+    }
+  ],
+  "description": "Module 8: Inflection Morphology"
+}

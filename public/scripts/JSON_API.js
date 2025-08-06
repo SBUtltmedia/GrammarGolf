@@ -18,9 +18,9 @@ function JSON_API(json = {}, id = 1, method = "GET", mode = "user") {
     }
 
     let URL = `problem_set/?problem_id=${problem_id}${query}`
-    if (window.location.href.includes("github.io")) {
+    if (window.location.href.includes("github.io") || window.location.href.includes("127.0")) {
         URL = `problem_sets/problem_${problem_id}.json${query}`
-    }
+    } 
     if (window.location.href.includes("stonybrook")) {
         URL = `problem_set.php?id=${problem_id}${query}`
     }

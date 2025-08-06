@@ -113,30 +113,38 @@
             animation: 0.5s forwards alternate animateWrong;
         }
 
-        a.introjs-button.introjs-nextbutton{
+
+        /* a.introjs-button.introjs-nextbutton{
             background-color: red;
             background-image: none;
             text-shadow:none;
             color: var(--word);
         }
 
+        .introjs-tooltipReferenceLayer {
+            width:4% !important;
+            height:10% !important;
+            top:20% !important;
+            left:45% !important;
+        }
+
         .introjs-tooltiptext {
             font-size:2.7rem;
-        }
+        } */
 
         a.menu_links { cursor: pointer; }
 
-        .introjs-tooltip{
+        /* .introjs-tooltip{
             background-color: var(--highlight);
-        }
+        } */
 
         .introVideo {
             width:26rem;
         }
 
-        .introjs-helperLayer {
+        /* .introjs-helperLayer {
             background: transparent;
-        }
+        } */
 
         #tourButton {
             position: absolute;
