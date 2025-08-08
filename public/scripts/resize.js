@@ -53,14 +53,14 @@ else{
     stageLeft = (calcw - stageWidth*paddingFactor) / 2;
   //stageLeft = stageWidth / 2;
   stageTop = 0;
-
-  let paddedStageWidth = `${stageWidth*paddingFactor}px`
-  let paddedStageHeight = `${stageHeight*paddingFactor}px`
+  let unit = 'px'
+  let paddedStageWidth = `${stageWidth*paddingFactor}${unit}`
+  let paddedStageHeight = `${stageHeight*paddingFactor}${unit}`
 
   $("#stage").css({
     width: paddedStageWidth,
     height: paddedStageHeight,
-    left: stageLeft + "px",
+    left: stageLeft + unit,
   });
   //console.log(stageLeft, stageTop)
   $("html").css("font-size", stageHeight*.01 + "px");

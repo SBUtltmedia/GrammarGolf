@@ -1,10 +1,6 @@
 {
     "holes": [
       {
-        "expression": "(N (Adj high) (N school))",
-        "notes": ""
-      },
-      {
         "expression": "(N (Adj black) (N board))",
         "notes": ""
       },
@@ -25,7 +21,7 @@
         "notes": ""
       },
       {
-        "expression": "(N (N (Adj white) (N house))*(N cafeteria))",
+        "expression": "(N (N (Adj white)*(N house))*(N cafeteria))",
         "notes": ""
       },
       {
@@ -34,6 +30,10 @@
       },
       {
         "expression": "(N (N (N golf)*(N cart))*(N (N (V park) (Af ing))*(N lot)))",
+        "notes": ""
+      },
+      {
+        "expression": "(N (N (Adj high)*(N school))*(N (N news)*(N paper)))",
         "notes": ""
       }
       

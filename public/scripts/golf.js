@@ -62,24 +62,34 @@ function loadMenu() {
         // let flag = $("<svg/>", {style:"width:2rem", xmlns:"http://www.w3.org/2000/svg"})
         // .append($("<use/>", {"xlink:href":"images/flag.svg#flag", "style":`--color_fill: ${progress}`}))
         //<br/> par: ${par}
-        let problemList = `<div class=problemList> 
+        let problemListItem = `<div class=problemList> 
         <svg style="width:3rem;" viewBox="0 0 208 334">
         <use xlink:href="images/flag.svg#flag" id="${i}" style="--color_fill: ${flagColor};"></use>
         </svg>
         <div class="hole-text">  hole ${i + 1} </div>
         </div>`
-        let link = $("<a/>", { class: "hole", href: `javascript: window.location.hash = ${i+1}`, style: `grid-column:1; grid-row:${i+1}` }).append(problemList)
-        .on("mouseenter", function(e) {
+        let itemEl = Object.assign(document.createElement("div"),{className: "problemList", innerHTML: problemListItem})
+        let link = Object.assign(document.createElement("a"),{className: "hole", href: `javascript: window.location.hash = ${i+1}`, style: `grid-column:1; grid-row:${i+1}` })
+        link.append(itemEl)
+        link.addEventListener("mouseenter", e=> {
+            console.log(e)
             const hoveredHole = $(this);
             const holePosition = hoveredHole.offset();
             const holeWidth = hoveredHole.outerWidth();
             showProblem(e, problem)
-            $("#problemInfo").css({
-                top: holePosition.top+5,
-                left: holePosition.left + holeWidth + 5 
-            }).on("mouseout", function() {
-                $("#problemInfo").remove();
-            })})
+        })
+        // let link = $("<a/>", { class: "hole", href: `javascript: window.location.hash = ${i+1}`, style: `grid-column:1; grid-row:${i+1}` }).append(problemListItem)
+        // .on("mouseenter", function(e) {
+        //     const hoveredHole = $(this);
+        //     const holePosition = hoveredHole.offset();
+        //     const holeWidth = hoveredHole.outerWidth();
+        //     showProblem(e, problem)
+        //     $("#problemInfo").css({
+        //         top: holePosition.top+5,
+        //         left: holePosition.left + holeWidth + 5 
+        //     }).on("mouseout", function() {
+        //         $("#problemInfo").remove();
+        //     })})
 
         // if (flagColor == "white") {$(`#${i}`).parent().parent().parent().addClass("disable")}
     $("#problemSet").append([link])
@@ -110,6 +120,8 @@ function loadSentence(sentenceID) {
         bracketedSentence = bracketedSentence.replaceAll("(Det ", "(det ").replaceAll("(Adj ", "(adj ").replaceAll("(Adv ", "(adv ");
         }
     $("#sentenceContainer").attr("data-currentSentenceID", sentenceID)
+    if ($("#sentenceContainer").attr("data-morphologyparts") != undefined) {document.querySelector("#sentenceContainer").removeAttribute("data-morphologyparts")}
+    if ($("#sentenceContainer").attr("data-changedword") != undefined) {document.querySelector("#sentenceContainer").removeAttribute("data-changedword")}
     $("#sentenceContainer").attr("data-bracketedSentence", bracketedSentence)
     $("#problemConstituent").attr("data-strokes", 0)
     let minStep = getMinStep(bracketedSentence)
@@ -135,8 +147,9 @@ function loadSentence(sentenceID) {
     // $(foundation).append($("<div/>", { "data-row": 99, class: "container first-row" })) // start with just row 0 div
     // syntax mode or morphology mode
     let selectedMode = undefined;
-    if (bracketedSentence.startsWith(("(N ") || ("(V ") || ("(P ") || ("(adj ") || ("(adv "))) {
+    if (bracketedSentence.startsWith("(N ") || bracketedSentence.startsWith("(V ") || bracketedSentence.startsWith("(P ") || bracketedSentence.startsWith("(adj ") || bracketedSentence.startsWith("(adv ")) {
         selectedMode = "morphology";
+        console.log(selectedMode)
     }
     makeSelectable(sentence, 0, 0, selectedMode) // this will allow highlighting/selecting, parsing through recursion
     $("#stage").on({
@@ -277,13 +290,14 @@ function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wron
     if (different == "&") {
         af = false
     }
+    let asteriskCounter = 0
     sentence.split(' ').forEach((word, index) => {
         let noPad =""
         let fudge = 0
         // if (word == "see")  {
         //     fudge=2
         // }
-        // console.log(word)
+        console.log(word)
         if ($("#sentenceContainer").attr("data-changedword")) {
             let numberOfRows = $("#menu").attr("data-currentNumberOfRows");
             let changedWord = $("#sentenceContainer").attr("data-changedword")
@@ -320,11 +334,15 @@ function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wron
                 noPad = "noPad"
             }
         if (selectionMode == "morphology") {
+            console.log(word)
             noPad = "noPad"
+            index+=asteriskCounter
             word.split('').forEach((letter, lIntex) => {
                 if (letter == "*") {
                     noPad = ""
                     index += 1
+                    console.log(word)
+                    asteriskCounter +=1
                     return
                 }
                 sentenceArray = containerSetUpAndInput(letter, index, traceIndexOffset, fudge, `letterContainer ${noPad}`, sentenceArray)
@@ -445,6 +463,7 @@ function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wron
                             //   || x.column === newIndex
                             //   || tracePad(trueRow, x.column, newIndex)
                             ) {
+                        console.log(constituent)
                         makeSelectable(constituent, row + 1, newIndex, selectionMode, wrongAnswers, xlabel);
                         selectedJQ.addClass("faded").removeClass("selected")
                         $("#problemConstituent").attr("data-strokes", parseInt($("#problemConstituent").attr("data-strokes"))+1)
@@ -1651,10 +1670,21 @@ function finishDialog(properties) {
 function getProgressSignal(strokes, weightedPar, minStep) {
     if (strokes == undefined) {
         // problemJSON.holes[currentSentenceID].progress = []
-        return {"flagColor":"white", "alarm":""}
+        return {"flagColor":"red", "alarm":""}
+    }
+    var problemList = document.querySelectorAll(".problemList")
+    var problemArray = [...problemList]
+    const allGreen = problemArray.every(flag=>{
+        const styles = window.getComputedStyle(flag)
+        const colorFill = styles.color
+        console.log(colorFill,styles)
+        return colorFill === 'rgb(218, 211, 190)'
+    })
+    if (allGreen) {
+        return {"flagColor":"green", "alarm":{ div: ["<img src='images/completed_final.png' id='finishMeme' />"]}}
     }
     if (strokes == minStep) {
-        return {"flagColor":"blue", "alarm":{ div: ["<video src='images/golf_perfect_final.mp4' autoplay id='finishMeme' />"]}}
+        return {"flagColor":"green", "alarm":{ div: ["<video src='images/golf_perfect_final.mp4' autoplay id='finishMeme' />"]}}
     }
     else if (strokes > weightedPar) {
         let returnItem = {"flagColor":"red", "alarm": { div: ["<video src='images/redFlag.mp4' autoplay id='finishMeme' />"]}}
@@ -1667,7 +1697,7 @@ function getProgressSignal(strokes, weightedPar, minStep) {
         return returnItem
     }
     else if (strokes <= weightedPar) {
-        return {"flagColor":"green", "alarm":{ div: ["<video src='images/greenFlag.mp4' autoplay id='finishMeme' />"]}}
+        return {"flagColor":"yellow", "alarm":{ div: ["<video src='images/greenFlag.mp4' autoplay id='finishMeme' />"]}}
     }
 }
 

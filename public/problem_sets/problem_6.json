@@ -31,10 +31,6 @@
       {
         "expression": "(N (Adj (Af ir) (Adj regular)) (Af ity))",
         "notes": ""
-      },
-      {
-        "expression": "(Adj (Af un) (Adj (V comfort) (Af able)))",
-        "notes": ""
       }
     ],
     "description": "Module 6: Morphology Trees"

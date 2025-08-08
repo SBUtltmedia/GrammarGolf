@@ -1,39 +1,38 @@
 {
   "holes": [
     {
-      "expression": "(Adj (Adj happi#happy) (Af er))",
+      "expression": "(V (V write) (Af s))",
       "notes": ""
     },
     {
-      "expression": "(N (N book) (Af s))",
+      "expression": "(N (Adj green) (Af er))",
       "notes": ""
     },
     {
-      "expression": "(Adj (Adj silli#silly) (Af est))",
+      "expression": "(V (V (N water)*(V ski)) (Af ed))",
       "notes": ""
     },
     {
-      "expression": "(N (N Chomsky) (Af 's))",
+      "expression": "(N (N (N basket) (N ball)) (Af s))",
       "notes": ""
     },
     {
-      "expression": "(N (N (V work) (Af er)) (Af s))",
+      "expression": "(N (N (N science)*(N (N text) (N book))) (Af s))",
+      "notes": ""
+    },{
+      "expression": "(N (N (N (N ice)*(N cream))*(N sundae)) (Af s))",
       "notes": ""
     },
     {
-      "expression": "(N (N (N (Adj high) (N school))*(N cafeteria))*(N (N menu) (Af s)))",
+      "expression": "(N (N (N (Adj middle)*(N school))*(N (V teach) (Af er)))(Af s)))",
       "notes": ""
     },
     {
-      "expression": "(N (N (N (N sun) (N flower))*(N seed)) (Af s))",
+      "expression": "(N (N cliff)*(V (V jump) (Af ing)))",
       "notes": ""
     },
     {
-      "expression": "(N (N (V (N hospital) (Af iz#ize#ize)) (Af ation#tion#tion|tion)) (Af s))",
-      "notes": ""
-    },
-    {
-      "expression": "(N (N (Adj (Adj red)*(Adj hot))*(N (N chili)*(N pepper)))))",
+      "expression": "(V (V (N line)*(V (V danc#dance) (Af ing)))*(N (N (N concert)*(N venue)) (Af s)))",
       "notes": ""
     }
   ],
