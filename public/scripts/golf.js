@@ -72,11 +72,22 @@ function loadMenu() {
         let link = Object.assign(document.createElement("a"),{className: "hole", href: `javascript: window.location.hash = ${i+1}`, style: `grid-column:1; grid-row:${i+1}` })
         link.append(itemEl)
         link.addEventListener("mouseenter", e=> {
-            console.log(e)
-            const hoveredHole = $(this);
-            const holePosition = hoveredHole.offset();
-            const holeWidth = hoveredHole.outerWidth();
+            const hoveredHole = e.currentTarget;
+            const rect = hoveredHole.getBoundingClientRect();
+            const holePosition = {
+                top: rect.top + window.scrollY,
+                left: rect.left + window.scrollX
+            };
+            const holeWidth = hoveredHole.offsetWidth;
             showProblem(e, problem)
+            const problemInfo = document.getElementById('problemInfo');
+            if (problemInfo) {
+                problemInfo.style.top = `${holePosition.top + 5}px`;
+                problemInfo.style.left = `${holePosition.left + holeWidth + 5}px`;
+                problemInfo.addEventListener('mouseleave', () => {
+                    problemInfo.remove();
+                }, { once: true });
+            }
         })
         // let link = $("<a/>", { class: "hole", href: `javascript: window.location.hash = ${i+1}`, style: `grid-column:1; grid-row:${i+1}` }).append(problemListItem)
         // .on("mouseenter", function(e) {
