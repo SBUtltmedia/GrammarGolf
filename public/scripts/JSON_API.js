@@ -1,4 +1,4 @@
-function JSON_API(json = {}, id = 1, method = "GET", mode = "user") {
+function JSON_API(json = {}, id = 7, method = "GET", mode = "user") {
     console.log(mode, json);
     let param = [];
     if (method == "POST") {
@@ -11,7 +11,7 @@ function JSON_API(json = {}, id = 1, method = "GET", mode = "user") {
         //     'content-type': 'application/json'}
         param = [{ method, body: data }]
     }
-    let problem_id = id || 1
+    let problem_id = id || 7
     let query = ""
     if (mode == "admin") {
         query = "&mode=admin"
@@ -20,8 +20,8 @@ function JSON_API(json = {}, id = 1, method = "GET", mode = "user") {
     let URL = `problem_set/?problem_id=${problem_id}${query}`
     if (window.location.href.includes("github.io") || window.location.href.includes("127.0")) {
         URL = `problem_sets/problem_${problem_id}.json${query}`
-    } 
-    if (window.location.href.includes("stonybrook")) {
+    }
+    if (window.location.href.includes("stonybrook")||window.location.href.includes("ddev")) {
         URL = `problem_set.php?id=${problem_id}${query}`
     }
     param.unshift(URL);
