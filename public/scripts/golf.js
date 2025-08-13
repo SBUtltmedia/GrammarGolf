@@ -1846,7 +1846,7 @@ function drawArrows() {
         // startPoint is the new, dropped element.
         // endPoint is the original source element.
         let startPoint = $(block).find(".constituentContainer");
-        let endPoint = $(`[data-destination=${$(block).attr("data-wastraced")}]`).find(".constituentContainer");
+        endPoint = $(`[data-destination=${$(block).attr("data-wastraced")}]`).find(".constituentContainer");
 
         if (!startPoint.length || !endPoint.length) {
             return; // Skip if either element isn't found
