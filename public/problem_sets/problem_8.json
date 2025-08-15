@@ -5,7 +5,7 @@
       "notes": ""
     },
     {
-      "expression": "(N (Adj green) (Af er))",
+      "expression": "(Adj (Adj green) (Af er))",
       "notes": ""
     },
     {
