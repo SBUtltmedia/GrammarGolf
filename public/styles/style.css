@@ -1,4 +1,4 @@
-        #view{
+        #view {
             touch-action: manipulation;
         }
 
@@ -24,22 +24,23 @@
 
 
         :root {
-            --grass:#fbf2e3;
+            --grass: #fbf2e3;
             --highlight: #A4AC86;
             --background: #254336;
             --line: #C2C5AA;
             --word: #DAD3BE;
             --shadow: #414833;
-            --faded: #8caf8c; 
+            --faded: #8caf8c;
             --wrong: #790909;
-            --labelDiv:rgb(54, 125, 105);
-            --disable:#15241d;
-          }
-
-        .gu-transit { 
-            opacity:0.8;
-            transition:all 0.3s ease-in-out 33;
+            --labelDiv: rgb(54, 125, 105);
+            --disable: #15241d;
         }
+
+        .gu-transit {
+            opacity: 0.8;
+            transition: all 0.3s ease-in-out 33;
+        }
+
         /* #oneDiv {
             color: blueviolet;
         } */
@@ -65,7 +66,7 @@
             /* font-weight: bold; */
             background-color: var(--highlight);
             user-select: none;
-            color:var(--shadow);
+            color: var(--shadow);
         }
 
         .hidden {
@@ -132,14 +133,16 @@
             font-size:2.7rem;
         } */
 
-        a.menu_links { cursor: pointer; }
+        a.menu_links {
+            cursor: pointer;
+        }
 
         /* .introjs-tooltip{
             background-color: var(--highlight);
         } */
 
         .introVideo {
-            width:26rem;
+            width: 26rem;
         }
 
         /* .introjs-helperLayer {
@@ -155,16 +158,16 @@
 
         #dialog {
             top: 15%;
-            left:10%;
+            left: 10%;
             font-size: 2rem;
-            width:35rem;
+            width: 35rem;
             position: fixed;
             margin: auto;
         }
 
         #finishMeme {
             width: 30rem;
-            
+
         }
 
         #problemInfo {
@@ -177,12 +180,6 @@
             padding: 1rem !important;
             text-align: center;
             font-size: 2.4rem;
-        }
-
-        #next
-        #again {
-            padding: 0.5rem;
-            margin-top: 3rem;
         }
 
         #sentenceContainer div {
@@ -200,7 +197,7 @@
         .problemList {
             display: flex;
             flex-direction: row;
-            padding:1.2rem 1.1rem 0rem 0;
+            padding: 1.2rem 1.1rem 0rem 0;
             align-items: center;
             justify-content: center;
             gap: 0.4em;
@@ -212,12 +209,12 @@
             align-items: center;
             justify-content: center;
             font-size: 1em;
-          }
+        }
 
         #problemSet {
             display: grid;
             grid-template-columns: repeat(1, fit-content(6em));
-            grid-template-rows: repeat(14,fit-content(5em));
+            grid-template-rows: repeat(14, fit-content(5em));
         }
 
         .hole {
@@ -261,11 +258,11 @@
 
         #sentenceContainer .constituentContainer {
             /* border: 1px solid white; */
-            padding:.1em;
+            padding: .1em;
         }
 
         #sentenceContainer .wordContainer {
-            padding:.5em .15em .3em .15em;
+            padding: .5em .15em .3em .15em;
         }
 
         #sentenceContainer .letterContainer {
@@ -276,7 +273,7 @@
             /* display: inline-block; */
             place-self: center;
             /* display: flex; */
-            
+
             /* justify-content: space-around; */
             /* text-align: center; */
             white-space: nowrap;
@@ -289,16 +286,16 @@
             /* align-items: space-evenly; */
         }
 
-        .wordContainer {
-            /* background-color: rgba(137, 43, 226, 0.208); */
+        /* .wordContainer {
+            background-color: rgba(137, 43, 226, 0.208);
 
-        }
+        }*/
 
         .noPad {
-            padding-left: 0 !important; 
+            padding-left: 0 !important;
         }
 
-        #sentenceContainer .labelDiv {
+        #sentenceContainer .labelDiv,#next,#again {
             /* position:absolute; */
             /* margin: auto; */
             padding: 0.1em .5em .1em .5em;
@@ -310,8 +307,20 @@
             /* background-color: rgba(137, 43, 226, 0.208); */
             text-align: center;
             font-size: 3em;
-            color:#eeeeee;
-            position:relative;
+            color: #eeeeee;
+            position: relative;
+        }
+
+        #next,#again {
+            /* padding: 0.5rem;
+            margin-top: 3rem;
+            background-color: var(--labelDiv); */
+            border: none;
+            margin: 2rem 0 0 0;
+            text-align: inherit;
+            font: inherit;
+            border-radius: 0;
+            appearance: none;
         }
 
         #sentenceContainer .labelMenu {
@@ -322,12 +331,12 @@
             background-color: var(--labelDiv);
             z-index: 1000;
             left: -0.03em;
-            top:1.5em;
+            top: 1.5em;
             /* border-radius: 10%; */
             border: .02em solid rgba(255, 255, 255, .8);
             /* flex-wrap: wrap; */
-             /* justify-content: center; */
-             /* position:relative; */
+            /* justify-content: center; */
+            /* position:relative; */
             padding: 0.4em;
             grid-auto-flow: row dense;
         }
@@ -348,7 +357,7 @@
             padding: 1rem !important;
             text-align: center;
             font-size: 2.4rem;
-            color:white;
+            color: white;
         }
 
         .bar::after {
@@ -357,7 +366,7 @@
 
         .phrase::after {
             content: "P"
-            
+
         }
 
         .possPhrase::after {
@@ -406,7 +415,7 @@
         }
 
         .button,
-        .labelDiv {
+        .labelDiv,#next,#again {
             background-color: var(--labelDiv);
             /* border-radius: 10%; */
             border: .02em solid rgba(255, 255, 255, .8);
@@ -416,7 +425,7 @@
             /* min-width: 5em; */
         }
 
-          
+
         .branch,
         .arrow {
             /* lines of tree */
@@ -452,7 +461,7 @@
             padding: 1rem 0 0 2rem;
             width: 20%;
             height: 100%;
-            color:#eeeeee;
+            color: #eeeeee;
             font-size: 2.8rem;
             border-width: 0 .1em 0 0;
             border-color: #eee;
@@ -473,7 +482,7 @@
         }
 
         #points {
-            font-size:2.5rem;
+            font-size: 2.5rem;
         }
 
         #menu,
@@ -481,7 +490,7 @@
             position: absolute;
             margin: 0;
             padding: 0;
-           
+
         }
 
 

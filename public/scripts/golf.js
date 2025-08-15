@@ -63,7 +63,7 @@ function loadMenu() {
         // .append($("<use/>", {"xlink:href":"images/flag.svg#flag", "style":`--color_fill: ${progress}`}))
         //<br/> par: ${par}
         let problemListItem = `<div class=problemList> 
-        <svg style="width:3rem;" viewBox="0 0 208 334">
+        <svg style="width:3.5rem;" viewBox="0 0 208 334">
         <use xlink:href="images/flag.svg#flag" id="${i}" style="--color_fill: ${flagColor};"></use>
         </svg>
         <div class="hole-text">  hole ${i + 1} </div>
