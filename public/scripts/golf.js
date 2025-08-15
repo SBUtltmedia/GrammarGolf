@@ -363,12 +363,14 @@ function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wron
         } else {
             sentenceArray = containerSetUpAndInput(word, index, traceIndexOffset, fudge, `wordContainer ${noPad}`, sentenceArray)}
     })
-    const noPadIndex = $("#problemConstituent").attr("noPadIndex")
+    const noPadIndex = $("#problemConstituent").attr("data-noPadIndex")
                 if (noPadIndex !== undefined) {
-                    const targetIndex = parseInt(noPadIndex)
-                    if (sentenceArray[targetIndex]) {sentenceArray[targetIndex].removeClass('noPad');}
-                    console.log(sentenceArray)
-                    $("#problemConstituent").removeAttr("noPadIndex");
+                    noPadIndex.split(',').forEach(noPadObject=>{
+                        const targetIndex = parseInt(noPadObject)
+                        if (sentenceArray[targetIndex]) {sentenceArray[targetIndex].removeClass('noPad');}
+                        console.log(sentenceArray)
+                    })
+                    $("#problemConstituent").removeAttr("data-noPadIndex");
                 } 
     let blockElement = [
         (af ? $("<div/>", { class: "labelDiv", id: `label_row_${row}`, html: "?" }).on({
@@ -585,7 +587,7 @@ function hashLoadSentence() {
 function selected(el) {
     let thisBlockID = $(el).parent().parent().attr("id")
     let allSelected = $('.selected')
-    if (allSelected.length) {
+    if (allSelected.length && $("#sentenceContainer").attr("data-morphologyparts")==undefined) {
         let firstSelected = $(allSelected[0]).attr("data-index")
         let lastSelected = $(allSelected.slice(-1)).attr("data-index")
         for (i = firstSelected; i < lastSelected; i++) {
@@ -606,13 +608,13 @@ function selected(el) {
 
 function sentenceArrayToSentence(sentenceArray, selectionMode, sentence) {
     if (selectionMode == "morphology") {
-        let targetElementIndex = undefined
+        let targetElementIndex = []
         sentenceArray.each(function(index, element) {
             if (!$(element).hasClass('noPad')) {
                 console.log(index)
-                targetElementIndex = index;
+                targetElementIndex.push(index);
               }});
-        if (targetElementIndex != undefined) {$("#problemConstituent").attr("noPadIndex", targetElementIndex)}
+        if (targetElementIndex != []) {$("#problemConstituent").attr("data-noPadIndex", targetElementIndex)}
         let selectedWord = $.makeArray(sentenceArray).map(wordDiv => wordDiv.innerHTML).join("");
         let comparedWord = []
         sentence.split(/[ *]+/).forEach((word) => {
@@ -1685,11 +1687,14 @@ function getProgressSignal(strokes, weightedPar, minStep) {
     }
     var problemList = document.querySelectorAll(".problemList")
     var problemArray = [...problemList]
-    const allGreen = problemArray.every(flag=>{
+    var allGreen = true
+    allGreen = problemArray.every(flag=>{
         const styles = window.getComputedStyle(flag)
         const colorFill = styles.color
         console.log(colorFill,styles)
-        return colorFill === 'rgb(218, 211, 190)'
+        if (colorFill != 'rgb(218, 211, 190)'){
+            return false
+        }
     })
     if (allGreen) {
         return {"flagColor":"green", "alarm":{ div: ["<img src='images/completed_final.png' id='finishMeme' />"]}}

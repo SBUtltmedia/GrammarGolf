@@ -28,11 +28,11 @@
       "notes": ""
     },
     {
-      "expression": "(N (N cliff)*(V (V jump) (Af ing)))",
+      "expression": "(N (N cliff)*(N (V jump) (Af ing)))",
       "notes": ""
     },
     {
-      "expression": "(V (V (N line)*(V (V danc#dance) (Af ing)))*(N (N (N concert)*(N venue)) (Af s)))",
+      "expression": "(N (N (N (N line)*(N (V danc#dance) (Af ing)))*(N (N concert)*(N venue))) (Af s))",
       "notes": ""
     }
   ],
