@@ -17,6 +17,10 @@
         "notes": ""
       },
       {
+        "expression": "(N (Adj (N hope) (Af ful)) (Af ness))",
+        "notes": ""
+      },
+      {
         "expression": "(Adv (Adj (Af un) (Adj (V question) (Af ab#able#able#able))) (Af ly|y))",
         "notes": ""
       },
@@ -33,5 +37,5 @@
         "notes": ""
       }
     ],
-    "description": "Morphology (Part 1/3)"
+    "description": "Course: Morphology Part 1/3"
   }

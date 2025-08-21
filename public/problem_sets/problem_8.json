@@ -28,13 +28,13 @@
       "notes": ""
     },
     {
-      "expression": "(N (N cliff)*(N (V jump) (Af ing)))",
+      "expression": "(N (N cliff)*(N (V climb) (Af er)))",
       "notes": ""
     },
     {
-      "expression": "(N (N (N (N line)*(N (V danc#dance) (Af ing)))*(N (N concert)*(N venue))) (Af s))",
+      "expression": "(N (N (N (N golf)*(N cart))*(N (N (V park) (Af ing))*(N lot))) (Af s))",
       "notes": ""
     }
   ],
-  "description": "Morphology (Part 3/3)"
+  "description": "Course: Morphology Part 3/3"
 }

@@ -62,9 +62,9 @@ function loadMenu() {
         // let flag = $("<svg/>", {style:"width:2rem", xmlns:"http://www.w3.org/2000/svg"})
         // .append($("<use/>", {"xlink:href":"images/flag.svg#flag", "style":`--color_fill: ${progress}`}))
         //<br/> par: ${par}
-        let problemListItem = `<div class=problemList> 
+        let problemListItem = `<div class=problemInList> 
         <svg style="width:3.5rem;" viewBox="0 0 208 334">
-        <use xlink:href="images/flag.svg#flag" id="${i}" style="--color_fill: ${flagColor};"></use>
+        <use xlink:href="images/flag.svg#flag" class="flag" id="${i}" style="--color_fill: ${flagColor};"></use>
         </svg>
         <div class="hole-text">  hole ${i + 1} </div>
         </div>`
@@ -587,6 +587,23 @@ function hashLoadSentence() {
 function selected(el) {
     let thisBlockID = $(el).parent().parent().attr("id")
     let allSelected = $('.selected')
+    // && $("#sentenceContainer").attr("data-morphologyparts")==undefined
+    // if (allSelected.length) {
+    //     let firstSelected = $(allSelected[0])[0]
+    //     let lastSelected = $(allSelected.slice(-1))[0]
+    //     for (i = 0; i < $(el).parent().length; i++) {
+    //         console.log(firstSelected[0], lastSelected)
+    //         if (firstSelected != lastSelected) {
+    //             firstSelected = firstSelected.nextElementSibling
+    //             console.log(firstSelected)
+    //         }
+    //     }
+    //     selectedID = $($(".selected")[0]).parent().parent().attr("id")
+    //     if (thisBlockID != selectedID) {
+    //         return
+    //     }
+
+    // }
     if (allSelected.length && $("#sentenceContainer").attr("data-morphologyparts")==undefined) {
         let firstSelected = $(allSelected[0]).attr("data-index")
         let lastSelected = $(allSelected.slice(-1)).attr("data-index")
@@ -1637,17 +1654,19 @@ function finishAlarm() {
         PJ.progress = PJ.progress || [] 
         PJ.progress.push(strokes);
        console.log(JSON.stringify(PJ),strokes)
-	let bestStep = bestProgress(PJ.progress)
-	 let {flagColor, alarmForBest} = getProgressSignal(bestStep,good,minStep)
+	    let bestStep = bestProgress(PJ.progress)
+	    let {flagColor, alarmForBest} = getProgressSignal(bestStep,good,minStep)
         console.log(bestStep, good, minStep)
         color = `--color_fill: ${flagColor};`
         // console.log(color)
         $(`#${currentSentenceID}`).attr("style", color)
         // if (PJ.progress.length == 1) {enableNext()}
+        console.log(scoreUpdater())
     let problem_id = parseQuery(window.location.search).problem_id || 1
     
 	if (!(typeof ses=== "undefined")){
-        ses.grade= globalScore(globals.problemJSON)/100;  
+        // ses.grade= globalScore(globals.problemJSON)/100;  
+        ses.grade=scoreUpdater();
         console.log(ses)
         postLTI(ses,"du"); 
     }
@@ -1685,56 +1704,83 @@ function getProgressSignal(strokes, weightedPar, minStep) {
         // problemJSON.holes[currentSentenceID].progress = []
         return {"flagColor":"red", "alarm":""}
     }
-    var problemList = document.querySelectorAll(".problemList")
-    var problemArray = [...problemList]
-    var allGreen = true
-    allGreen = problemArray.every(flag=>{
-        const styles = window.getComputedStyle(flag)
-        const colorFill = styles.color
-        console.log(colorFill,styles)
-        if (colorFill != 'rgb(218, 211, 190)'){
-            return false
-        }
-    })
-    if (allGreen) {
-        return {"flagColor":"green", "alarm":{ div: ["<img src='images/completed_final.png' id='finishMeme' />"]}}
+    let {allColor, countColor} = colorChecker("green")
+    console.log(allColor, countColor)
+    if (allColor=="true") {
+        return {"flagColor":"green", "alarm":{ div: ["<img src='images/completed_final.png' id='finishMeme'/>"]}}
     }
     if (strokes == minStep) {
         return {"flagColor":"green", "alarm":{ div: ["<video src='images/golf_perfect_final.mp4' autoplay id='finishMeme' />"]}}
     }
     else if (strokes > weightedPar) {
         let returnItem = {"flagColor":"red", "alarm": { div: ["<video src='images/redFlag.mp4' autoplay id='finishMeme' />"]}}
-        returnItem.alarm.div.push("<button id='again'>Try Again</button>")
-        document.body.addEventListener('click', (event) => {
-            if (event.target.id === 'again') {
-              location.reload();
-            }
-          });
+        returnItem = tryAgainButton(returnItem)
         return returnItem
     }
     else if (strokes <= weightedPar) {
-        return {"flagColor":"yellow", "alarm":{ div: ["<video src='images/greenFlag.mp4' autoplay id='finishMeme' />"]}}
+        let returnItem =  {"flagColor":"yellow", "alarm":{ div: ["<video src='images/greenFlag.mp4' autoplay id='finishMeme' />"]}}
+        returnItem = tryAgainButton(returnItem)
+        return returnItem
     }
 }
 
-function globalScore(problemJSON) {
-    let numberOfHoles = problemJSON.holes.length
-    let scores = 0
-    let score
-    problemJSON.holes.forEach((hole) => {
-        bracketedSentence = hole.expression
-        let min = getMinStep(bracketedSentence)
-	    let userBest = bestProgress(hole.progress)
-        let max = Math.max(min*3, 8)
-        let range = max - min;
-        let x = 1 - (userBest - min)/range
-        score = Math.ceil(1/Math.pow((x-1.1),2)) || 0
-        scores = scores + score
-        console.log(min, userBest, max, score)
-    })
+function tryAgainButton(returnItem){
+    returnItem.alarm.div.push("<button id='again'>Try Again</button>")
+    document.body.addEventListener('click', (event) => {
+        if (event.target.id === 'again') {
+            location.reload();
+        }
+    });
+    return returnItem
+}
 
-    globalS = scores/numberOfHoles
-    return globalS
+function colorChecker(flagColor){
+    let countFlagColor = 0
+    let flagList = document.querySelectorAll(".flag")
+    let flagArray = [...flagList]
+    console.log(flagArray, flagList)
+    let allColor = true
+    flagArray.forEach(flag=>{
+        let style = $(`#${flag.id}`).attr("style")
+        console.log(flag, style)
+        if (style === `--color_fill: ${flagColor};`){
+            countFlagColor+=1
+        } else {
+            allColor = false
+        }
+    })
+    console.log(`${allColor}`)
+    return {"allColor": `${allColor}`, "countColor": countFlagColor}
+}
+
+// function globalScore(problemJSON) {
+//     let numberOfHoles = problemJSON.holes.length
+//     let scores = 0
+//     let score
+//     problemJSON.holes.forEach((hole) => {
+//         bracketedSentence = hole.expression
+//         let min = getMinStep(bracketedSentence)
+// 	    let userBest = bestProgress(hole.progress)
+//         let max = Math.max(min*3, 8)
+//         let range = max - min;
+//         let x = 1 - (userBest - min)/range
+//         score = Math.ceil(1/Math.pow((x-1.1),2)) || 0
+//         scores = scores + score
+//         console.log(min, userBest, max, score)
+//     })
+
+//     globalS = scores/numberOfHoles
+//     return globalS
+// }
+
+function scoreUpdater(){
+    var {allColor, countColor} = colorChecker("green")
+    let countGreen = countColor
+    var {allColor, countColor} = colorChecker("yellow")
+    let countYellow = countColor
+    console.log(countGreen, countYellow)
+    let globalScore = (countGreen*2+countYellow)/18
+    return globalScore
 }
 
 function getNumberOfRows() {
