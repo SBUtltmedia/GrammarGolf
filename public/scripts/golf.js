@@ -1672,7 +1672,7 @@ function finishAlarm() {
     }
     
     JSON_API(globals.problemJSON, problem_id,"POST").then(console.log)
-    let {flagColor1, alarm} = getProgressSignal(strokes,good,minStep)
+    let {flagColor1, alarm} = getProgressSignal(strokes,good,minStep, true)
     finishDialog(alarm)
     
 }}
@@ -1699,16 +1699,17 @@ function finishDialog(properties) {
     // $("#dialog").append(meme)
 }
 
-function getProgressSignal(strokes, weightedPar, minStep) {
+function getProgressSignal(strokes, weightedPar, minStep, final=false) {
     if (strokes == undefined) {
         // problemJSON.holes[currentSentenceID].progress = []
         return {"flagColor":"red", "alarm":""}
     }
-    let {allColor, countColor} = colorChecker("green")
-    console.log(allColor, countColor)
-    if (allColor=="true") {
-        return {"flagColor":"green", "alarm":{ div: ["<img src='images/completed_final.png' id='finishMeme'/>"]}}
-    }
+    if (final) {
+        let {allColor, countColor} = colorChecker("green")
+        console.log(allColor, countColor)
+        if (allColor=="true") {
+            return {"flagColor":"green", "alarm":{ div: ["<img src='images/completed_final.png' id='finishMeme'/>"]}}
+        }}
     if (strokes == minStep) {
         return {"flagColor":"green", "alarm":{ div: ["<video src='images/golf_perfect_final.mp4' autoplay id='finishMeme' />"]}}
     }
