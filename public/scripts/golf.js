@@ -204,7 +204,7 @@ function intro() {
             position: 'right'
         }, {
             element: document.querySelector('#problemSet'),
-            intro: `<h3>Track Your Score</h3>Each hole has a "par", meaning a target number of strokes to complete it. To earn a 90% for the round, you must meet or beat par on every hole. A 100% requires a perfect score on every hole.`,
+            intro: `<h3>Track Your Score</h3>Each hole has a "par", meaning a target number of strokes to complete it. <hr/> Finishing a hole under par earns 0 points (red flag). <hr/> Finishing at par earns 1 point (yellow flag). <hr/> A perfect shot earns 2 points (green flag).<hr/> Goal <hr/> To achieve a 100% score, you must earn 2 points for every hole (all green flags).`,
             position: 'right'
         }, {
             element: document.querySelector('#problemConstituent'),
@@ -1780,7 +1780,10 @@ function scoreUpdater(){
     var {allColor, countColor} = colorChecker("yellow")
     let countYellow = countColor
     console.log(countGreen, countYellow)
-    let globalScore = (countGreen*2+countYellow)/18
+    let globalScore = (countGreen*2+countYellow)/20
+    if (countGreen == 9) {
+        globalScore = 1;
+    }
     return globalScore
 }
 

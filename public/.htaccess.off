@@ -23,7 +23,7 @@ Header always unset X-Frame-Options
     # Set env vars only if LOCAL=true
     SetEnv cn test_cn
     SetEnv nickname test_nickname
-    SetEnv givenName test_givenName
+    SetEnv giame test_givenName
     SetEnv sn test_sn
     SetEnv mail xinyi.liu.1@stonybrook.edu
 </If>
