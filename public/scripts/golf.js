@@ -197,7 +197,7 @@ function intro() {
     intro.setOptions({
         tooltipClass: 'customTooltip',
         steps: [{
-            intro: `Here is your instructions <hr/> ${introImage}`
+            intro: `${introImage}`
         }, {
             element: document.querySelector('#menu'),
             intro: "<h3>Start the Hole</h3>Click the flag to begin a new hole.",
