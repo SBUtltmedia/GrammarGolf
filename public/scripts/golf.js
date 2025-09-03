@@ -205,11 +205,11 @@ function intro() {
         }, {
             element: document.querySelector('#problemSet'),
             intro: `<h3>Track Your Score</h3>Each hole has a "par", meaning a target number of strokes to complete it. To earn a 90% for the round, you must meet or beat par on every hole. A 100% requires a perfect score on every hole.`,
-            position: 'left'
+            position: 'right'
         }, {
             element: document.querySelector('#problemConstituent'),
             intro: "<h3>Build Your Tree</h3>This is the green. You will build your tree here.",
-            position: 'left'
+            position: 'top'
         }, {
             element: '#row_id_0',
             intro: `<h3>Parse the Sentence</h3>Begin by breaking down the sentence structure. <hr/> ${parseVideo}`,

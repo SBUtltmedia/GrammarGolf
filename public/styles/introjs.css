@@ -15,13 +15,13 @@
 }
 
 .introjs-tooltipReferenceLayer {
-    width: 4% !important;
-    height: 10% !important;
-    top: 30% !important;
-    left: 45% !important;
+    /* width: 4% !important;
+    height: 10% !important; */
+    /* top: 10% !important; */
+    /* left: 30% !important; */ 
 }
 
-.customTooltip .introjs-tooltiptext {
+.customTooltip, .introjs-tooltiptext {
     font-size: 2.7rem;
 }
 
@@ -31,4 +31,10 @@
 
 .introjs-helperLayer {
     background: transparent;
+}
+
+a.menu_links { cursor: pointer; }
+
+.introVideo {
+    width:26rem;
 }
