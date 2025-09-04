@@ -14,11 +14,23 @@
     color: var(--word);
 }
 
+.introjs-bullets ul li a {
+    width: 2rem;
+    height: 1rem;
+}
 .introjs-tooltipReferenceLayer {
     /* width: 4% !important;
     height: 10% !important; */
     /* top: 10% !important; */
     /* left: 30% !important; */ 
+}
+
+.introjs-right {
+    width: 35rem;
+}
+
+.introjs-floating {
+    margin-top: -15em !important;
 }
 
 .customTooltip, .introjs-tooltiptext {
@@ -31,10 +43,15 @@
 
 .introjs-helperLayer {
     background: transparent;
+    margin-top: 1.5rem;
 }
 
 a.menu_links { cursor: pointer; }
 
 .introVideo {
-    width:26rem;
+    width:40rem;
+}
+
+.introPhoto {
+    width: 34rem;
 }

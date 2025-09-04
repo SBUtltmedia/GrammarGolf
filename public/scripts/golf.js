@@ -82,7 +82,7 @@ function loadMenu() {
             showProblem(e, problem)
             const problemInfo = document.getElementById('problemInfo');
             if (problemInfo) {
-                problemInfo.style.top = `${holePosition.top + 5}px`;
+                problemInfo.style.top = `${holePosition.top + 10}px`;
                 problemInfo.style.left = `${holePosition.left + holeWidth + 5}px`;
                 problemInfo.addEventListener('mouseleave', () => {
                     problemInfo.remove();
@@ -193,7 +193,7 @@ function intro() {
     let dragVideo= "<video src='images/dragVideo.mp4'  autoplay class='introVideo' />"
     let parseVideo= "<video src='images/parseVideo.mp4'  autoplay class='introVideo' />"
     let labelInput = "<video src='images/labelInput.mp4'  autoplay class='introVideo' />"
-    let introImage = "<img src='images/intro_final.png'  autoplay class='introVideo' />"
+    let introImage = "<img src='images/intro_final.png'  autoplay class='introPhoto' />"
     intro.setOptions({
         tooltipClass: 'customTooltip',
         steps: [{
@@ -204,7 +204,7 @@ function intro() {
             position: 'right'
         }, {
             element: document.querySelector('#problemSet'),
-            intro: `<h3>Track Your Score</h3>Each hole has a "par", meaning a target number of strokes to complete it. <hr/> Finishing a hole under par earns 0 points (red flag). <hr/> Finishing at par earns 1 point (yellow flag). <hr/> A perfect shot earns 2 points (green flag).<hr/> Goal <hr/> To achieve a 100% score, you must earn 2 points for every hole (all green flags).`,
+            intro: `<h3>Track Your Score</h3>Each hole has a "par", meaning a target number of strokes to complete it. <hr/> Finishing a hole under par earns 0 points (red flag). <hr/> Finishing at par earns 1 point (yellow flag). <hr/> A perfect shot earns 2 points (green flag).<hr/> Goal: <br/> To achieve a 100% score, you must earn 2 points for every hole (all green flags).`,
             position: 'right'
         }, {
             element: document.querySelector('#problemConstituent'),
@@ -1678,12 +1678,6 @@ function finishAlarm() {
 }}
 
 function finishDialog(properties) {
-    if (!location.hash || location.hash.split("#")[1] != globals.problemJSON.holes.length) {
-        $("#menu").append(Object.assign(document.createElement("button"),{id:"next", innerHTML:"Next Hole"}))
-    }
-    document.querySelector("#next")?.addEventListener('click', ()=>{
-        window.location.hash=parseInt(location.hash.split("#")[1])+1 || 2
-    }); 
     document.querySelector("#dialog")?.remove();
     let dialog = Object.assign(document.createElement("dialog"), { "id": "dialog" })
     Object.keys(properties).forEach((prop) => {
@@ -1711,7 +1705,9 @@ function getProgressSignal(strokes, weightedPar, minStep, final=false) {
             return {"flagColor":"green", "alarm":{ div: ["<img src='images/completed_final.png' id='finishMeme'/>"]}}
         }}
     if (strokes == minStep) {
-        return {"flagColor":"green", "alarm":{ div: ["<video src='images/golf_perfect_final.mp4' autoplay id='finishMeme' />"]}}
+        let returnItem =  {"flagColor":"green", "alarm":{ div: ["<video src='images/golf_perfect_final.mp4' autoplay id='finishMeme' />"]}}
+        if (final) {returnItem = nextButton(returnItem)}
+        return returnItem
     }
     else if (strokes > weightedPar) {
         let returnItem = {"flagColor":"red", "alarm": { div: ["<video src='images/redFlag.mp4' autoplay id='finishMeme' />"]}}
@@ -1732,6 +1728,23 @@ function tryAgainButton(returnItem){
             location.reload();
         }
     });
+    return returnItem
+}
+
+function nextButton(returnItem) {
+    if (!location.hash || location.hash.split("#")[1] != globals.problemJSON.holes.length) {
+        // $("#menu").append(Object.assign(document.createElement("button"),{id:"next", innerHTML:"Next Hole"}))
+        returnItem.alarm.div.push("<button id='next'>Next</button>")
+    }
+    document.body.addEventListener('click', (event) => {
+        if (event.target.id === 'next') {
+            window.location.hash=parseInt(location.hash.split("#")[1])+1 ||2
+            // location.reload();
+        }
+    });
+    // document.querySelector("#next")?.addEventListener('click', ()=>{
+    //     window.location.hash=parseInt(location.hash.split("#")[1])+1 || 2
+    // }); 
     return returnItem
 }
 
