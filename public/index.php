@@ -26,7 +26,7 @@ else if(isset($_SERVER['sn']) )
         $_SESSION['sn']=  $_SERVER['sn'];       
 }
 else{
-        if (!isset($_SERVER['cn']))){
+        if (!isset($_SERVER['cn'])){
                 $server= $_SERVER['SERVER_NAME'];
 		
                 $target = "https://${server}${_SERVER['REQUEST_URI']}";
