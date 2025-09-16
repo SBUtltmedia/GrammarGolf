@@ -1106,8 +1106,8 @@ function generateMenu(e) {
     }
 
     $(this).append($("<div/>", { class: "labelMenu" }).append([...labelDivArray, typeMenu]))
+    let courseNum = parseQuery(window.location.search).problem_id || 7
     if (labelArrayID != 2) {
-        let courseNum = parseQuery(window.location.search).problem_id
         let filterArrayMerge = labelFilterSet[labelArrayID]["non"].concat(labelFilterByCourse[labelArrayID][courseNum])
         labelFilters($(`.labelItem`), filterArrayMerge, "non")}
 
