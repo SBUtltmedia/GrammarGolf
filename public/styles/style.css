@@ -151,14 +151,14 @@
 
         #tourButton {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 2rem;
+            right: 1rem;
             width: 3rem;
         }
         #toolButton {
             position: absolute;
-            top: 4px;
-            right: 25px;
+            top: 1rem;
+            right: 4rem;
             width: 5rem;
         }
 
