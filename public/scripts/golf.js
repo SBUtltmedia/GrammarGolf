@@ -1079,14 +1079,21 @@ function generateMenu(e) {
         labelArrayID = 1
     }
     let labels = [
-    ["N", "V", "P", "adj", "adv", "det", "Conj", "T", "S", "Deg", "C", "Perf", "Prog"],
-    ["N", "V", "P", "adj", "adv", "det", "T", "S", "deg", "PossN", "C", "A"],
+    ["N", "V", "P", "adj", "adv", "det", "T", "S","PossN", "A", "deg", "C"],
+    ["N", "V", "P", "adj", "adv", "det", "T", "S", "deg", "PossN", "C", "A", "Perf", "Prog", "Conj"],
     ["N", "V", "P", "adj", "adv", "Af"]
     ]
-    let labelFilterSet = [{"phrase": ["S"], "non" : [], "bar": ["S"]}, 
+    let labelFilterSet = [{"phrase": ["S", "adj", "adv","det", "deg"], "non" : [], "bar": ["N", "V", "P", "adj", "adv", "det", "T", "S", "deg", "PossN", "A"]}, 
     {"phrase": ["S", "adj", "adv","det", "deg"], "non" : ["Aux"], "bar": ["N", "V", "P", "adj", "adv", "det", "T", "S", "deg", "PossN", "A"]}]
 
-    let labelFilterByCourse = {"6":[],"7":[],"8":[],"14": ["adv","Perf", "Prog", "Deg", "C", "Conj", "T", "P"],"15":["adv","Perf", "Prog","Deg", "C", "Conj", "T"],"16":[],"17":[],"18":[],"19":[],"20":[],"21":[]}
+    let labelFilterByCourse = [{"6":[],"7":[],"8":[],
+    "14":["adv", "deg", "C", "T", "P", "PossN", "A"],
+    "15":["adv","deg", "C", "T", "PossN", "A"],
+    "16":["adv","deg", "C", "T", "A"],
+    "17":["adv","deg", "C", "T", "A"],
+    "18":["adv", "adj", "C", "T"],
+    "19":["adv", "adj", "C", "S"],
+    "20":["adv", "adj","S"],"21":["adv", "adj","S"]}, {}]
 
     let symbolMap = { "'": "bar", "P": "phrase", "P's": "possPhrase"}
 
@@ -1106,7 +1113,7 @@ function generateMenu(e) {
 
     $(this).append($("<div/>", { class: "labelMenu" }).append([...labelDivArray, typeMenu]))
     let courseNum = parseQuery(window.location.search).problem_id
-    let filterArrayMerge = labelFilterSet[labelArrayID]["non"].concat(labelFilterByCourse[courseNum])
+    let filterArrayMerge = labelFilterSet[labelArrayID]["non"].concat(labelFilterByCourse[labelArrayID][courseNum])
     labelFilters($(`.labelItem`), filterArrayMerge, "non")
 
     // drawLines()
@@ -1119,23 +1126,24 @@ function generateMenu(e) {
                 // console.log(symbol, labelHTML)
                 if (symbol != labelHTML) {
                     $(this).parent().parent().find(".labelItem").removeClass(symbolMap[symbol]).removeClass("possPhrase")
-                    filterArrayMerge = labelFilterSet[labelArrayID]["non"].concat(labelFilterByCourse[courseNum])
+                    filterArrayMerge = labelFilterSet[labelArrayID]["non"].concat(labelFilterByCourse[labelArrayID][courseNum])
                     labelFilters($(`.labelItem`), filterArrayMerge, "non");
                 }
             }
             let typedLabel = $(".labelItem")
             if (labelHTML == "P") {
                 typedLabel = $(".labelItem").filter(el => ($(".labelItem")[el].innerHTML != ("Aux"))) //no add P after Aux
-                let PossObject = $(".labelItem").filter(el => ($(".labelItem")[el].innerHTML == ("PossN")))
-                typedLabel.push(PossObject) 
-                PossObject.toggleClass(symbolMap["P's"]) //add not only P but add P's to PossN
+                if (!labelFilterByCourse[labelArrayID][courseNum].includes("PossN")) {
+                    let PossObject = $(".labelItem").filter(el => ($(".labelItem")[el].innerHTML == ("PossN")))
+                    typedLabel.push(PossObject) 
+                    PossObject.toggleClass(symbolMap["P's"])} //add not only P but add P's to PossN
             }
             typedLabel.toggleClass(symbolMap[labelHTML])
             if ($(`.${symbolMap[labelHTML]}`).length) {
-                filterArrayMerge = labelFilterSet[labelArrayID][symbolMap[labelHTML]].concat(labelFilterByCourse[courseNum])
+                filterArrayMerge = labelFilterSet[labelArrayID][symbolMap[labelHTML]].concat(labelFilterByCourse[labelArrayID][courseNum])
                 labelFilters($(`.${symbolMap[labelHTML]}`), filterArrayMerge, symbolMap[labelHTML]);
             } else {
-                filterArrayMerge = labelFilterSet[labelArrayID]["non"].concat(labelFilterByCourse[courseNum])
+                filterArrayMerge = labelFilterSet[labelArrayID]["non"].concat(labelFilterByCourse[labelArrayID][courseNum])
                 labelFilters($(`.labelItem`), filterArrayMerge, "non");
             }
         }

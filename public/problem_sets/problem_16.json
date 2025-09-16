@@ -5,35 +5,35 @@
         "notes": ""
       },
       {
-        "expression": "(S (NP (PossNP's (Det My) (PossN brother's#brother#brother)) (N pet)) (VP is super cute))",
+        "expression": "(S (NP (PossNP's Mary's#Mary) (N cousin)) (VP studies linguistics at Stony Brook))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (Det The) (N details) (PP (P of) (NP (PossNP's (PossN Charlie's#Charlie#Charlie)) (N story)))) (VP are engaging))",
+        "expression": "(S (NP (PossNP's (det The) (PossN professor's#professor)) (N students)) (VP speak Klingon))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (PossNP's (Det The) (PossN school's#school#school)) (Adj red) (N bus)) (VP is clean and big))",
+        "expression": "(S (NP (PossNP's Chomsky's#Chomsky) (N classes)) (VP taught students about politics))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (PossNP's (PossN Noah's#Noah#Noah)) (N dog)) (VP ate the homework))",
+        "expression": "(S (NP (PossNP's (det The) (PossN student's#student)) (adj beautiful) (N caligraphy)) (VP impressed the teacher))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (Det A) (N student) (PP (P of) (NP (PossNP's (PossN Johnny's#Johnny#Johnny)) (N cousin)))) (VP created this system))",
+        "expression": "(S (NP (PossNP's (det The) (PossN King's#King) (PP (P of) (NP (N Spain)))) (N successor)) (VP practices Basque))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (PossNP's (Det These) (PossN quilt's#quilt#quilt#quilt)) (N designs) (PP (P from) (NP (N Brazil)))) (VP are beautiful))",
+        "expression": "(S (NP (PossNP's (det That) (PossN student's#student)) (N doll) (PP (P from) (NP (N Russia)))) (VP is a matryoshka doll))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (PossNP's (PossN Cherry's#Cherry#Cherry)) (N mother)) (VP raised ten children))",
+        "expression": "(S (NP (D A) (N friend) (PP (P of) (NP (PossNP's Sue's#Sue) (N sister)))) (VP starred in My Fair Lady))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (PossNP's (PossNP's (PossN Ruby's#Ruby#Ruby)) (N sister's#sister#sister#sister)) (N car)) (VP is new and fancy))",
+        "expression": "(S (NP (PossNP's (det My) (PossN friend's#friend)) (adj former) (N roommate)) (VP reads Esperanto))",
         "notes": ""
       }
     ],
