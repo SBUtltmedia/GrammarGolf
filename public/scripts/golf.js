@@ -108,6 +108,27 @@ function loadMenu() {
     
     let button = `<img src="images/questionmark.svg" alt="Tour" id="tourButton"></img>`
     $(stage).append(button)
+    let problem_id = parseQuery(window.location.search).problem_id
+    if (problem_id && problem_id > 10){
+        let toolButton = `<img src="images/toolButton.svg" id="toolButton"></img>`
+        $(stage).append(toolButton)
+        document.body.addEventListener('click', (event) => {
+        if (event.target.id === 'toolButton') {
+            document.querySelector("#toolDialog")?.remove();
+            let dialog = Object.assign(document.createElement("dialog"), { "id": "toolDialog" })
+            let properties = { div: [`<img src='images/Syntax${problem_id}.png' id='toolPic'/>`]}
+            console.log(problem_id, properties)
+            Object.keys(properties).forEach((prop) => {
+                properties[prop].forEach((line) => {
+                let current = Object.assign(document.createElement(prop), { "innerHTML": line })
+                current.addEventListener("click", (e) => { this.listen(e) })
+                dialog.appendChild(current)})
+            document.querySelector("#sentenceContainer").append(dialog);
+            dialog.show();
+    })
+        }
+    });
+    }
 
     // let numberOfTryHoles = problemJSON.holes.length() - $(".disable").length();
     // enableNext();
@@ -123,6 +144,7 @@ function loadSentence(sentenceID) {
     document.querySelector("#note")?.remove();
     document.querySelector("#next")?.remove();
     document.querySelector("#dialog")?.remove();
+    document.querySelector("#toolDialog")?.remove();
     let bracketedSentence = problemJSON.holes[sentenceID].expression
     if (bracketedSentence) {
         bracketedSentence = bracketedSentence.replaceAll("[", "(").replaceAll("]", ")");
@@ -170,6 +192,7 @@ function loadSentence(sentenceID) {
             $(".selected").removeClass("selected"); // clicking anywhere else deselects
             if (!labelList.some(el => $(e.target).hasClass(el))) { removeMenu() }
             if ($(e.target).closest("#next, #again").length === 0) {document.querySelector("#dialog")?.remove();}
+            document.querySelector("#toolDialog")?.remove();
             // e.stopPropagation();
             // if ($("#tenseSelect").length){
             //     document.getElementById("tenseSelect").addEventListener('change', ()=>{
@@ -1056,12 +1079,14 @@ function generateMenu(e) {
         labelArrayID = 1
     }
     let labels = [
-    ["N", "V", "P", "Adj", "Adv", "det", "Conj", "T", "S", "Deg", "C", "Perf", "Prog"],
+    ["N", "V", "P", "adj", "adv", "det", "Conj", "T", "S", "Deg", "C", "Perf", "Prog"],
     ["N", "V", "P", "adj", "adv", "det", "T", "S", "deg", "PossN", "C", "A"],
     ["N", "V", "P", "adj", "adv", "Af"]
     ]
     let labelFilterSet = [{"phrase": ["S"], "non" : [], "bar": ["S"]}, 
     {"phrase": ["S", "adj", "adv","det", "deg"], "non" : ["Aux"], "bar": ["N", "V", "P", "adj", "adv", "det", "T", "S", "deg", "PossN", "A"]}]
+
+    let labelFilterByCourse = {"6":[],"7":[],"8":[],"14": ["adv","Perf", "Prog", "Deg", "C", "Conj", "T", "P"],"15":["adv","Perf", "Prog","Deg", "C", "Conj", "T"],"16":[],"17":[],"18":[],"19":[],"20":[],"21":[]}
 
     let symbolMap = { "'": "bar", "P": "phrase", "P's": "possPhrase"}
 
@@ -1080,7 +1105,9 @@ function generateMenu(e) {
     }
 
     $(this).append($("<div/>", { class: "labelMenu" }).append([...labelDivArray, typeMenu]))
-    labelFilters($(`.labelItem`), labelFilterSet[labelArrayID], "non");
+    let courseNum = parseQuery(window.location.search).problem_id
+    let filterArrayMerge = labelFilterSet[labelArrayID]["non"].concat(labelFilterByCourse[courseNum])
+    labelFilters($(`.labelItem`), filterArrayMerge, "non")
 
     // drawLines()
     resizeWindow()
@@ -1092,7 +1119,8 @@ function generateMenu(e) {
                 // console.log(symbol, labelHTML)
                 if (symbol != labelHTML) {
                     $(this).parent().parent().find(".labelItem").removeClass(symbolMap[symbol]).removeClass("possPhrase")
-                    labelFilters($(`.labelItem`), labelFilterSet[labelArrayID], "non");
+                    filterArrayMerge = labelFilterSet[labelArrayID]["non"].concat(labelFilterByCourse[courseNum])
+                    labelFilters($(`.labelItem`), filterArrayMerge, "non");
                 }
             }
             let typedLabel = $(".labelItem")
@@ -1104,8 +1132,12 @@ function generateMenu(e) {
             }
             typedLabel.toggleClass(symbolMap[labelHTML])
             if ($(`.${symbolMap[labelHTML]}`).length) {
-                labelFilters($(`.${symbolMap[labelHTML]}`), labelFilterSet[labelArrayID], symbolMap[labelHTML]);
-            } else {labelFilters($(`.labelItem`), labelFilterSet[labelArrayID], "non");}
+                filterArrayMerge = labelFilterSet[labelArrayID][symbolMap[labelHTML]].concat(labelFilterByCourse[courseNum])
+                labelFilters($(`.${symbolMap[labelHTML]}`), filterArrayMerge, symbolMap[labelHTML]);
+            } else {
+                filterArrayMerge = labelFilterSet[labelArrayID]["non"].concat(labelFilterByCourse[courseNum])
+                labelFilters($(`.labelItem`), filterArrayMerge, "non");
+            }
         }
     })
 
@@ -1148,7 +1180,7 @@ function labelFilters(labelDiv, filterArray, status){
     $(".hide").removeClass("hide")
     if (status == "non") {$(".labelItem").filter(el => ($(".labelItem")[el].innerHTML == ("PossN"))).removeClass("possPhrase")}
     if (filterArray) {
-    labelDiv.filter(x => {filterArray[status].forEach(y =>
+    labelDiv.filter(x => {filterArray.forEach(y =>
         { 
             if (y == labelDiv[x].innerHTML){
             $(labelDiv[x]).addClass("hide")

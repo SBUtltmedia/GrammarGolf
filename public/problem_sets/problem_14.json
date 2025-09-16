@@ -5,7 +5,7 @@
         "notes": ""
       },
       {
-        "expression": "(S (NP (Det Those) (Adj green) (N vegetables)) (VP taste the best))",
+        "expression": "(S (NP (Adj Green) (N vegetables)) (VP taste the best))",
         "notes": ""
       },
       {
@@ -13,15 +13,15 @@
         "notes": ""
       },
       {
-        "expression": "(S (NP (N Students)) (VP wrote essays about climate change))",
+        "expression": "(S (NP (N Students)) (VP drew syntax trees))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (Det Those) (Adj happy) (N students)) (VP cheered))",
+        "expression": "(S (NP (Det Those) (Adj enthusiastic) (N fans)) (VP cheered))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (Det This) (Adj giant) (N dog)) (VP ran to me))",
+        "expression": "(S (NP (Det The) (Adj big) (Adj red) (N dog)) (VP jumped the fence))",
         "notes": ""
       },
       {
@@ -33,9 +33,9 @@
         "notes": ""
       },
       {
-        "expression": "(S (NP (N Sarah)) (VP wrote a letter to Penny))",
+        "expression": "(S (NP (Det Some) (Adj little) (Adj green) (N aliens)) (VP speack Esperanto))",
         "notes": ""
       }
     ],
-    "description": "Module 14: The Noun Phrase"
+    "description": "Course: Syntax Part 1/8"
   }

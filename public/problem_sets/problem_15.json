@@ -1,41 +1,41 @@
 {
     "holes": [
       {
-        "expression": "(S (NP (Det The) (N teacher) (PP (P for) (NP (N Math))) (PP (P with) (NP (Det the) (Adj yellow) (N dress)))) (VP is Miss Ross))",
+        "expression": "(S (NP (Det The) (N teacher) (PP (P of) (NP (N Syntax)))) (VP speaks Klingon))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (Det Those) (N students) (PP (P with) (NP (Adj good) (N grades)))) (VP are graduating this year))",
+        "expression": "(S (NP (Det These) (N musicians) (PP (P with) (NP (N tattoos)))) (VP play the banjo))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (Det A) (N student) (PP (P in) (NP (Det the) (N area) (PP (P for) (NP (N reading)))))) (VP is playing video games))",
+        "expression": "(S (NP (Det A) (N student) (PP (P in) (NP (Det the) (N library) (PP (P at) (NP (N school)))))) (VP is studying phonology))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (Det Some) (N students) (PP (P of) (NP (N linguistics))) (PP (P in) (NP (Det this) (N school)))) (VP danced at the discotheque))",
+        "expression": "(S (NP (Det Some) (Adj German) (N speakers) (PP (P in) (NP (Adj Northern) (N Germany)))) (VP speak Plattdeutsch too))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (Det Many) (N people) (PP (P from) (NP (Det the) (N city)))) (VP listen to music with headphones))",
+        "expression": "(S (NP (Det Any) (N Syntactician) (PP (P in) (NP (Det this) (N class)))) (VP can draw this tree))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (Det The) (N students) (PP (P with) (NP (Det their) (N books) (PP (P about) (NP (Adj invented) (N languages)))))) (VP studied Esperanto))",
+        "expression": "(S (NP (Det The) (N man) (PP (P with) (NP (Det the) (N beard) (PP (P on) (NP (Det the) (N train)))))) (VP is a famous phonologist))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (Det The) (N mascot) (PP (P of) (NP (Det that) (N university)))) (VP is Baxter))",
+        "expression": "(S (NP (Det That) (Adj big) (N book) (PP (P on) (NP (Det the) (N shelf) (PP (P in) (NP (Det my) (N bedroom)))))) (VP is about aboriginal languages))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (Det The) (N houses) (PP (P in) (NP (Det the) (N town))) (PP (P with) (NP (Adj white) (N shatter)) (PP (P on) (NP (Det the) (N window)))) (VP are overpriced))",
+        "expression": "(S (NP (Det Those) (N cars) (PP (P on) (NP (Det the) (N street))) (PP (P with) (NP (Det the) (Adj broken) (N windows)))) (VP were towed))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (Det A) (Adj clean) (Adj beautiful) (N farm) (PP (P near) (NP (Det the) (N end) (PP (P of) (NP (Det the) (Adj wide) (N lake)))))) (VP is wonderful))",
+        "expression": "(S (NP (Det The) (N horse) (PP (P behind) (NP (Det the) (N horse) (PP (P behind) (NP (Det the) (N horse)))))) (VP carried the jockey))",
         "notes": ""
       }
     ],
-    "description": "Module 15: The Prepositional Phrase"
+    "description": "Course: Syntax Part 2/8"
   }

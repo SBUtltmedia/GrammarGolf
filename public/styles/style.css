@@ -155,6 +155,12 @@
             right: 10px;
             width: 3rem;
         }
+        #toolButton {
+            position: absolute;
+            top: 4px;
+            right: 25px;
+            width: 5rem;
+        }
 
         #dialog {
             top: 15%;
@@ -166,7 +172,21 @@
         }
 
         #finishMeme {
-            width: 30rem;
+            width: 32rem;
+
+        }
+
+        #toolDialog {
+            top: 15%;
+            left: 10%;
+            font-size: 2rem;
+            width: 35rem;
+            position: fixed;
+            margin: auto;
+        }
+
+        #toolPic {
+            width: 32rem;
 
         }
 
