@@ -1,7 +1,7 @@
 {
     "holes": [
       {
-        "expression": "(S (NP (Det The) (N teacher) (PP (P of) (NP (N Syntax)))) (VP speaks Klingon))",
+        "expression": "(S (NP (Det The) (N teacher) (PP (P of) (NP (N syntax)))) (VP speaks Klingon))",
         "notes": ""
       },
       {
@@ -17,15 +17,15 @@
         "notes": ""
       },
       {
-        "expression": "(S (NP (Det Any) (N Syntactician) (PP (P in) (NP (Det this) (N class)))) (VP can draw this tree))",
+        "expression": "(S (NP (Det Any) (N syntactician) (PP (P in) (NP (Det this) (N class)))) (VP can draw this tree))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (Det The) (N man) (PP (P with) (NP (Det the) (N beard) (PP (P on) (NP (Det the) (N train)))))) (VP is a famous phonologist))",
+        "expression": "(S (NP (det The) (N man) (PP (P with) (NP (det the)  (N beard))) (PP (P on) (NP (det the )(N train)))) (VP speaks Basque))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (Det That) (Adj big) (N book) (PP (P on) (NP (Det the) (N shelf) (PP (P in) (NP (Det my) (N bedroom)))))) (VP is about aboriginal languages))",
+        "expression": "(S (NP (Det That) (N book) (PP (P on) (NP (Det the) (N shelf) (PP (P in) (NP (Det my) (N bedroom)))))) (VP is about languages))",
         "notes": ""
       },
       {
@@ -33,7 +33,7 @@
         "notes": ""
       },
       {
-        "expression": "(S (NP (Det The) (N horse) (PP (P behind) (NP (Det the) (N horse) (PP (P behind) (NP (Det the) (N horse)))))) (VP carried the jockey))",
+        "expression": "(S (NP (Det The) (N horse) (PP (P behind) (NP (Det the) (N horse) (PP (P behind) (NP (Det the) (N horse)))))) (VP raced))",
         "notes": ""
       }
     ],

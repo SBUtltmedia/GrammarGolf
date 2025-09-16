@@ -115,17 +115,11 @@ function loadMenu() {
         document.body.addEventListener('click', (event) => {
         if (event.target.id === 'toolButton') {
             document.querySelector("#toolDialog")?.remove();
-            let dialog = Object.assign(document.createElement("dialog"), { "id": "toolDialog" })
             let properties = { div: [`<img src='images/Syntax${problem_id}.png' id='toolPic'/>`]}
+            let dialog = draggableDialog(properties, "toolDialog")
             console.log(problem_id, properties)
-            Object.keys(properties).forEach((prop) => {
-                properties[prop].forEach((line) => {
-                let current = Object.assign(document.createElement(prop), { "innerHTML": line })
-                current.addEventListener("click", (e) => { this.listen(e) })
-                dialog.appendChild(current)})
             document.querySelector("#sentenceContainer").append(dialog);
-            dialog.show();
-    })
+            dialog.showModal();
         }
     });
     }
@@ -191,8 +185,8 @@ function loadSentence(sentenceID) {
             const labelList = ["labelDiv", "labelItem", "labelMenu", "typeMenu", "typeItem"]
             $(".selected").removeClass("selected"); // clicking anywhere else deselects
             if (!labelList.some(el => $(e.target).hasClass(el))) { removeMenu() }
-            if ($(e.target).closest("#next, #again").length === 0) {document.querySelector("#dialog")?.remove();}
-            document.querySelector("#toolDialog")?.remove();
+            // if ($(e.target).closest("#next, #again").length === 0) {document.querySelector("#dialog")?.remove();}
+            // document.querySelector("#toolDialog")?.remove();
             // e.stopPropagation();
             // if ($("#tenseSelect").length){
             //     document.getElementById("tenseSelect").addEventListener('change', ()=>{
@@ -1112,9 +1106,10 @@ function generateMenu(e) {
     }
 
     $(this).append($("<div/>", { class: "labelMenu" }).append([...labelDivArray, typeMenu]))
-    let courseNum = parseQuery(window.location.search).problem_id
-    let filterArrayMerge = labelFilterSet[labelArrayID]["non"].concat(labelFilterByCourse[labelArrayID][courseNum])
-    labelFilters($(`.labelItem`), filterArrayMerge, "non")
+    if (labelArrayID != 2) {
+        let courseNum = parseQuery(window.location.search).problem_id
+        let filterArrayMerge = labelFilterSet[labelArrayID]["non"].concat(labelFilterByCourse[labelArrayID][courseNum])
+        labelFilters($(`.labelItem`), filterArrayMerge, "non")}
 
     // drawLines()
     resizeWindow()
@@ -1719,18 +1714,68 @@ function finishAlarm() {
 
 function finishDialog(properties) {
     document.querySelector("#dialog")?.remove();
-    let dialog = Object.assign(document.createElement("dialog"), { "id": "dialog" })
+    let dialog = draggableDialog(properties, "dialog")
+    document.querySelector("#sentenceContainer").append(dialog);
+    dialog.showModal();
+    // $("#dialog").append(meme)
+}
+
+function draggableDialog(properties, id) {
+    let dialog = Object.assign(document.createElement("dialog"), { "id": id })
+    const dragHeader = Object.assign(document.createElement("div"), {
+        className: "dialogHeader"
+    });
+    const removeButton = Object.assign(document.createElement("button"), {
+        innerHTML: "&times;", // A nice 'X' character
+        className: "removeButton"
+    }); 
     Object.keys(properties).forEach((prop) => {
         properties[prop].forEach((line) => {
             let current = Object.assign(document.createElement(prop), { "innerHTML": line })
             // current.addEventListener("click", (e) => { this.listen(e) })
             dialog.appendChild(current)
-
         })
     })
-    document.querySelector("#sentenceContainer").append(dialog);
-    dialog.show();
-    // $("#dialog").append(meme)
+    removeButton.addEventListener("click", () => {
+        dialog.close(); 
+        dialog.remove(); 
+    });
+    const headerNotice = Object.assign(document.createElement("span"), {
+        innerHTML: "drag here to move",
+        className: "headerNotice"
+    }); 
+    let isDragging = false;
+    let offsetX, offsetY;
+
+    const onMouseDown = (e) => {
+        isDragging = true;
+        const rect = dialog.getBoundingClientRect();
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+    };
+
+    const onMouseMove = (e) => {
+        if (!isDragging) return;
+        dialog.style.left = `${e.clientX - offsetX}px`;
+        dialog.style.top = `${e.clientY - offsetY}px`;
+    };
+
+    const onMouseUp = () => {
+        isDragging = false;
+        // IMPORTANT: Clean up by removing the listeners
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+    };
+
+    // Attach the initial mousedown event listener to the header
+    dragHeader.addEventListener('mousedown', onMouseDown);
+    headerNotice.addEventListener('mousedown', onMouseDown);
+    dragHeader.appendChild(headerNotice);
+    dragHeader.appendChild(removeButton);
+    dialog.prepend(dragHeader);
+    return dialog;
 }
 
 function getProgressSignal(strokes, weightedPar, minStep, final=false) {

@@ -162,30 +162,47 @@
             width: 5rem;
         }
 
-        #dialog {
+        #dialog, #toolDialog {
             top: 15%;
-            left: 10%;
+            left: 50%;
             font-size: 2rem;
             width: 35rem;
             position: fixed;
-            margin: auto;
+            margin: 0rem !important;
+            z-index: '1000';
         }
 
-        #finishMeme {
-            width: 32rem;
-
+        .dialogHeader {
+            display: flex; 
+            justify-content: space-between; /* Pushes children to opposite ends */
+            align-items: center; /* Vertically centers the items */
+            left:0%;
+            padding: 0rem; /* Add some spacing */
+            background-color: var(--faded); 
+            cursor: move; /* The 'move' cursor for dragging */
+            width: 90%;
+            height: 0.1rem;
+            z-index: '1000';
         }
 
-        #toolDialog {
-            top: 15%;
-            left: 10%;
-            font-size: 2rem;
-            width: 35rem;
-            position: fixed;
-            margin: auto;
+        .headerNotice {
+            color: var(--labelDiv);
+            z-index: '1000';
         }
 
-        #toolPic {
+        .removeButton {
+            color: var(--labelDiv);
+            border: none;
+            background: transparent;
+            font-size: 1.75rem;
+            font-weight: bold;
+            cursor: pointer;
+            top:5%;
+            right:30rem;
+            z-index: '1000';
+        }
+
+        #finishMeme, #toolPic {
             width: 32rem;
 
         }
