@@ -1,11 +1,11 @@
 {
     "holes": [
       {
-        "expression": "(S (NP (PossNP's (PossN Sam's#Sam#Sam)) (N homework)) (VP was well done))",
+        "expression": "(S (NP (PossNP's (PossN John's#John)) (N friend)) (VP drew syntax trees))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (PossNP's Mary's#Mary) (N cousin)) (VP studies linguistics at Stony Brook))",
+        "expression": "(S (NP (PossNP's (PossN Mary's#Mary)) (N cousin)) (VP studies linguistics at Stony Brook))",
         "notes": ""
       },
       {
@@ -13,7 +13,7 @@
         "notes": ""
       },
       {
-        "expression": "(S (NP (PossNP's Chomsky's#Chomsky) (N classes)) (VP taught students about politics))",
+        "expression": "(S (NP (PossNP's (PossN Chomsky's#Chomsky)) (N classes)) (VP taught students about politics))",
         "notes": ""
       },
       {
@@ -21,7 +21,7 @@
         "notes": ""
       },
       {
-        "expression": "(S (NP (PossNP's (det The) (PossN King's#King) (PP (P of) (NP (N Spain)))) (N successor)) (VP practices Basque))",
+        "expression": "(S (NP (PossNP (det the) (adj Spanish) (PossN king's#king)) (N successor)) (VP practices Basque))",
         "notes": ""
       },
       {
@@ -29,7 +29,7 @@
         "notes": ""
       },
       {
-        "expression": "(S (NP (D A) (N friend) (PP (P of) (NP (PossNP's Sue's#Sue) (N sister)))) (VP starred in My Fair Lady))",
+        "expression": "(S (NP (D a) (N friend) (PP (P of) (NP (PossNP's (PossN Sue's#Sue)) (N sister)))) (VP starred in My Fair Lady))",
         "notes": ""
       },
       {

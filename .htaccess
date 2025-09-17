@@ -5,3 +5,22 @@ RewriteRule ^(.*)$ /GrammarGolf/public/$1 [NC,L]
 #RewriteRule /SyntaxGolf/(.*)$ /SyntaxGolf/public/$1 [R=301,NC,L]
 #</IfModule>
 SetEnv PHP_VALUE "session.save_path = /home/tltsecure/apache2/htdocs/userData/sessionData"
+<!-- 
+<If "env('ENVIRONMENT') == 'local'">
+    # Set env vars only if LOCAL=true
+    SetEnv cn test_cn
+    SetEnv nickname test_nickname
+    SetEnv giame test_givenName
+    SetEnv sn test_sn
+    SetEnv mail xinyi.liu.1@stonybrook.edu
+</If>
+
+#conditionally set session save path for local and non-local environments
+<If "env('ENVIRONMENT') == 'local'">
+    # LOCAL environment: Set session path for local dev
+    SetEnv PHP_VALUE "session.save_path=/var/www/html"
+</If>
+<Else>
+    # NON-LOCAL environment: Set session path for production
+    SetEnv PHP_VALUE "session.save_path=."
+</Else> -->
