@@ -21,7 +21,7 @@
         "notes": ""
       },
       {
-        "expression": "(S (NP (PossNP (det the) (adj Spanish) (PossN king's#king)) (N successor)) (VP practices Basque))",
+        "expression": "(S (NP (PossNP's (det The) (adj Spanish) (PossN king's#king)) (N successor)) (VP practices Basque))",
         "notes": ""
       },
       {
@@ -29,7 +29,7 @@
         "notes": ""
       },
       {
-        "expression": "(S (NP (D a) (N friend) (PP (P of) (NP (PossNP's (PossN Sue's#Sue)) (N sister)))) (VP starred in My Fair Lady))",
+        "expression": "(S (NP (Det A) (N friend) (PP (P of) (NP (PossNP's (PossN Sue's#Sue)) (N sister)))) (VP starred in My Fair Lady))",
         "notes": ""
       },
       {

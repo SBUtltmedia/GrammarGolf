@@ -119,7 +119,7 @@ function loadMenu() {
             let dialog = draggableDialog(properties, "toolDialog")
             console.log(problem_id, properties)
             document.querySelector("#sentenceContainer").append(dialog);
-            dialog.showModal();
+            dialog.show();
         }
     });
     }
@@ -1092,9 +1092,13 @@ function generateMenu(e) {
     let symbolMap = { "'": "bar", "P": "phrase", "P's": "possPhrase"}
 
     let typeMenu = $("<div/>", { class: "typeMenu" }).append(
-            [$("<div/>", { class: "typeItem", html: "'" }), $("<div/>", { class: "typeItem", html: "P" })])
+            [$("<div/>", { class: "typeItem", html: "P", style: "float:right;" })])
 
     let labelDivArray = []
+    if ($("#sentenceContainer").attr("data-bracketedSentence").includes("' ")) {
+        typeMenu = $("<div/>", { class: "typeMenu" }).append(
+            [$("<div/>", { class: "typeItem", html: "'" }), $("<div/>", { class: "typeItem", html: "P" })])
+    }
 
     if ($(this).parent().attr("data-selectionMode") == "morphology") {
         labelArrayID = 2
@@ -1824,7 +1828,7 @@ function nextButton(returnItem) {
     document.body.addEventListener('click', (event) => {
         if (event.target.id === 'next') {
             window.location.hash=parseInt(location.hash.split("#")[1])+1 ||2
-            // location.reload();
+            location.reload();
         }
     });
     // document.querySelector("#next")?.addEventListener('click', ()=>{

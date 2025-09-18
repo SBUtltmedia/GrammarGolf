@@ -9,7 +9,7 @@
         "notes": ""
       },
       {
-        "expression": "(S (NP (Det A) (N student) (PP (P in) (NP (Det the) (N library) (PP (P at) (NP (N school)))))) (VP is studying phonology))",
+        "expression": "(S (NP (Det A) (N student) (PP (P in) (NP (Det the) (N library)))) (VP is studying phonology))",
         "notes": ""
       },
       {
@@ -21,7 +21,7 @@
         "notes": ""
       },
       {
-        "expression": "(S (NP (det The) (N man) (PP (P with) (NP (det the)  (N beard))) (PP (P on) (NP (det the )(N train)))) (VP speaks Basque))",
+        "expression": "(S (NP (Det The) (N man) (PP (P with) (NP (Det the) (N beard))) (PP (P on) (NP (Det the) (N train)))) (VP speaks Basque))",
         "notes": ""
       },
       {

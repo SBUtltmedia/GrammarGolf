@@ -33,7 +33,7 @@
         "notes": ""
       },
       {
-        "expression": "(S (NP (Det Some) (Adj little) (Adj green) (N aliens)) (VP speack Esperanto))",
+        "expression": "(S (NP (Det Some) (Adj little) (Adj green) (N aliens)) (VP speak Esperanto))",
         "notes": ""
       }
     ],
