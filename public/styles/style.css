@@ -179,7 +179,7 @@
             align-items: center; /* Vertically centers the items */
             left:0%;
             padding: 0rem; /* Add some spacing */
-            background-color: var(--faded); 
+            background-color: var(--background); 
             cursor: move; /* The 'move' cursor for dragging */
             width: 90%;
             height: 0.1rem;
@@ -187,12 +187,12 @@
         }
 
         .headerNotice {
-            color: var(--labelDiv);
+            color: var(--word);
             z-index: '1000';
         }
 
         .removeButton {
-            color: var(--labelDiv);
+            color: var(--word);
             border: none;
             background: transparent;
             font-size: 1.75rem;

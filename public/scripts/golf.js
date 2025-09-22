@@ -1461,9 +1461,9 @@ function treeToRows(tree, accumulator = [], row = 0, leaves = [], morphologyPart
         if (typeof tree.index !== 'undefined') {
             newEntry['destination'] = tree.index
         }
-        if (groupedConstituent.split(" ").length == 1&&groupedConstituent.includes("+")) {
+        if (groupedConstituent&& groupedConstituent.split(" ").length == 1&&groupedConstituent.includes("+")) {
             $("#sentenceContainer").attr("data-tense", groupedConstituent)
-        } else if (groupedConstituent.includes("+")){
+        } else if (groupedConstituent&&groupedConstituent.includes("+")){
             let tenseIntersect = groupedConstituent.indexOf("+")
             let firstPartWithoutTense = groupedConstituent.slice(0, tenseIntersect)
             let secondPartWithTense = groupedConstituent.slice(tenseIntersect+1)
