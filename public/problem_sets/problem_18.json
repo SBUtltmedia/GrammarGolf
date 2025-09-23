@@ -1,44 +1,40 @@
 {
     "holes": [
       {
-        "expression": "(S (NP (N Joseph)) (VP (V lent) (NP (Det a) (AP (A large)) (N amount) (PP (P of) (NP (N money)))) (PP (P to) (NP (N Sarah)))))",
+        "expression": "(S (NP (N Paul)) (VP (V sent) (NP (D a) (N letter)) (PP (P to) (NP (N Peter)))))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (N Joseph)) (VP (V lent) (NP (N Sarah)) (NP (Det a) (AP (A large)) (N amount) (PP (P of) (NP (N money))))))",
+        "expression": "(S (NP (N Paul)) (VP (V sent) (NP (N Paul)) (NP (D a) (N letter))))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (N Austin)) (VP (V read) (NP (Det a) (AdjP (Deg very) (Adj interesting)) (N book)) (PP (P to) (NP (N Ally)))))",
+        "expression": "(S (NP (N Mary)) (VP (V saw) (NP (D a) (AP (deg very) (A good)) (N movie)) (PP (P with) (NP (N John)))))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (N Austin)) (VP (V read) (NP (N Ally)) (NP (Det a) (AP (Deg very) (A interesting)) (N book))))",
+        "expression": "(S (NP (N Mary)) (VP (V saw) (NP (D a) (AP (deg very) (A boring)) (N movie) (PP (P about) (NP (N aliens))))))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (Det Those) (N machines)) (VP (V are) (AP (Deg extremely) (A expensive))))",
+        "expression": "(S (NP (N Bert)) (VP (V gave) (NP (N Ernie)) (NP (D a) (AP (A new)) (AP (A rubber)) (N duck))))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (PossNP's (PossN Jason's#Jason#Jason)) (N friend)) (VP (V cooked) (NP (Det the) (N food)) (AP (Deg very) (A fast))))",
+        "expression": "(S (NP (D This) (N comedian)) (VP (V is) (AP (Deg quite) (A serious))))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (N Sarah)) (VP (V delivered) (NP (Det the) (N gift)) (PP (P to) (NP (Det a) (N girl) (PP (P with) (NP (N car)))))))",
-        "notes": "The girl is with the car."
+        "expression": "(S (NP (PossNP's (Miguel's#Miguel)) (N aunt)) (VP (V ran) (NP (D the) (AP (A long)) (AP (A hilly)) (N race)) (AP  (A fast))))",
+        "notes": ""
       },
       {
-        "expression": "(S (NP (N Sarah)) (VP (V delivered) (NP (Det the) (N gift)) (PP (P to) (NP (Det a) (N girl))) (PP (P with) (NP (N car)))))",
-        "notes": "Sarah is the one with the car."
+        "expression": "(S (NP (D The) (N students)) (VP (V draw) (NP (AP (A syntax)) (N trees)) (AP (deg very) (A quickly))))",
+        "notes": ""
       },
       {
-        "expression": "(S (NP (N Emily)) (VP (V kicked) (NP (Det the) (N ball)) (PP (P with) (NP (Det the) (N dolls)))))",
-        "notes": "Emily has dolls in her hand as she is kicking the ball."
-      },
-      {
-        "expression": "(S (NP (N Emily)) (VP (V kicked) (NP (Det the) (N ball) (PP (P with) (NP (Det the) (N dolls))))))",
-        "notes": "Emily is kicking a ball that has dolls printed on it."
+        "expression": "(S (NP (PossNP's (det The) (PossN teacher's#teacher)) (N class)) (VP (V was)  (AP (deg super) (A interesting))))",
+        "notes": ""
       }
     ],
     "description": "Course: Syntax Part 5/8"
