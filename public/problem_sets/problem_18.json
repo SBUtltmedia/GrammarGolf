@@ -25,7 +25,7 @@
         "notes": ""
       },
       {
-        "expression": "(S (NP (PossNP's (Miguel's#Miguel)) (N aunt)) (VP (V ran) (NP (D the) (AP (A long)) (AP (A hilly)) (N race)) (AP  (A fast))))",
+        "expression": "(S (NP (PossNP's (N Miguel's#Miguel)) (N aunt)) (VP (V ran) (NP (D the) (AP (A long)) (AP (A hilly)) (N race)) (AP  (A fast))))",
         "notes": ""
       },
       {
