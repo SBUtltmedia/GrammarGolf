@@ -1,31 +1,31 @@
 {
     "holes": [
       {
-        "expression": "(S (NP (D The) (N student)) (VP (V arrived)))",
+        "expression": "(S (NP (det The) (N student)) (VP (V arrived)))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (D Many) (N tourists)) (VP (V go) (PP (P to) (NP (D that) (N museum)))))",
+        "expression": "(S (NP (det Many) (N tourists)) (VP (V go) (PP (P to) (NP (det that) (N museum)))))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (N Mary)) (VP (V reads) (NP (D about) (N syntax))))",
+        "expression": "(S (NP (N Mary)) (VP (V reads) (NP (det about) (N syntax))))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (D The) (N mathematician)) (VP (V solved) (NP (D the) (N puzzle)) (PP (P in) (NP (D the) (N library)))))",
+        "expression": "(S (NP (det The) (N mathematician)) (VP (V solved) (NP (det the) (N puzzle)) (PP (P in) (NP (det the) (N library)))))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (D No) (adj diligent) (N students)) (VP (V hand) (NP (adj late) (N homework))(PP (P in))))",
+        "expression": "(S (NP (det No) (adj diligent) (N students)) (VP (V hand) (NP (adj late) (N homework))(PP (P in))))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (PossNP's (PossN Maria#Maria)) (N aunt)) (VP (V reads) (NP (D the) (N book)) (PP (P on) (NP (D the) (N airplane)))))",
+        "expression": "(S (NP (PossNP's (PossN Maria#Maria)) (N aunt)) (VP (V reads) (NP (det the) (N book)) (PP (P on) (NP (det the) (N airplane)))))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (N I)) (VP (V saw) (NP (PossNP's (PossNP's (PossN John's#John)) (PossN (PossN friend's#friend))) (N cousin)) (PP (P at) (NP (D the) (N movies)))))",
+        "expression": "(S (NP (N I)) (VP (V saw) (NP (PossNP's (PossNP's (PossN John's#John)) (PossN (PossN friend's#friend))) (N cousin)) (PP (P at) (NP (det the) (N movies)))))",
         "notes": ""
       },
       {

@@ -1,35 +1,35 @@
 {
     "holes": [
       {
-        "expression": "(S (NP (N Paul)) (VP (V sent) (NP (D a) (N letter)) (PP (P to) (NP (N Peter)))))",
+        "expression": "(S (NP (N Paul)) (VP (V sent) (NP (det a) (N letter)) (PP (P to) (NP (N Peter)))))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (N Paul)) (VP (V sent) (NP (N Paul)) (NP (D a) (N letter))))",
+        "expression": "(S (NP (N Paul)) (VP (V sent) (NP (N Paul)) (NP (det a) (N letter))))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (N Mary)) (VP (V saw) (NP (D a) (AP (deg very) (A good)) (N movie)) (PP (P with) (NP (N John)))))",
+        "expression": "(S (NP (N Mary)) (VP (V saw) (NP (det a) (AP (deg very) (A good)) (N movie)) (PP (P with) (NP (N John)))))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (N Mary)) (VP (V saw) (NP (D a) (AP (deg very) (A boring)) (N movie) (PP (P about) (NP (N aliens))))))",
+        "expression": "(S (NP (N Mary)) (VP (V saw) (NP (det a) (AP (deg very) (A boring)) (N movie) (PP (P about) (NP (N aliens))))))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (N Bert)) (VP (V gave) (NP (N Ernie)) (NP (D a) (AP (A new)) (AP (A rubber)) (N duck))))",
+        "expression": "(S (NP (N Bert)) (VP (V gave) (NP (N Ernie)) (NP (det a) (AP (A new)) (AP (A rubber)) (N duck))))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (D This) (N comedian)) (VP (V is) (AP (Deg quite) (A serious))))",
+        "expression": "(S (NP (det This) (N comedian)) (VP (V is) (AP (Deg quite) (A serious))))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (PossNP's (N Miguel's#Miguel)) (N aunt)) (VP (V ran) (NP (D the) (AP (A long)) (AP (A hilly)) (N race)) (AP  (A fast))))",
+        "expression": "(S (NP (PossNP's (N Miguel's#Miguel)) (N aunt)) (VP (V ran) (NP (det the) (AP (A long)) (AP (A hilly)) (N race)) (AP  (A fast))))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (D The) (N students)) (VP (V draw) (NP (AP (A syntax)) (N trees)) (AP (deg very) (A quickly))))",
+        "expression": "(S (NP (det The) (N students)) (VP (V draw) (NP (AP (A syntax)) (N trees)) (AP (deg very) (A quickly))))",
         "notes": ""
       },
       {
