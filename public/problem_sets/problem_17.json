@@ -9,7 +9,7 @@
         "notes": ""
       },
       {
-        "expression": "(S (NP (N Mary)) (VP (V reads) (PP (det about) (N syntax))))",
+        "expression": "(S (NP (N Mary)) (VP (V reads) (PP (P about) (N syntax))))",
         "notes": ""
       },
       {
