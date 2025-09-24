@@ -9,7 +9,7 @@
         "notes": ""
       },
       {
-        "expression": "(S (NP (N Mary)) (VP (V reads) (PP (P about) (N syntax))))",
+        "expression": "(S (NP (N Mary)) (VP (V reads) (PP (P about) (NP (N syntax)))))",
         "notes": ""
       },
       {
@@ -21,7 +21,7 @@
         "notes": ""
       },
       {
-        "expression": "(S (NP (PossNP's (PossN Maria's#Maria)) (N aunt)) (VP (V reads) (NP (det the) (N book)) (PP (P on) (NP (det the) (N airplane)))))",
+        "expression": "(S (NP (PossNP's (PossN Maria's#Maria#Maria)) (N aunt)) (VP (V reads) (NP (det the) (N book)) (PP (P on) (NP (det the) (N airplane)))))",
         "notes": ""
       },
       {
@@ -33,7 +33,7 @@
         "notes": ""
       },
       {
-        "expression": "(S (NP (PossNP's (PossN Elizabeth's#Elizabeth)) (N uncle)) (VP (V saw) (NP (PossNP's Paul's#Paul) (N aunt))))",
+        "expression": "(S (NP (PossNP's (PossN Elizabeth's#Elizabeth#Elizabeth)) (N uncle)) (VP (V saw) (NP (PossNP's (PossN Paul's#Paul)) (N aunt))))",
         "notes": ""
       }
     ],
