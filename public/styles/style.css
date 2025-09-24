@@ -169,7 +169,7 @@
             width: 35rem;
             position: fixed;
             margin: 0rem !important;
-            z-index: '1000';
+            z-index: 1000;
             overflow: hidden;
         }
 
@@ -183,12 +183,12 @@
             cursor: move; /* The 'move' cursor for dragging */
             width: 90%;
             height: 0.1rem;
-            z-index: '1000';
+            z-index: 1000;
         }
 
         .headerNotice {
             color: var(--word);
-            z-index: '1000';
+            z-index: 1000;
         }
 
         .removeButton {
@@ -200,7 +200,7 @@
             cursor: pointer;
             top:5%;
             right:30rem;
-            z-index: '1000';
+            z-index: 1000;
         }
 
         #finishMeme, #toolPic {
