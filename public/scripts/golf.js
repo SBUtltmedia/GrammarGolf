@@ -144,7 +144,7 @@ function loadSentence(sentenceID) {
         bracketedSentence = bracketedSentence.replaceAll("[", "(").replaceAll("]", ")");
         bracketedSentence = bracketedSentence.replace(/[\r\n]/g, '').replace(/  +/g, ' ');
         bracketedSentence = bracketedSentence.replaceAll(")(", ") (");
-        bracketedSentence = bracketedSentence.replaceAll("(Det ", "(det ").replaceAll("(Adj ", "(adj ").replaceAll("(Adv ", "(adv ");
+        bracketedSentence = bracketedSentence.replaceAll("(Det ", "(det ").replaceAll("(Adj ", "(adj ").replaceAll("(Adv ", "(adv ").replaceAll("(D ", "(det ");
         }
     $("#sentenceContainer").attr("data-currentSentenceID", sentenceID)
     if ($("#sentenceContainer").attr("data-morphologyparts") != undefined) {document.querySelector("#sentenceContainer").removeAttribute("data-morphologyparts")}

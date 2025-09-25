@@ -4,7 +4,7 @@
 //     console.log(returnVal == expectedVal)
 // }
 
-let tree = treeToRows(parse(`(S (NP Mary) (VP (V had) (NP (D a) (N' (Adj little) (N lamb)))))`))
+let tree = treeToRows(parse(`(S (NP Mary) (VP (V had) (NP (Det a) (N' (Adj little) (N lamb)))))`))
 let tree2 = treeToRows(parse(`(S (NP buffalo) (VP (V buffalo) (NP buffalo)))`))
 let tree3 = treeToRows(parse(`(S (NP (Adj Buffalo) (N buffalo)) (VP (V buffalo) (NP buffalo)))`))
 
