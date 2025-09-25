@@ -21,11 +21,11 @@
         "notes": ""
       },
       {
-        "expression": "(S (NP (det This) (N comedian)) (VP (V is) (AP (Deg quite) (A serious))))",
+        "expression": "(S (NP (det This) (N comedian)) (VP (V is) (AP (deg quite) (A serious))))",
         "notes": ""
       },
       {
-        "expression": "(S (NP (PossNP's (N Miguel's#Miguel)) (N aunt)) (VP (V ran) (NP (det the) (AP (A long)) (AP (A hilly)) (N race)) (AP  (A fast))))",
+        "expression": "(S (NP (PossNP's (PossN Miguel's#Miguel#Miguel)) (N aunt)) (VP (V ran) (NP (det the) (AP (A long)) (AP (A hilly)) (N race)) (AP  (A fast))))",
         "notes": ""
       },
       {
