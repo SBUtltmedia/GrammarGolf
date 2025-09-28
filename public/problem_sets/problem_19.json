@@ -1,46 +1,41 @@
 {
-    "holes": [
-      {
-        "expression": "(TP (NP (N John)) (T +present) (VP (V sees) (NP (Det the) (N trees))))",
-        "notes": ""
-      },
-      {
-        "expression": "(TP (NP (N somebody)) (T +past) (VP (V stole) (NP (Det the) (N diamond))))",
-        "notes": ""
-      },
-      {
-        "expression": "(TP (NP (Det the) (N boat)) (T has) (VP (V sailed)))",
-        "notes": ""
-      },
-      {
-        "expression": "(TP (NP (N she)) (T was) (VP (V watching) (NP (N birds))))",
-        "notes": ""
-      },
-      {
-        "expression": "(TP (NP (N nobody)) (T is) (VP (V eating) (NP (Det their) (N dinner))))",
-        "notes": ""
-      },
-      {
-        "expression": "(TP (NP (PossNP's (PossN John)) (N sister)) (T is) (VP (V painting) (NP (Det the) (N bridge))))",
-        "notes": ""
-      },
-      {
-        "expression": "(TP (NP (Det the) (AP (A angry)) (N sailors)) (T have) (VP (V overthrown) (NP (Det the) (N captain))))",
-        "notes": ""
-      },
-      {
-        "expression": "(TP (NP (Det no) (N dogs)) (T would) (VP (V look) (AP (Deg very) (A happy)) (PP (P at) (NP (Det the) (N vet)))))",
-        "notes": ""
-      },
-      {
-        "expression": "(TP (NP (Det the) (N wizards)) (T will) (VP (V play) (PP (P with) (NP (Det their) (N wands)))))",
-        "notes": ""
-      },
-      {
-        "expression": "(TP (NP (Det the) (N clown)) (T +past) (VP (V crashed) (NP (Det the) (N car))))",
-        "notes": ""
-      }
-    ],
-    "description": "Course: Syntax Part 6/8"
-  }
-  
+  "holes": [
+    {
+      "expression": "(TP (NP (N Somebody)) (T has) (VP (V baked) (NP (N cookies))))",
+      "notes": ""
+    },
+    {
+      "expression": "(TP (NP (det The) (N vampire)) (T (+tns)) (VP (V speaks) (NP (N Romanian))))",
+      "notes": ""
+    },
+    {
+      "expression": "(TP (NP (N Mary)) (T would) (VP (V be) (AP (deg much) (A happier))))",
+      "notes": ""
+    },
+    {
+      "expression": "(TP (NP (N He)) (T was) (VP (V going) (PP (P on)) (PP (P about) (NP (N nothing)))))",
+      "notes": ""
+    },
+    {
+      "expression": "(TP (NP (N She)) (T (+tns)) (VP (V is) (AP (deg so) (A high)) (PP (P above) (NP (N me)))))",
+      "notes": ""
+    },
+    {
+      "expression": "(TP (NP (N John)) (T will) (VP (V practice) (NP (AP (A syntax)) (N trees)) (PP (P for) (NP (det the) (N test))))))",
+      "notes": ""
+    },
+    {
+      "expression": "(TP (NP (N They)) (T were) (VP (V reading) (NP (PossNP's (PossN Chomsky)) (N books) (PP (P about) (NP (N syntax)))))))",
+      "notes": ""
+    },
+    {
+      "expression": "(TP (NP (PossNP's (PossN Pavlov)) (N dog)) (T (+tns)) (VP (V chased) (NP (PossNP's (PossN Schrödinger)) (N cat)))))",
+      "notes": ""
+    },
+    {
+      "expression": "(TP (NP (det The) (AP (A Russian)) (N cosmonauts)) (T (+tns)) (VP (V met) (NP (det the) (AP (A American)) (N astronauts)) (PP (P at) (NP (det the) (N station))))))",
+      "notes": ""
+    }
+  ],
+  "description": "Course: Syntax Part 6/8"
+}

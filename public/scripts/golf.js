@@ -258,13 +258,13 @@ function intro() {
 
 function getTraceInfo(el, source){
     let row = $(source).attr("data-row")
-    if (isNaN($(el).attr("data-blockindex"))) {
-        $(el).attr("data-blockindex", $(el).next().attr("data-blockindex"))
-    }
+    // if (isNaN($(el).attr("data-blockindex"))) {
+    //     $(el).attr("data-blockindex", $(el).next().attr("data-blockindex"))
+    // }
     let index = $(el).attr("data-blockindex")
     let bracketedSentence = $("#sentenceContainer").attr("data-bracketedSentence")
     let rows = treeToRows(parse(bracketedSentence)) 
-    // console.log(row,index, rows)
+    console.log(row,index, rows)
     let moveThing = rows[row].find(x => x.column == index)
     return moveThing
 }
@@ -406,6 +406,11 @@ function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wron
     
     // get unique ID from timestamp
     let blockID = Date.now();
+    console.log(blockIndex)
+    treeToRows(parse(bracketedSentence))[row].some(x => {
+        if (x.column==blockIndex && x.constituent != sentence) {
+            blockIndex+=1
+    }})
     let blockDiv = $("<div/>", { id: blockID, "data-blockindex": blockIndex, "data-selectionMode": selectionMode, class: `block`
         , style:`grid-column:${blockIndex+1} `
         // , style:`grid-column:${blockIndex-row+2} `
@@ -784,6 +789,11 @@ function setUpDrake() {
         },
         copy: true
     });
+    let lastDropPosition = { x: 0, y: 0 };
+    const updateLastPosition = (event) => {
+        lastDropPosition.x = event.clientX;
+        lastDropPosition.y = event.clientY;
+    };
     // drake.on("out",resizeWindow)
     // drake.on("shadow",resizeWindow)
     drake.on("drag", (el, source)=> {
@@ -796,41 +806,52 @@ function setUpDrake() {
         let targetRow = parseInt($("#problemConstituent").attr("data-targetRow"))
         let target = document.querySelectorAll(`[data-row='${targetRow}']`)[0]
         console.log(target)
-        if (target) {labelEmptyGridColumns(target)}
+        document.addEventListener('mousemove', updateLastPosition);
+        // if (target) {labelEmptyGridColumns(target)}
     })
     drake.on("drop", (el, target, source, sibling) => {//resizeWindow()
-        // console.log({el, target, source, sibling})
+        console.log({el, target, source, sibling})
         // $(".gu-mirror").remove()
         if (target === null) { // dropped back where it originated
             // console.log("no movement")
             return
         }
+        console.log($(target)[0].childNodes)
         let destID = $(el).attr("id")
         console.log(destID)
         $(el).attr("id", Date.now()) // new distinct id
         let index = $(`[data-wastraced]`).length + 1
         $(`#${destID}`).attr("data-destination", index)
         $(el).attr("data-wastraced", index)
+        let leftEL = lastDropPosition.x
+        let nextEL = "none"
+        for (const child of target.childNodes) {
+            if (child.nodeType === Node.ELEMENT_NODE && $(child).attr("data-wastraced")==undefined) {
+                let leftX = child.getBoundingClientRect().left;
+                console.log(child, leftEL, leftX, el)
+                if (leftX > leftEL) {
+                    console.log(child, leftEL, leftX, el)
+                    nextEL = child; 
+                    break;          
+                }
+            }
+        }
         //console.log($(el).prev().attr("data-blockindex"))
         // updating block index
         let newBlockIndex = $(el).attr("data-blockindex")
-        console.log($(el).next(), $(el).prev())
-        let nextDetector;
-        if ($(el).next()[0] == undefined) {nextDetector = false} else {nextDetector = $(el).next()[0].className == "empty-column-label"}
-        if (nextDetector) {
-            console.log("empty space")
-            $(el).remove()
-            $('.empty-column-label').remove()
-            requestAnimationFrame(()=> {resizeWindow()})
-            return true
+        // console.log($(el).next(), $(el).prev())
+        // $('.empty-column-label').remove()
+        console.log(nextEL)
+        if (nextEL!= "none") {
+            console.log('next exist');
+            newBlockIndex = parseInt($(nextEL).attr("data-blockindex"))-1
         } else {
-        $('.empty-column-label').remove()
-        if ($(el).prev()) {
-            console.log('prev exist');
-            newBlockIndex = parseInt($(el).prev().attr("data-blockindex")) + 1
-        } else {
-            console.log("no prev")
-            newBlockIndex = parseInt($(el).next().attr("data-blockindex"))
+            console.log("no next")
+            let lastChildNode = $(target)[0].childNodes[$(target)[0].childNodes.length - 2];
+            if ($(lastChildNode)[0].children) {
+                newBlockIndex = parseInt($(lastChildNode).attr("data-blockindex")) + $(lastChildNode)[0].children[1].childNodes.length;
+                console.log(lastChildNode, newBlockIndex)
+            }
         }
         // console.log(newBlockIndex, $(el))
         $(el).attr("data-blockindex", newBlockIndex)
@@ -880,7 +901,7 @@ function setUpDrake() {
         requestAnimationFrame(()=> {resizeWindow()}) //wait until previous program finished
         // setTimeout(x=> {resizeWindow()}, 1000) 
         return true }
-    })
+    )
 }
 
 function findParent(block) {
