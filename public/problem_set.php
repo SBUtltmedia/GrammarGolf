@@ -1,9 +1,10 @@
 <?php
 session_start();
-
+#include("auth.php");
 $user="dummyUser";
 $id=$_GET['id'];
 $file="./problem_sets/problem_$id.json";
+$mode= $_GET['mode'] ?? "Guest";
 // $file=file_get_contents($fileName);
 // $fileJSON=json_decode($file);
 
@@ -14,8 +15,10 @@ if(isset($_SESSION['mail'])){
 
   
 if(isset($_POST["json"]) && isset($_SESSION['mail']) ){
-    if (strpos($_SERVER['REQUEST_URI'], "admin")) {
-      file_put_contents($file,$_POST["json"]);
+
+    if ($mode=="admin") {
+ 
+     file_put_contents($file,$_POST["json"]);
     } else {
       file_put_contents($idFile,$_POST["json"]);
     }
@@ -27,7 +30,7 @@ if(isset($_POST["json"]) && isset($_SESSION['mail']) ){
 }
 else{
   
-  if(file_exists($idFile)){
+  if(file_exists($idFile) && $mode!="admin"){
     $file=$idFile;
   }
 

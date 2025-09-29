@@ -1,41 +1,41 @@
 {
-    "holes": [
-      {
-        "expression": "(S (NP (Det The) (Adj white) (N cats)) (VP ate their food))",
-        "notes": ""
-      },
-      {
-        "expression": "(S (NP (Adj Green) (N vegetables)) (VP taste the best))",
-        "notes": ""
-      },
-      {
-        "expression": "(S (NP (Det The) (N teachers)) (VP prepare for their next class))",
-        "notes": ""
-      },
-      {
-        "expression": "(S (NP (N Students)) (VP drew syntax trees))",
-        "notes": ""
-      },
-      {
-        "expression": "(S (NP (Det Those) (Adj enthusiastic) (N fans)) (VP cheered))",
-        "notes": ""
-      },
-      {
-        "expression": "(S (NP (Det The) (Adj big) (Adj red) (N dog)) (VP jumped the fence))",
-        "notes": ""
-      },
-      {
-        "expression": "(S (NP (N Mary)) (VP biked to school))",
-        "notes": ""
-      },
-      {
-        "expression": "(S (NP (Det No) (N farmer)) (VP plants seeds in the spring))",
-        "notes": ""
-      },
-      {
-        "expression": "(S (NP (Det Some) (Adj little) (Adj green) (N aliens)) (VP speak Esperanto))",
-        "notes": ""
-      }
-    ],
-    "description": "Course: Syntax Part 1/8"
-  }
+  "holes": [
+    {
+      "expression": "(S (NP (Det The) (Adj white) (N cats)) (VP ate their food))",
+      "notes": ""
+    },
+    {
+      "expression": "(S (NP (Adj Green) (N vegetables)) (VP taste the best))",
+      "notes": ""
+    },
+    {
+      "expression": "(S (NP (Det The) (N teachers)) (VP prepare for their next class))",
+      "notes": ""
+    },
+    {
+      "expression": "(S (NP (N Students)) (VP drew syntax trees))",
+      "notes": ""
+    },
+    {
+      "expression": "(S (NP (Det Those) (Adj enthusiastic) (N fans)) (VP cheered))",
+      "notes": ""
+    },
+    {
+      "expression": "(S (NP (Det The) (Adj big) (Adj red) (N dog)) (VP jumped the fence))",
+      "notes": ""
+    },
+    {
+      "expression": "(S (NP (N Mary)) (VP biked to school))",
+      "notes": ""
+    },
+    {
+      "expression": "(S (NP (Det No) (N farmer)) (VP plants seeds in the spring))",
+      "notes": ""
+    },
+    {
+      "expression": "(S (NP (Det Some) (Adj little) (Adj green) (N aliens)) (VP speak Esperanto))",
+      "notes": ""
+    }
+  ],
+  "description": "Course: Syntax Part 1/8"
+}

@@ -811,7 +811,7 @@ function setUpDrake() {
     })
     drake.on("drop", (el, target, source, sibling) => {//resizeWindow()
         console.log({el, target, source, sibling})
-        // $(".gu-mirror").remove()
+         $(".gu-mirror").remove()
         if (target === null) { // dropped back where it originated
             // console.log("no movement")
             return
