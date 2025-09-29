@@ -407,10 +407,11 @@ function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wron
     // get unique ID from timestamp
     let blockID = Date.now();
     console.log(blockIndex)
-    treeToRows(parse(bracketedSentence))[row].some(x => {
-        if (x.column==blockIndex && x.constituent != sentence) {
-            blockIndex+=1
-    }})
+    if (bracketedSentence.includes("^")) {
+        treeToRows(parse(bracketedSentence))[row].some(x => {
+            if (x.column==blockIndex && x.constituent != sentence) {
+                blockIndex+=1
+    }})}
     let blockDiv = $("<div/>", { id: blockID, "data-blockindex": blockIndex, "data-selectionMode": selectionMode, class: `block`
         , style:`grid-column:${blockIndex+1} `
         // , style:`grid-column:${blockIndex-row+2} `
