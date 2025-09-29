@@ -1,41 +1,41 @@
 {
-    "holes": [
-      {
-        "expression": "(S (NP (Det The) (N teacher) (PP (P of) (NP (N syntax)))) (VP speaks Klingon))",
-        "notes": ""
-      },
-      {
-        "expression": "(S (NP (Det These) (N musicians) (PP (P with) (NP (N tattoos)))) (VP play the banjo))",
-        "notes": ""
-      },
-      {
-        "expression": "(S (NP (Det A) (N student) (PP (P in) (NP (Det the) (N library)))) (VP is studying phonology))",
-        "notes": ""
-      },
-      {
-        "expression": "(S (NP (Det Some) (Adj German) (N speakers) (PP (P in) (NP (Adj Northern) (N Germany)))) (VP speak Plattdeutsch too))",
-        "notes": ""
-      },
-      {
-        "expression": "(S (NP (Det Any) (N syntactician) (PP (P in) (NP (Det this) (N class)))) (VP can draw this tree))",
-        "notes": ""
-      },
-      {
-        "expression": "(S (NP (Det The) (N man) (PP (P with) (NP (Det the) (N beard))) (PP (P on) (NP (Det the) (N train)))) (VP speaks Basque))",
-        "notes": ""
-      },
-      {
-        "expression": "(S (NP (Det That) (N book) (PP (P on) (NP (Det the) (N shelf) (PP (P in) (NP (Det my) (N bedroom)))))) (VP is about languages))",
-        "notes": ""
-      },
-      {
-        "expression": "(S (NP (Det Those) (N cars) (PP (P on) (NP (Det the) (N street))) (PP (P with) (NP (Det the) (Adj broken) (N windows)))) (VP were towed))",
-        "notes": ""
-      },
-      {
-        "expression": "(S (NP (Det The) (N horse) (PP (P behind) (NP (Det the) (N horse) (PP (P behind) (NP (Det the) (N horse)))))) (VP raced))",
-        "notes": ""
-      }
-    ],
-    "description": "Course: Syntax Part 2/8"
-  }
+  "holes": [
+    {
+      "expression": "(S (NP (Det The) (N teacher) (PP (P of) (NP (N syntax)))) (VP speaks Klingn))",
+      "notes": ""
+    },
+    {
+      "expression": "(S (NP (Det These) (N musicians) (PP (P with) (NP (N tattoos)))) (VP play the banjo))",
+      "notes": ""
+    },
+    {
+      "expression": "(S (NP (Det A) (N student) (PP (P in) (NP (Det the) (N library)))) (VP is studying phonology))",
+      "notes": ""
+    },
+    {
+      "expression": "(S (NP (Det Some) (Adj German) (N speakers) (PP (P in) (NP (Adj Northern) (N Germany)))) (VP speak Plattdeutsch too))",
+      "notes": ""
+    },
+    {
+      "expression": "(S (NP (Det Any) (N syntactician) (PP (P in) (NP (Det this) (N class)))) (VP can draw this tree))",
+      "notes": ""
+    },
+    {
+      "expression": "(S (NP (Det The) (N man) (PP (P with) (NP (Det the) (N beard))) (PP (P on) (NP (Det the) (N train)))) (VP speaks Basque))",
+      "notes": ""
+    },
+    {
+      "expression": "(S (NP (Det That) (N book) (PP (P on) (NP (Det the) (N shelf) (PP (P in) (NP (Det my) (N bedroom)))))) (VP is about languages))",
+      "notes": ""
+    },
+    {
+      "expression": "(S (NP (Det Those) (N cars) (PP (P on) (NP (Det the) (N street))) (PP (P with) (NP (Det the) (Adj broken) (N windows)))) (VP were towed))",
+      "notes": ""
+    },
+    {
+      "expression": "(S (NP (Det The) (N horse) (PP (P behind) (NP (Det the) (N horse) (PP (P behind) (NP (Det the) (N horse)))))) (VP raced))",
+      "notes": ""
+    }
+  ],
+  "description": "Course: Syntax Part 2/8"
+}

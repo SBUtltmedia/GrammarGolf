@@ -1,41 +1,41 @@
 {
   "holes": [
     {
-      "expression": "(S (NP (N Sigmund)) (VP (V fainted)))",
+      "expression": "(N (Adj black) (N board))",
       "notes": ""
     },
     {
-      "expression": "(S (NP (N Sigmund)) (VP (V spotted) (NP (Det an) (N auctioneer))))",
+      "expression": "(N (N soda)*(N machine))",
       "notes": ""
     },
     {
-      "expression": "(S (NP (N William)) (VP (V gave) (NP (N Millie)) (NP (Det some) (N bleach))))",
+      "expression": "(N (V play) (N ground))",
       "notes": ""
     },
     {
-      "expression": "(S (NP (N William)) (VP (V gave) (NP (Det some) (N bleach)) (PP (P to) (NP (N Millie)))))",
+      "expression": "(N (Adj wet) (N suit))",
       "notes": ""
     },
     {
-      "expression": "(S (NP (N Teaching)) (VP (V pays) (AdvP (Adv adequately))))",
+      "expression": "(N (N (N basket) (N ball))*(N coach))",
       "notes": ""
     },
     {
-      "expression": "(S (NP (N Alice)) (VP (V phrased) (NP (Det her) (N answer)) (AdvP (Adv carefully))))",
+      "expression": "(N (N (Adj White)*(N House))*(N cafeteria))",
       "notes": ""
     },
     {
-      "expression": "(S (NP (Det her) (N party)) (VP (V lasted) (NP (Det five) (N hours))))",
+      "expression": "(N (N (N ice)*(N cream))*(N (V mak#make) (Af er|r)))",
       "notes": ""
     },
     {
-      "expression": "(S (NP (N Simon)) (VP (V lives) (PP (P in) (NP (N France)))))",
+      "expression": "(N (N (N golf)*(N cart))*(N (N (V park) (Af ing))*(N lot)))",
       "notes": ""
     },
     {
-      "expression": "(S (NP (N Jack)) (VP (V finds) (NP (Det her) (N jokes)) (AdjP (Deg extremely) (Adj funny)))))",
+      "expression": "(N (N (Adj high)*(N school))*(N (N news)*(N paper)))",
       "notes": ""
     }
   ],
-  "description": "This course explores English VPs with various structures."
+  "description": "Course: Morphology Part 2/3"
 }

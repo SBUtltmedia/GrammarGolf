@@ -1,41 +1,41 @@
 {
-    "holes": [
-      {
-        "expression": "(N (Af anti) (N (V govern) (Af ment)))",
-        "notes": ""
-      },
-      {
-        "expression": "(N (Adj (Af in) (Adj (V act) (Af iv#ive#ive#ive))) (Af ity))",
-        "notes": ""
-      },
-      {
-        "expression": "(N (V (Af dis) (V agree)) (Af ment))",
-        "notes": ""
-      },
-      {
-        "expression": "(N (Adj (V (Af re) (V us#use#use)) (Af abil#able#able#)) (Af ity))",
-        "notes": ""
-      },
-      {
-        "expression": "(N (Adj (N hope) (Af ful)) (Af ness))",
-        "notes": ""
-      },
-      {
-        "expression": "(Adv (Adj (Af un) (Adj (V question) (Af ab#able#able#able))) (Af ly|y))",
-        "notes": ""
-      },
-      {
-        "expression": "(Adj (Af inter)(Adj (N disciplin#discipline) (Af ary)))",
-        "notes": ""
-      },
-      {
-        "expression": "(Adj (Af im) (Adj (V measur#measure) (Af able)))",
-        "notes": ""
-      },
-      {
-        "expression": "(N (Adj (Af ir) (Adj regular)) (Af ity))",
-        "notes": ""
-      }
-    ],
-    "description": "Course: Morphology Part 1/3"
-  }
+  "holes": [
+    {
+      "expression": "(N (Af anti) (N (V govern) (Af ment)))",
+      "notes": ""
+    },
+    {
+      "expression": "(N (Adj (Af in) (Adj (V act) (Af iv#ive#ive#ive))) (Af ity))",
+      "notes": ""
+    },
+    {
+      "expression": "(N (V (Af dis) (V agree)) (Af ment))",
+      "notes": ""
+    },
+    {
+      "expression": "(N (Adj (V (Af re) (V us#use#use)) (Af abil#able#able#)) (Af ity))",
+      "notes": ""
+    },
+    {
+      "expression": "(N (Adj (N hope) (Af ful)) (Af ness))",
+      "notes": ""
+    },
+    {
+      "expression": "(Adv (Adj (Af un) (Adj (V question) (Af ab#able#able#able))) (Af ly|y))",
+      "notes": ""
+    },
+    {
+      "expression": "(Adj (Af inter)(Adj (N disciplin#discipline) (Af ary)))",
+      "notes": ""
+    },
+    {
+      "expression": "(Adj (Af im) (Adj (V measur#measure) (Af able)))",
+      "notes": ""
+    },
+    {
+      "expression": "(N (Adj (Af ir) (Adj regular)) (Af ity))",
+      "notes": ""
+    }
+  ],
+  "description": "Course: Morphology Part 1/3"
+}
