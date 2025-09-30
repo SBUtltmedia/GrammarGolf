@@ -231,6 +231,7 @@
             font-size: 3em;
             display: inline-block;
             color: var(--word);
+            padding:.1em !important;
         }
 
         .problemList, .problemInList {
