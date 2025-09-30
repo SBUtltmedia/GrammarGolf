@@ -5,7 +5,7 @@
       "notes": ""
     },
     {
-      "expression": "(TP (NP (det The) (N vampire)) (T (+tns)) (VP (V speaks) (NP (N Romanian))))",
+      "expression": "(TP (NP (det The) (N vampire)) (T +tns) (VP (V speaks) (NP (N Romanian))))",
       "notes": ""
     },
     {
@@ -17,7 +17,7 @@
       "notes": ""
     },
     {
-      "expression": "(TP (NP (N She)) (T (+tns)) (VP (V is) (AP (deg so) (A high)) (PP (P above) (NP (N me)))))",
+      "expression": "(TP (NP (N She)) (T +tns) (VP (V is) (AP (deg so) (A high)) (PP (P above) (NP (N me)))))",
       "notes": ""
     },
     {
@@ -29,11 +29,11 @@
       "notes": ""
     },
     {
-      "expression": "(TP (NP (PossNP's (PossN Pavlov)) (N dog)) (T (+tns)) (VP (V chased) (NP (PossNP's (PossN Schrödinger)) (N cat)))))",
+      "expression": "(TP (NP (PossNP's (PossN Pavlov)) (N dog)) (T +tns) (VP (V chased) (NP (PossNP's (PossN Schrödinger)) (N cat)))))",
       "notes": ""
     },
     {
-      "expression": "(TP (NP (det The) (AP (A Russian)) (N cosmonauts)) (T (+tns)) (VP (V met) (NP (det the) (AP (A American)) (N astronauts)) (PP (P at) (NP (det the) (N station))))))",
+      "expression": "(TP (NP (det The) (AP (A Russian)) (N cosmonauts)) (T +tns) (VP (V met) (NP (det the) (AP (A American)) (N astronauts)) (PP (P at) (NP (det the) (N station))))))",
       "notes": ""
     }
   ],
