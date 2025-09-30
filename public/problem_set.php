@@ -17,7 +17,7 @@ if(isset($_SESSION['mail'])){
 if(isset($_POST["json"]) && isset($_SESSION['mail']) ){
 
     if ($mode=="admin") {
- 
+     file_put_contents($idFile,$_POST["json"]);
      file_put_contents($file,$_POST["json"]);
     } else {
       file_put_contents($idFile,$_POST["json"]);

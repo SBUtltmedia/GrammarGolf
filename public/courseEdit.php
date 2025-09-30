@@ -27,13 +27,13 @@ function loadCourse(courseID=1){
 let select = Object.assign(document.createElement("select"),{id:"select", innerHTML:"Select from here"})
 for (i=0; i < courseCount.length; i++){
  console.log( courseCount[i]);
-    let courseID=courseCount[i]?.split(".json")[0].split("_").pop()
+    let courseID_select=courseCount[i]?.split(".json")[0].split("_").pop()
    let courseString=`course_${courseID}`;
-    let option = Object.assign(document.createElement("option"),{innerHTML:`${courseID}`, id:`${courseID}`})
+    let option = Object.assign(document.createElement("option"),{innerHTML:`${courseID_select}`, id:`${courseID_select}`})
     select.appendChild(option);
 }
 document.body.append(select);
-introText("Select Course: ", select);
+introText(`Select Course: `, select);
 document.getElementById('select').options.selectedIndex = courseID-1
 document.getElementById("select").addEventListener('change', ()=>changeCourse());
     document.body.append(Object.assign(document.createElement("button"),{id:"submit", innerHTML:"Submit All"})) 

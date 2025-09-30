@@ -1,41 +1,41 @@
 {
-    "holes": [
-      {
-        "expression": "(S (NP (PossNP's (PossN John's#John)) (N friend)) (VP drew syntax trees))",
-        "notes": ""
-      },
-      {
-        "expression": "(S (NP (PossNP's (PossN Mary's#Mary)) (N cousin)) (VP studies linguistics at Stony Brook))",
-        "notes": ""
-      },
-      {
-        "expression": "(S (NP (PossNP's (det The) (PossN professor's#professor)) (N students)) (VP speak Klingon))",
-        "notes": ""
-      },
-      {
-        "expression": "(S (NP (PossNP's (PossN Chomsky's#Chomsky)) (N classes)) (VP taught students about politics))",
-        "notes": ""
-      },
-      {
-        "expression": "(S (NP (PossNP's (det The) (PossN student's#student)) (adj beautiful) (N caligraphy)) (VP impressed the teacher))",
-        "notes": ""
-      },
-      {
-        "expression": "(S (NP (PossNP's (det The) (adj Spanish) (PossN king's#king)) (N successor)) (VP practices Basque))",
-        "notes": ""
-      },
-      {
-        "expression": "(S (NP (PossNP's (det That) (PossN student's#student)) (N doll) (PP (P from) (NP (N Russia)))) (VP is a matryoshka doll))",
-        "notes": ""
-      },
-      {
-        "expression": "(S (NP (Det A) (N friend) (PP (P of) (NP (PossNP's (PossN Sue's#Sue)) (N sister)))) (VP starred in My Fair Lady))",
-        "notes": ""
-      },
-      {
-        "expression": "(S (NP (PossNP's (det My) (PossN friend's#friend)) (adj former) (N roommate)) (VP reads Esperanto))",
-        "notes": ""
-      }
-    ],
-    "description": "Course: Syntax Part 3/8"
-  }
+  "holes": [
+    {
+      "expression": "(S (NP (PossNP's (PossN John's#John)) (N friend)) (VP drew syntax trees))",
+      "notes": ""
+    },
+    {
+      "expression": "(S (NP (PossNP's (PossN Mary's#Mary)) (N cousin)) (VP studies linguistics at Stony Brook))",
+      "notes": ""
+    },
+    {
+      "expression": "(S (NP (PossNP's (det The) (PossN professor's#professor)) (N students)) (VP speak Klingon))",
+      "notes": ""
+    },
+    {
+      "expression": "(S (NP (PossNP's (PossN Chomsky's#Chomsky)) (N classes)) (VP taught students about politics))",
+      "notes": ""
+    },
+    {
+      "expression": "(S (NP (PossNP's (det The) (PossN student's#student)) (adj beautiful) (N caligraphy)) (VP impressed the teacher))",
+      "notes": ""
+    },
+    {
+      "expression": "(S (NP (PossNP's (det The) (adj Spanish) (PossN king's#king)) (N successor)) (VP practices Basque))",
+      "notes": ""
+    },
+    {
+      "expression": "(S (NP (PossNP's (det That) (PossN student's#student)) (N doll) (PP (P from) (NP (N Russia)))) (VP is a matryoshka doll))",
+      "notes": ""
+    },
+    {
+      "expression": "(S (NP (Det A) (N friend) (PP (P of) (NP (PossNP's (PossN Sue's#Sue)) (N sister)))) (VP starred in My Fair Lady))",
+      "notes": ""
+    },
+    {
+      "expression": "(S (NP (PossNP's (det My) (PossN friend's#friend)) (adj former) (N roommate)) (VP reads Esperanto))",
+      "notes": ""
+    }
+  ],
+  "description": "Course: Syntax Part 3/8"
+}
