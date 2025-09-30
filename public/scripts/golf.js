@@ -198,7 +198,7 @@ function loadSentence(sentenceID) {
             // } //event listener for change event on created selection box for tense
         }
     })
-    setUpDrake();
+    if (bracketedSentence.includes("^")) {setUpDrake()};
     let notes = problemJSON.holes[sentenceID].notes
     if (notes != "") {$("#sentenceContainer").append($("<div/>", { id: "note", html: ` Note: ${notes} `}))}
     // document.getElementsByClassName("wordContainer")[0].focus()
@@ -812,7 +812,7 @@ function setUpDrake() {
     })
     drake.on("drop", (el, target, source, sibling) => {//resizeWindow()
         console.log({el, target, source, sibling})
-         $(".gu-mirror").remove()
+        // $(".gu-mirror").remove()
         if (target === null) { // dropped back where it originated
             // console.log("no movement")
             return
@@ -1698,7 +1698,7 @@ function updatePoints() {
     let minStep = getMinStep($("#sentenceContainer").attr("data-bracketedSentence"))
     let parFactor = getParFactor(minStep)
     let strokes = parseInt($("#problemConstituent").attr("data-strokes"))
-    // console.log($("#problemConstituent").attr("data-strokes"))
+    console.log($("#problemConstituent").attr("data-strokes"))
     $("#points").html(`par: ${parseInt(minStep+parFactor)}<br/>strokes: ${strokes}`)
 }
 
