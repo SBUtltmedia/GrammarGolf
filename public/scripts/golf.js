@@ -864,7 +864,7 @@ function setUpDrake() {
         } else {
             console.log("no next")
             let lastChildNode = $(target)[0].childNodes[$(target)[0].childNodes.length - 2];
-            if ($(lastChildNode)[0].children) {
+            if ($(lastChildNode) && $(lastChildNode)[0].children) {
                 newBlockIndex = parseInt($(lastChildNode).attr("data-blockindex")) + $(lastChildNode)[0].children[1].childNodes.length;
                 console.log(lastChildNode, newBlockIndex)
             }
