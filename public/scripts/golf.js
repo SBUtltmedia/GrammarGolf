@@ -401,13 +401,15 @@ function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wron
             // tenseSelection(blockElement) 
             blockElement.push($("<div/>", { class: "tenseItem", html: `+tns` }))
             console.log(blockElement)
+            blockIndex = parseInt(treeToRows(parse(bracketedSentence))[row][1].column)-1
         } //create selection box for tense
     // put constituent block div in proper row div
     
     // get unique ID from timestamp
     let blockID = Date.now();
     console.log(blockIndex)
-    if (bracketedSentence.includes("^")) {
+    let traceInclude = treeToRows(parse(bracketedSentence))[row].some(x => {if (x.trace != undefined) {return true}})
+    if (bracketedSentence.includes("^") && traceInclude) {
         treeToRows(parse(bracketedSentence))[row].some(x => {
             if (x.column==blockIndex && x.constituent != sentence) {
                 blockIndex+=1
@@ -627,19 +629,32 @@ function selected(el) {
     //     }
 
     // }
-    if (allSelected.length && $("#sentenceContainer").attr("data-morphologyparts")==undefined) {
-        let firstSelected = $(allSelected[0]).attr("data-index")
-        let lastSelected = $(allSelected.slice(-1)).attr("data-index")
-        for (i = firstSelected; i < lastSelected; i++) {
-            $(allSelected[0]).parent().find("[data-index").each(function () {
-                if ($(this).attr("data-index") == i) { $(this).addClass("selected") }
-            })
-        }
+    // if (allSelected.length && ($("#sentenceContainer").attr("data-bracketedsentence").startsWith("(S ") || $("#sentenceContainer").attr("data-bracketedsentence").startsWith("(TP ")|| $("#sentenceContainer").attr("data-bracketedsentence").startsWith("(CP "))) {
+    //     let firstSelected = $(allSelected[0]).attr("data-index")
+    //     let lastSelected = $(allSelected.slice(-1)).attr("data-index")
+    //     for (i = firstSelected; i < lastSelected; i++) {
+    //         $(allSelected[0]).parent().find("[data-index").each(function () {
+    //             if ($(this).attr("data-index") == i) { $(this).addClass("selected") }
+    //         })
+    //     }
+    //     selectedID = $($(".selected")[0]).parent().parent().attr("id")
+    //     if (thisBlockID != selectedID) {
+    //         return
+    //     }
+
+    // } else 
+    if (allSelected.length){
+        let leftFirst = allSelected[0].getBoundingClientRect().left;
+        let leftLast = allSelected.slice(-1)[0].getBoundingClientRect().left
+        $(allSelected[0]).parent().find("[data-index]").each(function () {
+            let leftObject = this.getBoundingClientRect().left
+            if (leftObject >= leftFirst && leftObject <= leftLast) { 
+            $(this).addClass("selected");
+        }})
         selectedID = $($(".selected")[0]).parent().parent().attr("id")
         if (thisBlockID != selectedID) {
             return
         }
-
     }
     if (!$(el).hasClass("faded")) {
         $(el).addClass("selected"); // highlights in turquoise
@@ -814,7 +829,7 @@ function setUpDrake() {
         console.log({el, target, source, sibling})
         // $(".gu-mirror").remove()
         if (target === null) { // dropped back where it originated
-            // console.log("no movement")
+            console.log("no movement")
             return
         }
         console.log($(target)[0].childNodes)
@@ -879,7 +894,7 @@ function setUpDrake() {
             // && 
             if (trace && (trace == dest)) {
                 $(el).attr("style", `grid-column: ${newBlockIndex+1}`)
-                $(el).next().attr("style", `grid-column: ${newBlockIndex+2}`)
+                // $(el).next().attr("style", `grid-column: ${newBlockIndex+2}`)
                 updateIndicesAfterTrace(el)
                 $("#problemConstituent").attr("data-positivePoint", parseInt($("#problemConstituent").attr("data-positivePoint"))+1)
                 if (!(traceInfo.destination)){
@@ -912,19 +927,24 @@ function findParent(block) {
     row = $(`[data-row="${rowIndex - 1}"]`)
     // console.log(row)
     indexVarificator = parseInt($(block).attr("data-blockindex"))
+    let maxBlock =row.children()
     row.children().each(function () {
         // console.log($(this), $(this).attr("data-blockindex"))
         // console.log($(block), $(block).attr("data-blockindex"), $(block)[0].dataset.blockindex)
         // console.log($(this))
         if ($(this).attr("data-traceindex") && $(block).attr("data-wastraced")) {
-            indexVarificator -= 1
+            // indexVarificator += 1
+            console.log(indexVarificator)
         }
         if ($(this).attr("data-blockindex") > indexVarificator) {
             return false
         }
-        parent = $(this)
+        if ($(this).attr("data-blockindex") > maxBlock.attr("data-blockindex")) {
+            maxBlock=$(this)
+        }
     })
-    // console.log(parent, block, indexVarificator)
+    parent = maxBlock
+    console.log(parent, block, indexVarificator, maxBlock)
     return parent
 }
 
@@ -1183,7 +1203,7 @@ function generateMenu(e) {
             console.log(label,correctLabel)
             if (correctLabel == undefined) {correctLabel = "T"}
             if ((mode == 'manual') || (mode == 'automatic' && label == correctLabel)) {
-                if (treeRow[row+1] && $("#sentenceContainer").attr("data-tense") != undefined && (correctLabel == "S" || correctLabel == "TP")) {
+                if (treeRow[row+1] && $("#sentenceContainer").attr("data-bracketedsentence").includes("+") && (correctLabel == "S" || correctLabel == "TP")) {
                     makeSelectable("", row+1, 1, "syntax",[], "tenseItem")
                 } //creating selection box for tense like -past
                 removeMenu($(this).parent().parent(), label)
@@ -1981,12 +2001,12 @@ function updateIndicesAfterTrace(trace) {
         // console.log($(this))
         return $(this).attr("data-blockindex") >= j
     }).each((i, e) => {
-        // console.log($(e))
+        console.log($(e))
         // update all except element itself and its ancestors
-        if (!($(e).attr("id") === $(trace).attr("id") || isAncestor($(e), $(trace), getParentChildrenMap()))) {
-            $(e).attr("data-blockindex", parseInt($(e).attr("data-blockindex")) + 1)
-            $(e).attr("data-blockindex", $(e).attr("data-blockindex"))
-        }
+        // if (!($(e).attr("id") === $(trace).attr("id") || isAncestor($(e), $(trace), getParentChildrenMap()))) {
+        //     $(e).attr("data-blockindex", parseInt($(e).attr("data-blockindex")) + 1)
+        //     $(e).attr("data-blockindex", $(e).attr("data-blockindex"))
+        // }
     })
 }
 
