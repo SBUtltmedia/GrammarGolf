@@ -198,7 +198,18 @@ function loadSentence(sentenceID) {
             // } //event listener for change event on created selection box for tense
         }
     })
-    if (bracketedSentence.includes("^")) {setUpDrake()};
+    if (bracketedSentence.includes("^")) {
+    (function() {
+        // Check if the 'isReloaded' flag has been set in this session.
+        if (sessionStorage.getItem('isReloaded') !== 'true') {
+            // If not, set the flag...
+            sessionStorage.setItem('isReloaded', 'true');
+            // ...and reload the page.
+            location.reload();
+        }
+    })();
+    $(document).ready(function() {setUpDrake()})
+    };
     let notes = problemJSON.holes[sentenceID].notes
     if (notes != "") {$("#sentenceContainer").append($("<div/>", { id: "note", html: ` Note: ${notes} `}))}
     // document.getElementsByClassName("wordContainer")[0].focus()
@@ -399,7 +410,7 @@ function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wron
         blockElement = [$("<div/>", { class: "labelDiv", id: `label_row_${row}`, html: "?" }).on({
             "click": generateMenu}).css({ "cursor": "pointer" })]
             // tenseSelection(blockElement) 
-            blockElement.push($("<div/>", { class: "tenseItem", html: `+tns` }))
+            blockElement.push($("<div/>", { class: "tenseItem", html: `[+tns]` }))
             console.log(blockElement)
             blockIndex = parseInt(treeToRows(parse(bracketedSentence))[row][1].column)-1
         } //create selection box for tense
@@ -801,6 +812,15 @@ function setUpDrake() {
         },
         moves: function (el, container, handle) {
             //console.log("move")
+            const handleHasClass = handle.classList.contains('labelDiv');
+            const elementIsTraced = $(el).hasClass("traced");
+            console.log({
+                "Element you want to drag": el,
+                "The specific part you clicked": handle,
+                "Does the clicked part have 'labelDiv' class?": handleHasClass,
+                "Does the element already have 'traced' class?": elementIsTraced,
+                "FINAL DECISION (will drag start?)": handleHasClass && !elementIsTraced
+              });
             return (handle.classList.contains('labelDiv') && !($(el).hasClass("traced")));
         },
         copy: true
@@ -1751,7 +1771,6 @@ function finishAlarm() {
         console.log(ses)
         postLTI(ses,"du"); 
     }
-    
     JSON_API(globals.problemJSON, problem_id,"POST").then(console.log)
     let {flagColor1, alarm} = getProgressSignal(strokes,good,minStep, true)
     finishDialog(alarm)
@@ -1787,7 +1806,7 @@ function draggableDialog(properties, id) {
         dialog.remove(); 
     });
     const headerNotice = Object.assign(document.createElement("span"), {
-        innerHTML: "drag here to move",
+        innerHTML: "Click Here To Drag",
         className: "headerNotice"
     }); 
     let isDragging = false;
@@ -2135,6 +2154,7 @@ function getMinStep(bracketedSentence) {
     let str = bracketedSentence
     let minStep = 0
     let numberOfAf = 0;
+    let numberOfDrag = 0;
     for (let i = 0; i < str.length; i++) {
         if (str.charAt(i) == "(") {
             minStep++
@@ -2142,9 +2162,13 @@ function getMinStep(bracketedSentence) {
         if (str.charAt(i) == "&") {
             numberOfAf++
         }
+        if (str.charAt(i) == "^") {
+            numberOfDrag++
+        }
     }
     minStep = minStep * 2 - 1;
     minStep -= numberOfAf;
+    minStep +=numberOfDrag
     if (bracketedSentence.includes("+")) {minStep-=1}
     return minStep
 }

@@ -25,15 +25,15 @@
       "notes": ""
     },
     {
-      "expression": "(TP (NP (N They)) (T were) (VP (V reading) (NP (PossNP's (PossN Chomsky)) (N books) (PP (P about) (NP (N syntax)))))))",
+      "expression": "(TP (NP (N They)) (T were) (VP (V reading) (NP (PossNP's (PossN Chomsky's#Chomsky#Chomsky)) (N books) (PP (P about) (NP (N syntax))))))",
       "notes": ""
     },
     {
-      "expression": "(TP (NP (PossNP's (PossN Pavlov)) (N dog)) (T +tns) (VP (V chased) (NP (PossNP's (PossN Schrödinger)) (N cat)))))",
+      "expression": "(TP (NP (PossNP's (PossN Pavlov's#Pavlov#Pavlov)) (N dog)) (T +tns) (VP (V chased) (NP (PossNP's (PossN Schrödinger's#Schrödinger)) (N cat)))))",
       "notes": ""
     },
     {
-      "expression": "(TP (NP (det The) (AP (A Russian)) (N cosmonauts)) (T +tns) (VP (V met) (NP (det the) (AP (A American)) (N astronauts)) (PP (P at) (NP (det the) (N station))))))",
+      "expression": "(TP (NP (det The) (AP (A Russian)) (N cosmonauts)) (T +tns) (VP (V met) (NP (det the) (AP (A American)) (N astronauts)) (PP (P in) (NP (N space))))))",
       "notes": ""
     }
   ],
