@@ -1,4 +1,4 @@
-let globals = {"problemJSON":null}
+let globals = {"problemJSON":null, "tree":null}
 //let sentence = "Mary had a little lamb" // default sentence but can be replaced by input
 $(document).ready(init)
 
@@ -39,7 +39,7 @@ function loadMenu() {
                 if (getTree().replace(/  +/g, ' ') == bracketedSentence) {
                     //console.log("Correct!") 
                     alert("Correct!")
-                } else if (isValid(treeToRows(parse(bracketedSentence)), getRows())) {
+                } else if (isValid(globals.tree, getRows())) {
                     //console.log("On the right track!")
                     alert("On the right track!")
                 } else {
@@ -150,6 +150,7 @@ function loadSentence(sentenceID) {
     if ($("#sentenceContainer").attr("data-morphologyparts") != undefined) {document.querySelector("#sentenceContainer").removeAttribute("data-morphologyparts")}
     if ($("#sentenceContainer").attr("data-changedword") != undefined) {document.querySelector("#sentenceContainer").removeAttribute("data-changedword")}
     $("#sentenceContainer").attr("data-bracketedSentence", bracketedSentence)
+    globals.tree = treeToRows(parse(bracketedSentence))
     $("#problemConstituent").attr("data-strokes", 0)
     let minStep = getMinStep(bracketedSentence)
     let parFactor = getParFactor(minStep)
@@ -274,7 +275,7 @@ function getTraceInfo(el, source){
     // }
     let index = $(el).attr("data-blockindex")
     let bracketedSentence = $("#sentenceContainer").attr("data-bracketedSentence")
-    let rows = treeToRows(parse(bracketedSentence)) 
+    let rows = globals.tree
     console.log(row,index, rows)
     let moveThing = rows[row].find(x => x.column == index)
     return moveThing
@@ -290,14 +291,14 @@ function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wron
     // index is the position in the row, the initial index of the first word
     console.log(parse(bracketedSentence))
     console.log(treeToString(parse(bracketedSentence)))
-    console.log(treeToRows(parse(bracketedSentence)))
+    console.log(globals.tree)
     if (!($(`[data-row="${row}"]`)).length) {
         // create row div if it doesn't exist
-        let thisRow = treeToRows(parse(bracketedSentence))[row]
+        let thisRow = globals.tree[row]
         // console.log(thisRow.length, thisRow)
         // let gridColumnStyle = `grid-template-columns: repeat(${thisRow.length}, 1fr);`
 
-        let columnLength = totalColumn(treeToRows(parse(bracketedSentence)))
+        let columnLength = totalColumn(globals.tree)
         let gridColumnStyle = `grid-template-columns: repeat(${columnLength}, 1fr);`
         if (row == 0) {
             gridColumnStyle = ""
@@ -308,7 +309,7 @@ function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wron
         //dragula([...document.getElementsByClassName("container")], {})
     }
 
-    let nextRow = treeToRows(parse(bracketedSentence))[row + 1] || []
+    let nextRow = globals.tree[row + 1] || []
     let filterRow = nextRow.filter(n => n.column >= blockIndex && n.column < (blockIndex + sentence.split(" ").length))
     // console.log(blockIndex, filterRow, nextRow, blockIndex + sentence.split(" ").length)
     let modeChange = false
@@ -412,16 +413,16 @@ function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wron
             // tenseSelection(blockElement) 
             blockElement.push($("<div/>", { class: "tenseItem", html: `[+tns]` }))
             console.log(blockElement)
-            blockIndex = parseInt(treeToRows(parse(bracketedSentence))[row][1].column)-1
+            blockIndex = parseInt(globals.tree[1].column)-1
         } //create selection box for tense
     // put constituent block div in proper row div
     
     // get unique ID from timestamp
     let blockID = Date.now();
     console.log(blockIndex)
-    let traceInclude = treeToRows(parse(bracketedSentence))[row].some(x => {if (x.trace != undefined) {return true}})
+    let traceInclude = globals.tree.some(x => {if (x.trace != undefined) {return true}})
     if (bracketedSentence.includes("^") && traceInclude) {
-        treeToRows(parse(bracketedSentence))[row].some(x => {
+        globals.tree[row].some(x => {
             if (x.column==blockIndex && x.constituent != sentence) {
                 blockIndex+=1
     }})}
@@ -457,9 +458,9 @@ function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wron
                 // if(selectedJQ.parent().find(".faded").length == selectedJQ.parent().children().length) {
                 //     selectedJQ.parent().addClass("hidden")
                 // }
-                let trueRow = treeToRows(parse(bracketedSentence))[row + 1]
-                let thisRow = treeToRows(parse(bracketedSentence))[row]
-                let treeRow = treeToRows(parse(bracketedSentence))
+                let trueRow = globals.tree[row + 1]
+                let thisRow = globals.tree[row]
+                let treeRow = globals.tree
                 // console.log(selectedWords, selectionMode, sentence)
                 blockIndex = $(`#${blockID}`).attr("data-blockindex") // in case it was updated
                 // console.log(selectedJQ, $(`#${blockID}`), selectedWords[0])
@@ -481,7 +482,7 @@ function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wron
                     // console.log(trueRow.some(x => ((x.constituent === constituent))), constituent)
                     // x.constituent === constituent
                     let match = trueRow && trueRow.some(x => {
-                        if ((x.constituent === constituent || (x.changed === constituent))) {
+                        if (((x.constituent === constituent)|| (x.changed === constituent))) {
                             xlabel = x.label
                             return true
                         }
@@ -522,7 +523,7 @@ function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wron
 
                         if (!wrongAnswers.find((item) => item == wrongArray)) {
                             wrongAnswers.push(wrongArray)
-                            // console.log(treeToRows(parse(bracketedSentence))[row + 1])
+                            // console.log(globals.tree[row + 1])
                             $("#problemConstituent").attr("data-strokes", parseInt($("#problemConstituent").attr("data-strokes"))+1)
                         }
                         selectedJQ.addClass("animateWrong")
@@ -908,7 +909,7 @@ function setUpDrake() {
             let dest =  $(`#${destID}`).attr("data-dest");
             $("#problemConstituent").attr("data-strokes", parseInt($("#problemConstituent").attr("data-strokes"))+1)
             console.log(trace, dest)
-            // console.log(treeToRows(parse(bracketedSentence)))
+            // console.log(globals.tree)
             // trueRow.some(x => ((x.constituent === constituent)
             // && (x.column === newBlockIndex || tracePad(trueRow, x.column, newBlockIndex))
             // && 
@@ -1111,7 +1112,7 @@ function generateMenu(e) {
     // console.log($(this).parent().parent())
     // //console.log($(this).parent().attr("data-blockindex"))
     let column = parseInt($(this).parent().attr("data-blockindex"))
-    let treeRow = treeToRows(parse(bracketedSentence))
+    let treeRow = globals.tree
     let filterForTense = treeRow[row].find(item => item.constituent.includes("+"))
     if (filterForTense) {
         filterForTense.constituent = filterForTense.constituent.replace(/ +(\w+)/g, "")
@@ -1951,8 +1952,7 @@ function scoreUpdater(){
 }
 
 function getNumberOfRows() {
-    let bracketedSentence = $("#sentenceContainer").attr("data-bracketedSentence")
-    let currentNumberOfRows = treeToRows(parse(bracketedSentence)).length;
+    let currentNumberOfRows =globals.tree.length;
     $("#menu").attr("data-currentNumberOfRows", currentNumberOfRows)
     // console.log(currentNumberOfRows)
 }
@@ -2152,24 +2152,28 @@ function templateHelper(bracketedSentence) {
 
 function getMinStep(bracketedSentence) {
     let str = bracketedSentence
-    let minStep = 0
-    let numberOfAf = 0;
+    let parses = -1
+    let numberOfLabels = 0
     let numberOfDrag = 0;
+    let numberOfTense = 0;
     for (let i = 0; i < str.length; i++) {
         if (str.charAt(i) == "(") {
-            minStep++
+            parses++ //each block have one parses
+            numberOfLabels++ 
         }
-        if (str.charAt(i) == "&") {
-            numberOfAf++
-        }
+        // if (str.charAt(i) == "&") {
+        //     numberOfLabels-- //AF with no label
+        // }
         if (str.charAt(i) == "^") {
             numberOfDrag++
         }
+        if (str.charAt(i) == "+") {
+            parses--
+        }
     }
-    minStep = minStep * 2 - 1;
-    minStep -= numberOfAf;
-    minStep +=numberOfDrag
-    if (bracketedSentence.includes("+")) {minStep-=1}
+    parses -= 1;
+    let minStep = parses + numberOfLabels +numberOfDrag;
+    // minStep -= numberOfAf;
     return minStep
 }
 
