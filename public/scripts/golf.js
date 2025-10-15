@@ -2152,10 +2152,9 @@ function templateHelper(bracketedSentence) {
 
 function getMinStep(bracketedSentence) {
     let str = bracketedSentence
-    let parses = -1
+    let parses = 0
     let numberOfLabels = 0
     let numberOfDrag = 0;
-    let numberOfTense = 0;
     for (let i = 0; i < str.length; i++) {
         if (str.charAt(i) == "(") {
             parses++ //each block have one parses
@@ -2164,15 +2163,15 @@ function getMinStep(bracketedSentence) {
         // if (str.charAt(i) == "&") {
         //     numberOfLabels-- //AF with no label
         // }
-        if (str.charAt(i) == "^") {
-            numberOfDrag++
-        }
+        // if (str.charAt(i) == "^") {
+        //     numberOfDrag++
+        // }
         if (str.charAt(i) == "+") {
             parses--
         }
     }
     parses -= 1;
-    let minStep = parses + numberOfLabels +numberOfDrag;
+    let minStep = parses + numberOfLabels;
     // minStep -= numberOfAf;
     return minStep
 }
