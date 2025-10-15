@@ -483,7 +483,7 @@ function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wron
                     // console.log(trueRow.some(x => ((x.constituent === constituent))), constituent)
                     // x.constituent === constituent
                     let match = trueRow && trueRow.some(x => {
-                        if (((x.constituent === constituent)|| (x.changed === constituent)) && (x.trace != undefined)) {
+                        if (((x.constituent === constituent)|| (x.changed === constituent))) {
                             xlabel = x.label
                             return true
                         }
