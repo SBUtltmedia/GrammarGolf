@@ -150,13 +150,13 @@ function loadSentence(sentenceID) {
     if ($("#sentenceContainer").attr("data-morphologyparts") != undefined) {document.querySelector("#sentenceContainer").removeAttribute("data-morphologyparts")}
     if ($("#sentenceContainer").attr("data-changedword") != undefined) {document.querySelector("#sentenceContainer").removeAttribute("data-changedword")}
     $("#sentenceContainer").attr("data-bracketedSentence", bracketedSentence)
-    globals.tree = treeToRows(parse(bracketedSentence))
     $("#problemConstituent").attr("data-strokes", 0)
     let minStep = getMinStep(bracketedSentence)
     let parFactor = getParFactor(minStep)
     $("#problemConstituent").attr("data-positivePoint", 0)
     let sentence = bracketToString(bracketedSentence)
-    getNumberOfRows()
+    let tempTree = treeToRows(parse(bracketedSentence))
+    getNumberOfRows(tempTree)
     // console.log(sentence)
     updatePoints()
     $("#problemConstituent, #lineContainer").html("")
@@ -179,6 +179,7 @@ function loadSentence(sentenceID) {
         selectedMode = "morphology";
         console.log(selectedMode)
     }
+    globals.tree = treeToRows(parse(bracketedSentence))
     makeSelectable(sentence, 0, 0, selectedMode) // this will allow highlighting/selecting, parsing through recursion
     $("#stage").on({
         mousedown: function (e) {
@@ -1951,8 +1952,8 @@ function scoreUpdater(){
     return globalScore
 }
 
-function getNumberOfRows() {
-    let currentNumberOfRows =globals.tree.length;
+function getNumberOfRows(tempTree) {
+    let currentNumberOfRows =tempTree.length;
     $("#menu").attr("data-currentNumberOfRows", currentNumberOfRows)
     // console.log(currentNumberOfRows)
 }
