@@ -405,7 +405,7 @@ function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wron
             // tenseSelection(blockElement) 
             blockElement.push($("<div/>", { class: "tenseItem", html: `[+tns]` }))
             console.log(blockElement)
-            blockIndex = parseInt(globals.tree[1].column)-1
+            blockIndex = parseInt(globals.tree[1][1].column)-1
         } //create selection box for tense
     // put constituent block div in proper row div
     
