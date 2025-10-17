@@ -200,21 +200,12 @@ function loadSentence(sentenceID) {
             // } //event listener for change event on created selection box for tense
         }
     })
-    if (bracketedSentence.includes("^")) {
-    (function() {
-        // Check if the 'isReloaded' flag has been set in this session.
-        if (sessionStorage.getItem('isReloaded') !== 'true') {
-            // If not, set the flag...
-            sessionStorage.setItem('isReloaded', 'true');
-            // ...and reload the page.
-            location.reload();
-        }
-    })();
-    $(document).ready(function() {setUpDrake()})
-    };
     let notes = problemJSON.holes[sentenceID].notes
     if (notes != "") {$("#sentenceContainer").append($("<div/>", { id: "note", html: ` Note: ${notes} `}))}
     // document.getElementsByClassName("wordContainer")[0].focus()
+    if (bracketedSentence.includes("^")) {
+        $(document).ready(function() {setUpDrake()})
+    };
 }
 
 function intro() {
@@ -276,9 +267,9 @@ function getTraceInfo(el, source){
     // }
     let index = $(el).attr("data-blockindex")
     let bracketedSentence = $("#sentenceContainer").attr("data-bracketedSentence")
-    let rows = globals.tree
-    console.log(row,index, rows)
-    let moveThing = rows[row].find(x => x.column == index)
+    let tree = globals.tree
+    console.log(row,index, tree)
+    let moveThing = tree[row].find(x => x.column == index)
     return moveThing
 }
 
@@ -420,8 +411,8 @@ function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wron
     
     // get unique ID from timestamp
     let blockID = Date.now();
-    console.log(blockIndex)
-    let traceInclude = globals.tree.some(x => {if (x.trace != undefined) {return true}})
+    let traceInclude = globals.tree[row].some(x => {if (x.trace != undefined) {return true}})
+    console.log(blockIndex, traceInclude)
     if (bracketedSentence.includes("^") && traceInclude) {
         globals.tree[row].some(x => {
             if (x.column==blockIndex && x.constituent != sentence) {
@@ -483,7 +474,7 @@ function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wron
                     // console.log(trueRow.some(x => ((x.constituent === constituent))), constituent)
                     // x.constituent === constituent
                     let match = trueRow && trueRow.some(x => {
-                        if (((x.constituent === constituent)|| (x.changed === constituent))) {
+                        if (((x.constituent === constituent)|| (x.changed === constituent)) && (x.trace == undefined)) {
                             xlabel = x.label
                             return true
                         }
@@ -614,7 +605,7 @@ function totalColumn(nodeSentence) {
     return totalColumn +1;
 }
 
-["hashchange" ].forEach( event=>    addEventListener(event,hashLoadSentence))
+["hashchange" ].forEach( event=>addEventListener(event,hashLoadSentence))
 
 function hashLoadSentence() {
     let sentenceID = parseInt(location.hash.split("#")[1])-1 || 0
@@ -794,9 +785,9 @@ function traverse(callback) {
 }
 
 function setUpDrake() {
-    let drake
     let mode = parseQuery(window.location.search).mode || 'automatic'
-    if (drake) {drake.destroy();}
+    // if (drake) {drake.destroy();}
+    let drake
     drake = dragula([...document.getElementsByClassName("container")], {
         isContainer: function (el) {
             // console.log(el)
@@ -885,10 +876,18 @@ function setUpDrake() {
             newBlockIndex = parseInt($(nextEL).attr("data-blockindex"))-1
         } else {
             console.log("no next")
-            let lastChildNode = $(target)[0].childNodes[$(target)[0].childNodes.length - 2];
-            if ($(lastChildNode) && $(lastChildNode)[0].children) {
-                newBlockIndex = parseInt($(lastChildNode).attr("data-blockindex")) + $(lastChildNode)[0].children[1].childNodes.length;
-                console.log(lastChildNode, newBlockIndex)
+            let targetRow = $(target).attr("data-row")
+            let lastChildNode = $(target)[0].childNodes[$(target)[0].childNodes.length-2];
+            let officalLast;
+            if (lastChildNode) {
+                let lastChildBlock = $(lastChildNode).attr("data-blockindex")
+                officalLast = globals.tree[targetRow].filter(x => x.column == lastChildBlock)[0]
+                console.log($(target), globals.tree[targetRow], lastChildNode, lastChildBlock, officalLast)
+                if (officalLast && officalLast.trace ==undefined) {
+                    console.log(officalLast.constituent.split(" "))
+                    newBlockIndex = parseInt(officalLast.column) + officalLast.constituent.split(" ").length;
+                    console.log(lastChildNode, newBlockIndex)
+                }
             }
         }
         // console.log(newBlockIndex, $(el))
@@ -901,6 +900,7 @@ function setUpDrake() {
             // console.log($(el))
         }
         let traceInfo = getTraceInfo(el, target)
+        document.removeEventListener('mousemove', updateLastPosition);
         // console.log(getTraceInfo(el, target))
 
         // test if this placement is valid for automatic mode
@@ -916,14 +916,16 @@ function setUpDrake() {
             // && 
             if (trace && (trace == dest)) {
                 $(el).attr("style", `grid-column: ${newBlockIndex+1}`)
+                console.log(el)
                 // $(el).next().attr("style", `grid-column: ${newBlockIndex+2}`)
-                updateIndicesAfterTrace(el)
+                // updateIndicesAfterTrace(el)
                 $("#problemConstituent").attr("data-positivePoint", parseInt($("#problemConstituent").attr("data-positivePoint"))+1)
                 if (!(traceInfo.destination)){
                     $(el).addClass("traced")
                 }
                 $(`#${destID}`).addClass("traced")
-                // console.log($(`#${destID}`),$(el)[0],traceInfo)
+                console.log($(`#${destID}`),$(el)[0],traceInfo)
+                drawArrows()
             } else {
                 $(el).remove()
             }
@@ -935,7 +937,7 @@ function setUpDrake() {
         })
 
         // leftPad($(target))
-        // drawLines() \
+        // drawLines()
         requestAnimationFrame(()=> {resizeWindow()}) //wait until previous program finished
         // setTimeout(x=> {resizeWindow()}, 1000) 
         return true }
@@ -1141,8 +1143,8 @@ function generateMenu(e) {
     ["N", "V", "P", "adj", "adv", "det", "T", "S", "deg", "PossN", "C", "A", "Perf", "Prog", "Conj"],
     ["N", "V", "P", "adj", "adv", "Af"]
     ]
-    let labelFilterSet = [{"phrase": ["S", "adj", "adv","det", "deg"], "non" : [], "bar": ["N", "V", "P", "adj", "adv", "det", "T", "S", "deg", "PossN", "A"]}, 
-    {"phrase": ["S", "adj", "adv","det", "deg"], "non" : ["Aux"], "bar": ["N", "V", "P", "adj", "adv", "det", "T", "S", "deg", "PossN", "A"]}]
+    let labelFilterSet = [{"phrase": ["S", "adj", "adv","det", "deg"], "non" : [], "bar": ["N", "V", "P", "adj", "adv", "det", "S", "deg", "PossN", "A"]}, 
+    {"phrase": ["S", "adj", "adv","det", "deg"], "non" : ["Aux"], "bar": ["N", "V", "P", "adj", "adv", "det", "S", "deg", "PossN", "A"]}]
 
     let labelFilterByCourse = [{"6":[],"7":[],"8":[],
     "14":["adv", "deg", "C", "T", "P", "PossN", "A"],
@@ -2018,7 +2020,7 @@ function updateIndicesAfterTrace(trace) {
     // console.log($(trace))
     let j = $(trace).attr("data-blockindex")
     $("[data-blockindex].block").filter(function () {
-        // console.log($(this))
+        console.log($(this))
         return $(this).attr("data-blockindex") >= j
     }).each((i, e) => {
         console.log($(e))
@@ -2031,8 +2033,7 @@ function updateIndicesAfterTrace(trace) {
 }
 
 function drawArrows() {
-    // $("#lineContainer").empty() // It's often better to clear at the beginning
-
+    // $("#lineContainer").empty() 
     // Recreate defs for arrows, ensuring it's cleared and rebuilt if needed
     $("#lineContainer").find("defs").remove(); // Remove old defs
     var defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
@@ -2075,7 +2076,7 @@ function drawArrows() {
         let [, , , startBottom, startCenterX] = getCorners(startPoint);
         let [, , , endBottom, endCenterX] = getCorners(endPoint);
 
-        // --- Define two control points for the cubic Bezier curve --- 🎨
+        // --- Define two control points for the cubic Bezier curve
         // This creates a nice "S" curve shape.
         // Control point 1 is vertically aligned with the start point.
         let control1X = startCenterX;

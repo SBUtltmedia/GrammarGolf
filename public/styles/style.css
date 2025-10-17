@@ -296,13 +296,13 @@
 
         }
 
-        #sentenceContainer .constituentContainer {
+        .constituentContainer {
             /* border: 1px solid white; */
-            padding: .1em;
+            padding: .1em !important;
         }
 
-        #sentenceContainer .wordContainer {
-            padding: .5em .15em .3em .15em;
+        .wordContainer {
+            padding: .5em .15em .3em .15em !important;
         }
 
         #sentenceContainer .letterContainer {
@@ -335,20 +335,20 @@
             padding-left: 0 !important;
         }
 
-        #sentenceContainer .labelDiv,#next,#again {
+        .labelDiv,#next,#again {
             /* position:absolute; */
             /* margin: auto; */
-            padding: 0.1em .5em .1em .5em;
+            padding: 0.1em .5em .1em .5em !important;
             /* width: 1.5em; */
 
             /* height: 0.7em; */
-            left: 0;
-            top: 0;
+            left: 0!important;
+            top: 0!important;
             /* background-color: rgba(137, 43, 226, 0.208); */
-            text-align: center;
-            font-size: 3em;
-            color: #eeeeee;
-            position: relative;
+            text-align: center!important;
+            font-size: 3em!important;
+            color: #eeeeee!important;
+            position: relative!important;
         }
 
         #next,#again {
