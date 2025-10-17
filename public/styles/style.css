@@ -355,12 +355,12 @@
             /* padding: 0.5rem;
             margin-top: 3rem;
             background-color: var(--labelDiv); */
-            border: none;
-            margin: 2rem 0 0 0;
-            text-align: inherit;
-            font: inherit;
-            border-radius: 0;
-            appearance: none;
+            border: none!important;
+            margin: 2rem 0 0 0!important;
+            text-align: inherit!important;
+            font: inherit!important;
+            border-radius: 0!important;
+            appearance: none!important;
         }
 
         #sentenceContainer .labelMenu {
