@@ -204,7 +204,7 @@ function loadSentence(sentenceID) {
     if (notes != "") {$("#sentenceContainer").append($("<div/>", { id: "note", html: ` Note: ${notes} `}))}
     // document.getElementsByClassName("wordContainer")[0].focus()
     if (bracketedSentence.includes("^")) {
-        $(document).ready(function() {setUpDrake()})
+        setUpDrake()
     };
 }
 
@@ -473,12 +473,15 @@ function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wron
                     console.log(trueRow, newIndex, constituent, treeRow)
                     // console.log(trueRow.some(x => ((x.constituent === constituent))), constituent)
                     // x.constituent === constituent
-                    let match = trueRow && trueRow.some(x => {
-                        if (((x.constituent === constituent)|| (x.changed === constituent)) && (x.trace == undefined)) {
+                    let match = trueRow && trueRow.some((x, i) => {
+                        if (((x.constituent === constituent)|| (x.changed === constituent)) && (x.trace == undefined) && (x.column === newIndex)) {
                             xlabel = x.label
                             return true
                         }
-                        if ((x.column === newIndex + (tracePad(row+1, x.column, newIndex, treeRow)))){
+                        if (trueRow[i-1] && trueRow[i-1].trace != undefined&&((x.constituent === constituent)|| (x.changed === constituent))) {
+                            return true
+                        }
+                        if (((x.constituent === constituent)|| (x.changed === constituent)) && (x.trace == undefined) && (x.column === newIndex + (tracePad(row+1, x.column, newIndex, treeRow)))){
                             if ($("#sentenceContainer").attr("data-flexAf")){
                             let flexAfs = $("#sentenceContainer").attr("data-flexAf").split(",")
                             if (constituent == flexAfs[0] ||constituent == flexAfs[1]) {
@@ -609,6 +612,14 @@ function totalColumn(nodeSentence) {
 
 function hashLoadSentence() {
     let sentenceID = parseInt(location.hash.split("#")[1])-1 || 0
+    if (localStorage.getItem('loaded')==null) {
+        localStorage.setItem('loaded', '1');
+        location.reload()
+    } else {
+        setTimeout(() => {
+            localStorage.removeItem('loaded')
+        }, 500);
+    }
     loadSentence(sentenceID)
 }
 
@@ -790,9 +801,9 @@ function setUpDrake() {
     let drake
     drake = dragula([...document.getElementsByClassName("container")], {
         isContainer: function (el) {
-            // console.log(el)
-            // console.log($(el).attr("data-row"))
-            // console.log($(el).hasClass("container"))
+            console.log(el)
+            console.log($(el).attr("data-row"))
+            console.log($(el).hasClass("container"))
             if ($(el).attr("data-row") == "0") {
                 return false
             }
@@ -805,6 +816,7 @@ function setUpDrake() {
         },
         moves: function (el, container, handle) {
             //console.log("move")
+            $(el).attr("data-showme", true)
             const handleHasClass = handle.classList.contains('labelDiv');
             const elementIsTraced = $(el).hasClass("traced");
             console.log({
@@ -877,8 +889,10 @@ function setUpDrake() {
         } else {
             console.log("no next")
             let targetRow = $(target).attr("data-row")
-            let lastChildNode = $(target)[0].childNodes[$(target)[0].childNodes.length-2];
+            let lastChildNode;
+            lastChildNode = $(target)[0].childNodes[$(target)[0].childNodes.length-2]
             let officalLast;
+            console.log(target, targetRow, lastChildNode)
             if (lastChildNode) {
                 let lastChildBlock = $(lastChildNode).attr("data-blockindex")
                 officalLast = globals.tree[targetRow].filter(x => x.column == lastChildBlock)[0]
@@ -939,7 +953,6 @@ function setUpDrake() {
         // leftPad($(target))
         // drawLines()
         requestAnimationFrame(()=> {resizeWindow()}) //wait until previous program finished
-        // setTimeout(x=> {resizeWindow()}, 1000) 
         return true }
     )
 }
