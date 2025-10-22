@@ -412,10 +412,11 @@ function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wron
     // get unique ID from timestamp
     let blockID = Date.now();
     let traceInclude = globals.tree[row].some(x => {if (x.trace != undefined) {return true}})
-    console.log(blockIndex, traceInclude)
+    console.log(row, blockIndex, traceInclude)
     if (bracketedSentence.includes("^") && traceInclude) {
         globals.tree[row].some(x => {
-            if (x.column==blockIndex && x.constituent != sentence) {
+            if (x.column!=blockIndex && x.constituent == sentence) {
+                console.log(blockIndex, sentenceArray)
                 blockIndex+=1
     }})}
     let blockDiv = $("<div/>", { id: blockID, "data-blockindex": blockIndex, "data-selectionMode": selectionMode, class: `block`
@@ -463,7 +464,7 @@ function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wron
                 }
                 let constituent = sentenceArrayToSentence(selectedWords, selectionMode, sentence)
                 newIndex = parseInt(blockIndex) + parseInt(selectedWords[0].dataset.index)
-                // console.log(constituent, blockIndex, newIndex, selectedWords)
+                console.log(constituent, blockIndex, newIndex, selectedWords)
 
                 // check if constituent is valid before calling recursion
                 // if in automatic checking mode
@@ -479,6 +480,9 @@ function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wron
                             return true
                         }
                         if (trueRow[i-1] && trueRow[i-1].trace != undefined&&((x.constituent === constituent)|| (x.changed === constituent))) {
+                            return true
+                        }
+                        if (trueRow[i-2] && trueRow[i-2].trace != undefined&&((x.constituent === constituent)|| (x.changed === constituent))) {
                             return true
                         }
                         if (((x.constituent === constituent)|| (x.changed === constituent)) && (x.trace == undefined) && (x.column === newIndex + (tracePad(row+1, x.column, newIndex, treeRow)))){
@@ -1157,7 +1161,7 @@ function generateMenu(e) {
     ["N", "V", "P", "adj", "adv", "Af"]
     ]
     let labelFilterSet = [{"phrase": ["S", "adj", "adv","det", "deg"], "non" : [], "bar": ["N", "V", "P", "adj", "adv", "det", "S", "deg", "PossN", "A"]}, 
-    {"phrase": ["S", "adj", "adv","det", "deg"], "non" : ["Aux"], "bar": ["N", "V", "P", "adj", "adv", "det", "S", "deg", "PossN", "A"]}]
+    {"phrase": ["S", "adj", "adv","det", "deg"], "non" : ["Aux"], "bar": ["N", "V", "P", "T", "adj", "adv", "det", "S", "deg", "PossN", "A"]}]
 
     let labelFilterByCourse = [{"6":[],"7":[],"8":[],
     "14":["adv", "deg", "C", "T", "P", "PossN", "A"],
