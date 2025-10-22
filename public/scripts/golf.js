@@ -2070,12 +2070,12 @@ function drawArrows() {
     $("#lineContainer").append(defs);
 
     // --- Draw curves for each traced element ---
-    $(`[data-wastraced]`).each((i, block) => {
+    $(`[data-traceindex]`).each((i, block) => {
         if (block.classList.contains("gu-mirror")) {
             return; // Skip the temporary drag element
         }
-        // console.log(i, block)
-        // console.log($(block).attr("data-wastraced"))
+        console.log(i, block)
+        console.log($(block).attr("data-traceindex"))
         let endPoint = $(block).find(".constituentContainer")
 
         // The arrow should go FROM the original element TO the new one.
@@ -2083,7 +2083,7 @@ function drawArrows() {
         // startPoint is the new, dropped element.
         // endPoint is the original source element.
         let startPoint = $(block).find(".constituentContainer");
-        endPoint = $(`[data-destination=${$(block).attr("data-wastraced")}]`).find(".constituentContainer");
+        endPoint = $(`[data-dest=${$(block).attr("data-traceindex")}]`).find(".constituentContainer");
 
         if (!startPoint.length || !endPoint.length) {
             return; // Skip if either element isn't found
