@@ -1,42 +1,41 @@
 {
-    "holes": [
-      {
-        "expression": "(CP (C Have ^1) (TP (NP (det the) (N musicians)) (T Have ^t1) (VP (V practiced))))",
-        "notes": ""
-      },
-      {
-        "expression": "(CP (C Are ^1) (TP (NP  (N you)) (T Are ^t1) (VP (V playing) (PP (P in) (NP (det the) (N band))))))",
-        "notes": ""
-      },
-      {
-        "expression": "(CP (C Would ^1) (TP (NP (det the) (AP (A talented)) (N cellist)) (T Would ^t1) (VP (V play) (NP (det the) (N solo)))))",
-        "notes": ""
-      },
-      {
-        "expression": "(CP (C Have ^1) (TP (NP (det the) (N musicians)) (T Have ^t1) (VP (V studied) (NP (N Mozart)))))",
-        "notes": ""
-      },
-      {
-        "expression": "(CP (C Were ^1) (TP (NP (N you)) (T Were ^t1) (VP (V watching) (NP (det the) (N concert)))))",
-        "notes": ""
-      },
-      {
-        "expression": "(CP (C Was ^1) (TP (NP (PossNP's (det the) (PossN conductor's#conductor#conductor)) (N friend)) (T Was ^t1) (VP (V getting) (NP (AP (A special)) (N treatment)))))",
-        "notes": ""
-      },
-      {
-        "expression": "(CP (C Will ^1) (TP (NP (det the) (N harpist)) (T Will ^t1) (VP (V tell) (NP (N jokes)) (PP (P after) (NP (det the) (N show))))))",
-        "notes": ""
-      },
-      {
-        "expression": "(CP (C Is ^1) (TP (NP  (N John)) (T Is ^t1) (VP (V playing) (NP (det the) (N theremin)) (AP (deg any) (A good)))))",
-        "notes": ""
-      },
-      {
-        "expression": "(CP (C Am ^1) (TP (NP (N I)) (T Am ^t1) (VP (V playing) (NP (det the) (N trumpet)) (PP (P in) (NP (PossNP's (PossN Mary's#Mary's#Mary's#Mary) (N wedding))))))",
-        "notes": ""
-      }
-    ],
-    "description": "Course: Syntax Part 7/8"
-  }
-  
+  "holes": [
+    {
+      "expression": "(CP (C Have ^1) (TP (NP (det the) (N musicians)) (T Have ^t1) (VP (V practiced))))",
+      "notes": ""
+    },
+    {
+      "expression": "(CP (C Are ^1) (TP (NP  (N you)) (T Are ^t1) (VP (V playing) (PP (P in) (NP (det the) (N band))))))",
+      "notes": ""
+    },
+    {
+      "expression": "(CP (C Would ^1) (TP (NP (det the) (AP (A talented)) (N cellist)) (T Would ^t1) (VP (V play) (NP (det the) (N solo)))))",
+      "notes": ""
+    },
+    {
+      "expression": "(CP (C Have ^1) (TP (NP (det the) (N musicians)) (T Have ^t1) (VP (V studied) (NP (N Mozart)))))",
+      "notes": ""
+    },
+    {
+      "expression": "(CP (C Were ^1) (TP (NP (N you)) (T Were ^t1) (VP (V watching) (NP (det the) (N concert)))))",
+      "notes": ""
+    },
+    {
+      "expression": "(CP (C Was ^1) (TP (NP (PossNP's (det the) (PossN conductor's#conductor#conductor)) (N friend)) (T Was ^t1) (VP (V getting) (NP (AP (A special)) (N treatment)))))",
+      "notes": ""
+    },
+    {
+      "expression": "(CP (C Will ^1) (TP (NP (det the) (N harpist)) (T Will ^t1) (VP (V tell) (NP (N jokes)) (PP (P after) (NP (det the) (N show))))))",
+      "notes": ""
+    },
+    {
+      "expression": "(CP (C Is ^1) (TP (NP  (N John)) (T Is ^t1) (VP (V playing) (NP (det the) (N theremin)) (AP (deg very) (A good)))))",
+      "notes": ""
+    },
+    {
+      "expression": "(CP (C Am ^1) (TP (NP (N I)) (T Am ^t1) (VP (V playing) (NP (det the) (N trumpet)) (PP (P in) (NP (PossNP's (PossN Mary's#Mary)) (N wedding))))))",
+      "notes": ""
+    }
+  ],
+  "description": "Course: Syntax Part 7/8"
+}

@@ -1,42 +1,41 @@
 {
-    "holes": [
-      {
-        "expression": "(CP (NP what ^1) (C' (C did ^2) (TP (NP Sonny) (T' (T did ^t2) (VP (V give) (NP Connie) (NP what ^t1))))))",
-        "notes": ""
-      },
-      {
-        "expression": "(CP (NP who ^1) (C' (C did ^2) (TP (NP Barnabus) (T' (T did ^t2) (VP (V give) (NP who ^t1) (NP (Det the) (N painting) (PP (P of) (NP Josette))))))))",
-        "notes": ""
-      },
-      {
-        "expression": "(CP (NP who ^1) (C' (C has ^2) (TP (NP Dwight) (T' (T has ^t2) (VP (V gone) (PP (P to) (NP (Det the) (N office))) (PP (P with) (NP who ^t1)))))))",
-        "notes": ""
-      },
-      {
-        "expression": "(CP (NP what ^1) (C' (C are ^2) (TP (NP you) (T' (T are ^t2) (VP (V talking) (PP (P about) (NP what ^t1)))))))",
-        "notes": ""
-      },
-      {
-        "expression": "(CP (NP what ^1) (C' (C did ^2) (TP (NP he) (T' (T did ^t2) (VP (V promise) (NP you) (NP what ^t1))))))",
-        "notes": ""
-      },
-      {
-        "expression": "(CP (NP what ^1) (C' (C has ^2) (TP (NP John) (T' (T has ^t2) (VP (V taken) (NP what ^t1) (PP (P from) (NP Mary)) (PP (P on) (NP (Det the) (N farm))))))))",
-        "notes": ""
-      },
-      {
-        "expression": "(CP (NP what ^1) (C' (C was ^2) (TP (NP Fredo) (T' (T was ^t2) (VP (V giving) (NP (PossNP's (PossN Michael's#Michael#Michael#Michael)) (N offer)) (PP (P to) (NP what ^t1)))))))",
-        "notes": ""
-      },
-      {
-        "expression": "(CP (NP what ^1) (C' (C did ^2) (TP (NP Bart) (T' (T did ^t2) (VP (V write) (NP what ^t1))))))",
-        "notes": ""
-      },
-      {
-        "expression": "(CP (NP who ^1) (C' (C has ^2) (TP (NP Vito) (T' (T has ^t2) (VP (V rode) (PP (P in) (NP (Det the) (N car))) (PP (P with) (NP who ^t1)))))))",
-        "notes": ""
-      }
-    ],
-    "description": "Course: Syntax Part 8/8"
-  }
-  
+  "holes": [
+    {
+      "expression": "(CP (NP What ^1) (C' (C has ^2) (TP (NP (N Sonny)) (T has ^t2) (VP (V given) (NP (N Connie)) (NP What ^t1)))))",
+      "notes": ""
+    },
+    {
+      "expression": "(CP (NP What ^1) (C' (C was ^2) (TP (NP (N Bart))  (T was ^t2) (VP (V writing) (NP What ^t1))))))",
+      "notes": ""
+    },
+    {
+      "expression": "(CP (NP What ^1) (C' (C has ^2) (TP (NP (N Vito))  (T has ^t2) (VP (V hidden) (NP What ^t1) (PP (P in) (NP (Det the) (N car)))))))))",
+      "notes": ""
+    },
+    {
+      "expression": "(CP (NP What ^1) (C' (C are ^2) (TP (NP (N you)) (T are ^t2) (VP (V talking) (PP (P about) (NP What ^t1))))))",
+      "notes": ""
+    },
+    {
+      "expression": "(CP (NP What ^1) (C' (C have ^2) (TP (NP (N they))  (T have ^t2) (VP (V promised) (NP (N you)) (NP What ^t1))))))",
+      "notes": ""
+    },
+    {
+      "expression": "(CP (NP What ^1) (C' (C has ^2) (TP (NP (N John))  (T has ^t2) (VP (V taken) (NP What ^t1) (PP (P from) (NP (N Mary))) (PP (P behind) (NP (Det her) (N back)))))))",
+      "notes": ""
+    },
+    {
+      "expression": "(CP (NP Who ^1) (C' (C was ^2) (TP (NP (N Fredo))  (T was ^t2) (VP (V giving) (NP (PossNP's (PossN Michael's#Michael's#Michael's#Michael)) (N cannoli)) (PP (P to) (NP Who ^t1)))))))",
+      "notes": ""
+    },
+    {
+      "expression": "(CP (NP Who ^1) (C' (C has ^2) (TP (NP (N Dwight))  (T has ^t2) (VP (V taken) (NP Who ^t1) (PP (P to) (NP (Det the) (N office)))))))))",
+      "notes": ""
+    },
+    {
+      "expression": "(CP (NP Who ^1) (C' (C has ^2) (TP (NP (N Barnabus)) (T has ^t2) (VP (V stolen) (NP (Det the) (N painting) (PP (P of) (NP (N Josette)))) (PP (P for) (NP Who ^t1))))))",
+      "notes": ""
+    }
+  ],
+  "description": "Course: Syntax Part 8/8"
+}
