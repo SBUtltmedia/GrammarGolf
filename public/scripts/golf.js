@@ -1160,7 +1160,7 @@ function generateMenu(e) {
     ["N", "V", "P", "adj", "adv", "det", "T", "S", "deg", "PossN", "C", "A", "Perf", "Prog", "Conj"],
     ["N", "V", "P", "adj", "adv", "Af"]
     ]
-    let labelFilterSet = [{"phrase": ["S", "adj", "adv","det", "deg"], "non" : [], "bar": ["N", "V", "P", "adj", "adv", "det", "S", "deg", "PossN", "A"]}, 
+    let labelFilterSet = [{"phrase": ["S", "adj", "adv","det", "deg"], "non" : [], "bar": ["N", "V", "P","T", "adj", "adv", "det", "S", "deg", "PossN", "A"]}, 
     {"phrase": ["S", "adj", "adv","det", "deg"], "non" : ["Aux"], "bar": ["N", "V", "P", "T", "adj", "adv", "det", "S", "deg", "PossN", "A"]}]
 
     let labelFilterByCourse = [{"6":[],"7":[],"8":[],
