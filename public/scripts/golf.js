@@ -926,7 +926,7 @@ function setUpDrake() {
             newBlockIndex = parseInt($(el).attr("data-blockindex")) //update blockIndex
             let trace = $(el).attr("data-traceIndex");
             let dest =  $(`#${destID}`).attr("data-dest");
-            $("#problemConstituent").attr("data-strokes", parseInt($("#problemConstituent").attr("data-strokes"))+1)
+            // $("#problemConstituent").attr("data-strokes", parseInt($("#problemConstituent").attr("data-strokes"))+1)
             console.log(trace, dest)
             // console.log(globals.tree)
             // trueRow.some(x => ((x.constituent === constituent)
@@ -937,6 +937,7 @@ function setUpDrake() {
                 console.log(el)
                 // $(el).next().attr("style", `grid-column: ${newBlockIndex+2}`)
                 // updateIndicesAfterTrace(el)
+                $("#problemConstituent").attr("data-strokes", parseInt($("#problemConstituent").attr("data-strokes"))+1)
                 $("#problemConstituent").attr("data-positivePoint", parseInt($("#problemConstituent").attr("data-positivePoint"))+1)
                 if (!(traceInfo.destination)){
                     $(el).addClass("traced")
