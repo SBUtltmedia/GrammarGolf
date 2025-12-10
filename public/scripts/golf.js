@@ -802,164 +802,186 @@ function traverse(callback) {
 function setUpDrake() {
     let mode = parseQuery(window.location.search).mode || 'automatic'
     // if (drake) {drake.destroy();}
-    let drake
-    drake = dragula([...document.getElementsByClassName("container")], {
-        isContainer: function (el) {
-            console.log(el)
-            console.log($(el).attr("data-row"))
-            console.log($(el).hasClass("container"))
-            if ($(el).attr("data-row") == "0") {
-                return false
-            }
-            if ($(el).hasClass("container")) {
-                return true
-            } else {
-                return false
-            }
+    let sortableInstances = []
 
-        },
-        moves: function (el, container, handle) {
-            //console.log("move")
-            $(el).attr("data-showme", true)
-            const handleHasClass = handle.classList.contains('labelDiv');
-            const elementIsTraced = $(el).hasClass("traced");
-            console.log({
-                "Element you want to drag": el,
-                "The specific part you clicked": handle,
-                "Does the clicked part have 'labelDiv' class?": handleHasClass,
-                "Does the element already have 'traced' class?": elementIsTraced,
-                "FINAL DECISION (will drag start?)": handleHasClass && !elementIsTraced
-              });
-            return (handle.classList.contains('labelDiv') && !($(el).hasClass("traced")));
-        },
-        copy: true
-    });
+    // Shared state for tracking drop position
     let lastDropPosition = { x: 0, y: 0 };
     const updateLastPosition = (event) => {
         lastDropPosition.x = event.clientX;
         lastDropPosition.y = event.clientY;
     };
-    // drake.on("out",resizeWindow)
-    // drake.on("shadow",resizeWindow)
-    drake.on("drag", (el, source)=> {
-        console.log(el, el.id)
-        if (getTraceInfo(el, source).destination) {
-            let destNum = getTraceInfo(el, source).destination
-            $(el).attr("data-dest", parseInt(destNum))
-            // console.log($(el).attr("data-dest"))
-        }
-        let targetRow = parseInt($("#problemConstituent").attr("data-targetRow"))
-        let target = document.querySelectorAll(`[data-row='${targetRow}']`)[0]
-        console.log(target)
-        document.addEventListener('mousemove', updateLastPosition);
-        // if (target) {labelEmptyGridColumns(target)}
-    })
-    drake.on("drop", (el, target, source, sibling) => {//resizeWindow()
-        console.log({el, target, source, sibling})
-        // $(".gu-mirror").remove()
-        if (target === null) { // dropped back where it originated
-            console.log("no movement")
-            return
-        }
-        console.log($(target)[0].childNodes)
-        let destID = $(el).attr("id")
-        console.log(destID)
-        $(el).attr("id", Date.now()) // new distinct id
-        let index = $(`[data-wastraced]`).length + 1
-        $(`#${destID}`).attr("data-destination", index)
-        $(el).attr("data-wastraced", index)
-        let leftEL = lastDropPosition.x
-        let nextEL = "none"
-        for (const child of target.childNodes) {
-            if (child.nodeType === Node.ELEMENT_NODE && $(child).attr("data-wastraced")==undefined) {
-                let leftX = child.getBoundingClientRect().left;
-                console.log(child, leftEL, leftX, el)
-                if (leftX > leftEL) {
-                    console.log(child, leftEL, leftX, el)
-                    nextEL = child; 
-                    break;          
-                }
-            }
-        }
-        //console.log($(el).prev().attr("data-blockindex"))
-        // updating block index
-        let newBlockIndex = $(el).attr("data-blockindex")
-        // console.log($(el).next(), $(el).prev())
-        // $('.empty-column-label').remove()
-        console.log(nextEL)
-        if (nextEL!= "none") {
-            console.log('next exist');
-            newBlockIndex = parseInt($(nextEL).attr("data-blockindex"))-1
-        } else {
-            console.log("no next")
-            let targetRow = $(target).attr("data-row")
-            let lastChildNode;
-            lastChildNode = $(target)[0].childNodes[$(target)[0].childNodes.length-2]
-            let officalLast;
-            console.log(target, targetRow, lastChildNode)
-            if (lastChildNode) {
-                let lastChildBlock = $(lastChildNode).attr("data-blockindex")
-                officalLast = globals.tree[targetRow].filter(x => x.column == lastChildBlock)[0]
-                console.log($(target), globals.tree[targetRow], lastChildNode, lastChildBlock, officalLast)
-                if (officalLast && officalLast.trace ==undefined) {
-                    console.log(officalLast.constituent.split(" "))
-                    newBlockIndex = parseInt(officalLast.column) + officalLast.constituent.split(" ").length;
-                    console.log(lastChildNode, newBlockIndex)
-                }
-            }
-        }
-        // console.log(newBlockIndex, $(el))
-        $(el).attr("data-blockindex", newBlockIndex)
-        // console.log($(el).attr("data-blockindex")) 
-        //console.log(findParent($(el)))
-        if (getTraceInfo(el, target)?.trace) {
-            let traceNum = getTraceInfo(el, target).trace
-            $(el).attr("data-traceIndex", parseInt(traceNum))
-            // console.log($(el))
-        }
-        let traceInfo = getTraceInfo(el, target)
-        document.removeEventListener('mousemove', updateLastPosition);
-        // console.log(getTraceInfo(el, target))
 
-        // test if this placement is valid for automatic mode
-        if (mode == 'automatic') {
-            newBlockIndex = parseInt($(el).attr("data-blockindex")) //update blockIndex
-            let trace = $(el).attr("data-traceIndex");
-            let dest =  $(`#${destID}`).attr("data-dest");
-            // $("#problemConstituent").attr("data-strokes", parseInt($("#problemConstituent").attr("data-strokes"))+1)
-            console.log(trace, dest)
-            // console.log(globals.tree)
-            // trueRow.some(x => ((x.constituent === constituent)
-            // && (x.column === newBlockIndex || tracePad(trueRow, x.column, newBlockIndex))
-            // && 
-            if (trace && (trace == dest)) {
-                $(el).attr("style", `grid-column: ${newBlockIndex+1}`)
-                console.log(el)
-                // $(el).next().attr("style", `grid-column: ${newBlockIndex+2}`)
-                // updateIndicesAfterTrace(el)
-                $("#problemConstituent").attr("data-strokes", parseInt($("#problemConstituent").attr("data-strokes"))+1)
-                $("#problemConstituent").attr("data-positivePoint", parseInt($("#problemConstituent").attr("data-positivePoint"))+1)
-                if (!(traceInfo.destination)){
-                    $(el).addClass("traced")
+    // Create Sortable instance for each container
+    document.querySelectorAll('.container').forEach(container => {
+        let sortable = new Sortable(container, {
+            group: {
+                name: 'shared',
+                pull: 'clone',
+                put: function(to) {
+                    // isContainer equivalent: only allow drops if not row 0
+                    const toEl = to.el;
+                    console.log(toEl)
+                    console.log($(toEl).attr("data-row"))
+                    console.log($(toEl).hasClass("container"))
+                    if ($(toEl).attr("data-row") == "0") {
+                        return false
+                    }
+                    if ($(toEl).hasClass("container")) {
+                        return true
+                    } else {
+                        return false
+                    }
                 }
-                $(`#${destID}`).addClass("traced")
-                console.log($(`#${destID}`),$(el)[0],traceInfo)
-                drawArrows()
-            } else {
-                $(el).remove()
-            }
-            updatePoints()
-            // finishAlarm()
-        }
-        $(el).find(".labelDiv").text("?").css({ "cursor": "pointer" }).on({
-            "click": generateMenu
-        })
+            },
+            sort: true,
+            animation: 150,
+            // Filter determines what can be dragged (inverted from moves)
+            filter: function(evt, target) {
+                const el = evt.target.closest('.block');
+                if (!el) return true; // Don't allow if can't find block
 
-        // leftPad($(target))
-        // drawLines()
-        requestAnimationFrame(()=> {resizeWindow()}) //wait until previous program finished
-        return true }
-    )
+                // Find the handle that was actually clicked
+                let handle = evt.target;
+                const handleHasClass = handle.classList.contains('labelDiv');
+                const elementIsTraced = $(el).hasClass("traced");
+
+                console.log({
+                    "Element you want to drag": el,
+                    "The specific part you clicked": handle,
+                    "Does the clicked part have 'labelDiv' class?": handleHasClass,
+                    "Does the element already have 'traced' class?": elementIsTraced,
+                    "FINAL DECISION (will drag start?)": handleHasClass && !elementIsTraced
+                });
+
+                // Return true to PREVENT drag, false to ALLOW drag (inverted from dragula)
+                return !(handleHasClass && !elementIsTraced);
+            },
+            // Only allow dragging by the handle
+            handle: '.labelDiv',
+            onStart: function(evt) {
+                // dragula "drag" event equivalent
+                const el = evt.item;
+                const source = evt.from;
+
+                console.log(el, el.id)
+                $(el).attr("data-showme", true)
+
+                if (getTraceInfo(el, source).destination) {
+                    let destNum = getTraceInfo(el, source).destination
+                    $(el).attr("data-dest", parseInt(destNum))
+                }
+                let targetRow = parseInt($("#problemConstituent").attr("data-targetRow"))
+                let target = document.querySelectorAll(`[data-row='${targetRow}']`)[0]
+                console.log(target)
+                document.addEventListener('mousemove', updateLastPosition);
+            },
+            onEnd: function(evt) {
+                // dragula "drop" event equivalent
+                const el = evt.item;
+                const target = evt.to;
+                const source = evt.from;
+                const sibling = evt.related;
+
+                console.log({el, target, source, sibling})
+
+                // If dropped back to source in same position, ignore
+                if (target === source && evt.oldIndex === evt.newIndex) {
+                    console.log("no movement")
+                    document.removeEventListener('mousemove', updateLastPosition);
+                    return
+                }
+
+                console.log($(target)[0].childNodes)
+                let destID = $(el).attr("id")
+                console.log(destID)
+                $(el).attr("id", Date.now()) // new distinct id
+                let index = $(`[data-wastraced]`).length + 1
+                $(`#${destID}`).attr("data-destination", index)
+                $(el).attr("data-wastraced", index)
+                let leftEL = lastDropPosition.x
+                let nextEL = "none"
+                for (const child of target.childNodes) {
+                    if (child.nodeType === Node.ELEMENT_NODE && $(child).attr("data-wastraced")==undefined) {
+                        let leftX = child.getBoundingClientRect().left;
+                        console.log(child, leftEL, leftX, el)
+                        if (leftX > leftEL) {
+                            console.log(child, leftEL, leftX, el)
+                            nextEL = child;
+                            break;
+                        }
+                    }
+                }
+
+                // updating block index
+                let newBlockIndex = $(el).attr("data-blockindex")
+                console.log(nextEL)
+                if (nextEL!= "none") {
+                    console.log('next exist');
+                    newBlockIndex = parseInt($(nextEL).attr("data-blockindex"))-1
+                } else {
+                    console.log("no next")
+                    let targetRow = $(target).attr("data-row")
+                    let lastChildNode;
+                    lastChildNode = $(target)[0].childNodes[$(target)[0].childNodes.length-2]
+                    let officalLast;
+                    console.log(target, targetRow, lastChildNode)
+                    if (lastChildNode) {
+                        let lastChildBlock = $(lastChildNode).attr("data-blockindex")
+                        officalLast = globals.tree[targetRow].filter(x => x.column == lastChildBlock)[0]
+                        console.log($(target), globals.tree[targetRow], lastChildNode, lastChildBlock, officalLast)
+                        if (officalLast && officalLast.trace ==undefined) {
+                            console.log(officalLast.constituent.split(" "))
+                            newBlockIndex = parseInt(officalLast.column) + officalLast.constituent.split(" ").length;
+                            console.log(lastChildNode, newBlockIndex)
+                        }
+                    }
+                }
+
+                $(el).attr("data-blockindex", newBlockIndex)
+
+                if (getTraceInfo(el, target)?.trace) {
+                    let traceNum = getTraceInfo(el, target).trace
+                    $(el).attr("data-traceIndex", parseInt(traceNum))
+                }
+                let traceInfo = getTraceInfo(el, target)
+                document.removeEventListener('mousemove', updateLastPosition);
+
+                // test if this placement is valid for automatic mode
+                if (mode == 'automatic') {
+                    newBlockIndex = parseInt($(el).attr("data-blockindex")) //update blockIndex
+                    let trace = $(el).attr("data-traceIndex");
+                    let dest =  $(`#${destID}`).attr("data-dest");
+                    console.log(trace, dest)
+
+                    if (trace && (trace == dest)) {
+                        $(el).attr("style", `grid-column: ${newBlockIndex+1}`)
+                        console.log(el)
+                        $("#problemConstituent").attr("data-strokes", parseInt($("#problemConstituent").attr("data-strokes"))+1)
+                        $("#problemConstituent").attr("data-positivePoint", parseInt($("#problemConstituent").attr("data-positivePoint"))+1)
+                        if (!(traceInfo.destination)){
+                            $(el).addClass("traced")
+                        }
+                        $(`#${destID}`).addClass("traced")
+                        console.log($(`#${destID}`),$(el)[0],traceInfo)
+                        drawArrows()
+                    } else {
+                        $(el).remove()
+                    }
+                    updatePoints()
+                }
+                $(el).find(".labelDiv").text("?").css({ "cursor": "pointer" }).on({
+                    "click": generateMenu
+                })
+
+                requestAnimationFrame(()=> {resizeWindow()}) //wait until previous program finished
+                return true
+            }
+        });
+
+        sortableInstances.push(sortable);
+    });
+
+    return sortableInstances;
 }
 
 function findParent(block) {
@@ -2072,7 +2094,7 @@ function drawArrows() {
 
     // --- Draw curves for each traced element ---
     $(`[data-traceindex]`).each((i, block) => {
-        if (block.classList.contains("gu-mirror")) {
+        if (block.classList.contains("sortable-ghost") || block.classList.contains("sortable-drag")) {
             return; // Skip the temporary drag element
         }
         console.log(i, block)

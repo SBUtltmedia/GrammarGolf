@@ -30,7 +30,7 @@ The application can be run in two modes: "automatic" and "manual". In automatic 
 The frontend is built with vanilla HTML, CSS, and JavaScript. It leverages the following libraries:
 
 - **jQuery:** For DOM manipulation and event handling.
-- **dragula.js:** For drag-and-drop functionality in the tree-building interface.
+- **SortableJS:** For drag-and-drop functionality in the tree-building interface.
 - **intro.js:** To provide a guided tour of the application for new users.
 
 The core frontend logic is in `public/scripts/golf.js`. This file manages the game state, user interactions, and the rendering of the syntax tree.

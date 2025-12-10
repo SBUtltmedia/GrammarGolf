@@ -36,10 +36,17 @@
             --disable: #15241d;
         }
 
-        .gu-transit {
-            display: none
-            /* opacity: 0.8; */
-            /* transition: all 0.3s ease-in-out 33; */
+        /* SortableJS drag placeholder styling */
+        .sortable-chosen {
+            opacity: 0.8;
+        }
+
+        .sortable-ghost {
+            opacity: 0.4;
+        }
+
+        .sortable-drag {
+            opacity: 1;
         }
 
         /* #oneDiv {
