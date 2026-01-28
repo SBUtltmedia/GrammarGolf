@@ -1,0 +1,97 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - img [ref=e4]
+    - generic [ref=e10]:
+      - generic [ref=e12] [cursor=pointer]:
+        - generic [ref=e13]: "?"
+        - generic [ref=e14]:
+          - checkbox "What" [ref=e15]
+          - checkbox "has" [ref=e16]
+          - checkbox "Sonny" [ref=e17]
+          - checkbox "given" [ref=e18]
+          - checkbox "Connie" [ref=e19]
+      - generic [ref=e20] [cursor=pointer]:
+        - generic [ref=e21]:
+          - generic [ref=e22]: "?"
+          - checkbox "What" [ref=e24]
+        - generic [ref=e25]:
+          - generic [ref=e26]: "?"
+          - generic [ref=e27]:
+            - checkbox "has" [ref=e28]
+            - checkbox "Sonny" [ref=e29]
+            - checkbox "given" [ref=e30]
+            - checkbox "Connie" [ref=e31]
+      - generic [ref=e33] [cursor=pointer]:
+        - generic [ref=e34]: "?"
+        - generic [ref=e35]:
+          - checkbox "Sonny" [ref=e36]
+          - checkbox "given" [ref=e37]
+          - checkbox "Connie" [ref=e38]
+      - generic [ref=e39] [cursor=pointer]:
+        - generic [ref=e40]:
+          - generic [ref=e41]: "?"
+          - checkbox "Sonny" [ref=e43]
+        - generic [ref=e44]:
+          - generic [ref=e45]: "?"
+          - generic [ref=e46]:
+            - checkbox "given" [ref=e47]
+            - checkbox "Connie" [ref=e48]
+  - generic [ref=e49]:
+    - generic [ref=e50]:
+      - text: "Course: Syntax Part 8/8"
+      - separator [ref=e51]
+    - generic [ref=e52]:
+      - text: "par: 30"
+      - text: "strokes: 6"
+    - generic [ref=e53]:
+      - link "hole 1" [ref=e54] [cursor=pointer]:
+        - /url: "javascript: window.location.hash = 1"
+        - generic [ref=e56]:
+          - img [ref=e57]
+          - generic [ref=e59]: hole 1
+      - link "hole 2" [ref=e60] [cursor=pointer]:
+        - /url: "javascript: window.location.hash = 2"
+        - generic [ref=e62]:
+          - img [ref=e63]
+          - generic [ref=e65]: hole 2
+      - link "hole 3" [ref=e66] [cursor=pointer]:
+        - /url: "javascript: window.location.hash = 3"
+        - generic [ref=e68]:
+          - img [ref=e69]
+          - generic [ref=e71]: hole 3
+      - link "hole 4" [ref=e72] [cursor=pointer]:
+        - /url: "javascript: window.location.hash = 4"
+        - generic [ref=e74]:
+          - img [ref=e75]
+          - generic [ref=e77]: hole 4
+      - link "hole 5" [ref=e78] [cursor=pointer]:
+        - /url: "javascript: window.location.hash = 5"
+        - generic [ref=e80]:
+          - img [ref=e81]
+          - generic [ref=e83]: hole 5
+      - link "hole 6" [ref=e84] [cursor=pointer]:
+        - /url: "javascript: window.location.hash = 6"
+        - generic [ref=e86]:
+          - img [ref=e87]
+          - generic [ref=e89]: hole 6
+      - link "hole 7" [ref=e90] [cursor=pointer]:
+        - /url: "javascript: window.location.hash = 7"
+        - generic [ref=e92]:
+          - img [ref=e93]
+          - generic [ref=e95]: hole 7
+      - link "hole 8" [ref=e96] [cursor=pointer]:
+        - /url: "javascript: window.location.hash = 8"
+        - generic [ref=e98]:
+          - img [ref=e99]
+          - generic [ref=e101]: hole 8
+      - link "hole 9" [ref=e102] [cursor=pointer]:
+        - /url: "javascript: window.location.hash = 9"
+        - generic [ref=e104]:
+          - img [ref=e105]
+          - generic [ref=e107]: hole 9
+  - img "Tour" [ref=e108]
+  - img [ref=e109]
+```

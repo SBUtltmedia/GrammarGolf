@@ -297,8 +297,9 @@ function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wron
         }
         $("#problemConstituent").append($("<div/>", { "data-row": row, class: "container", style:gridColumnStyle }))
 
-        //dragula(document.getElementsByTagName("div"), {copy:true, direction: 'horizontal', slideFactorX: 1, slideFactorY: 1})
-        //dragula([...document.getElementsByClassName("container")], {})
+        if ($("#sentenceContainer").attr("data-bracketedSentence").includes("^")) {
+            setUpDrake();
+        }
     }
 
     let nextRow = globals.tree[row + 1] || []
@@ -419,10 +420,15 @@ function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wron
                 console.log(blockIndex, sentenceArray)
                 blockIndex+=1
     }})}
-    let blockDiv = $("<div/>", { id: blockID, "data-blockindex": blockIndex, "data-selectionMode": selectionMode, class: `block`
+    let blockProperties = { id: blockID, "data-blockindex": blockIndex, "data-selectionMode": selectionMode, class: `block`
         , style:`grid-column:${blockIndex+1} `
         // , style:`grid-column:${blockIndex-row+2} `
-        }).on({
+        }
+    let treeNode = (globals.tree && globals.tree[row]) ? globals.tree[row].find(x => x.column == blockIndex) : null
+    if (treeNode && treeNode.destination) {
+        blockProperties["data-dest"] = treeNode.destination
+    }
+    let blockDiv = $("<div/>", blockProperties).on({
         // mousemove: function (e) {
         //     console.log($(this).prev().attr("data-blockindex"), $(this).prev(), $(this))
         //     if ($(this).prev().attr("data-blockindex") == $(this).attr("data-blockindex")){
@@ -800,6 +806,7 @@ function traverse(callback) {
 }
 
 function setUpDrake() {
+    console.log("setUpDrake called");
     let mode = parseQuery(window.location.search).mode || 'automatic'
     // if (drake) {drake.destroy();}
     let sortableInstances = []
@@ -813,17 +820,23 @@ function setUpDrake() {
 
     // Create Sortable instance for each container
     document.querySelectorAll('.container').forEach(container => {
+        if ($(container).hasClass("sortable-init")) {
+            return;
+        }
+        $(container).addClass("sortable-init");
+        console.log("Initializing Sortable on container", container);
         let sortable = new Sortable(container, {
+            forceFallback: true,
+            preventOnFilter: false,
             group: {
                 name: 'shared',
                 pull: 'clone',
                 put: function(to) {
                     // isContainer equivalent: only allow drops if not row 0
                     const toEl = to.el;
-                    console.log(toEl)
-                    console.log($(toEl).attr("data-row"))
-                    console.log($(toEl).hasClass("container"))
-                    if ($(toEl).attr("data-row") == "0") {
+                    const toRow = $(toEl).attr("data-row");
+                    console.log(`Sortable PUT check: Row ${toRow}`);
+                    if (toRow == "0") {
                         return false
                     }
                     if ($(toEl).hasClass("container")) {
@@ -844,20 +857,28 @@ function setUpDrake() {
                 let handle = evt.target;
                 const handleHasClass = handle.classList.contains('labelDiv');
                 const elementIsTraced = $(el).hasClass("traced");
+                const hasDataDest = $(el).attr("data-dest") !== undefined;
 
                 console.log({
                     "Element you want to drag": el,
                     "The specific part you clicked": handle,
                     "Does the clicked part have 'labelDiv' class?": handleHasClass,
                     "Does the element already have 'traced' class?": elementIsTraced,
-                    "FINAL DECISION (will drag start?)": handleHasClass && !elementIsTraced
+                    "Does it have a destination?": hasDataDest,
+                    "FINAL DECISION (will drag start?)": handleHasClass && !elementIsTraced && hasDataDest
                 });
 
                 // Return true to PREVENT drag, false to ALLOW drag (inverted from dragula)
-                return !(handleHasClass && !elementIsTraced);
+                return !(handleHasClass && !elementIsTraced && hasDataDest);
             },
             // Only allow dragging by the handle
             handle: '.labelDiv',
+            onMove: function(evt, originalEvent) {
+                if (originalEvent) {
+                   lastDropPosition.x = originalEvent.clientX;
+                   lastDropPosition.y = originalEvent.clientY;
+                }
+            },
             onStart: function(evt) {
                 // dragula "drag" event equivalent
                 const el = evt.item;
@@ -882,6 +903,11 @@ function setUpDrake() {
                 const source = evt.from;
                 const sibling = evt.related;
 
+                if (evt.originalEvent) {
+                     lastDropPosition.x = evt.originalEvent.clientX || (evt.originalEvent.changedTouches ? evt.originalEvent.changedTouches[0].clientX : lastDropPosition.x);
+                     lastDropPosition.y = evt.originalEvent.clientY || (evt.originalEvent.changedTouches ? evt.originalEvent.changedTouches[0].clientY : lastDropPosition.y);
+                }
+
                 console.log({el, target, source, sibling})
 
                 // If dropped back to source in same position, ignore
@@ -901,11 +927,10 @@ function setUpDrake() {
                 let leftEL = lastDropPosition.x
                 let nextEL = "none"
                 for (const child of target.childNodes) {
+                    if (child === el) continue;
                     if (child.nodeType === Node.ELEMENT_NODE && $(child).attr("data-wastraced")==undefined) {
                         let leftX = child.getBoundingClientRect().left;
-                        console.log(child, leftEL, leftX, el)
                         if (leftX > leftEL) {
-                            console.log(child, leftEL, leftX, el)
                             nextEL = child;
                             break;
                         }
@@ -914,15 +939,19 @@ function setUpDrake() {
 
                 // updating block index
                 let newBlockIndex = $(el).attr("data-blockindex")
-                console.log(nextEL)
+                console.log("nextEL:", nextEL)
                 if (nextEL!= "none") {
                     console.log('next exist');
-                    newBlockIndex = parseInt($(nextEL).attr("data-blockindex"))-1
+                    let nextIndex = parseInt($(nextEL).attr("data-blockindex"));
+                    newBlockIndex = nextIndex - 1
+                    console.log(`Calculated newBlockIndex: ${newBlockIndex} from nextIndex: ${nextIndex}`);
                 } else {
                     console.log("no next")
                     let targetRow = $(target).attr("data-row")
-                    let lastChildNode;
-                    lastChildNode = $(target)[0].childNodes[$(target)[0].childNodes.length-2]
+                    
+                    let children = Array.from(target.childNodes).filter(n => n.nodeType === Node.ELEMENT_NODE && n !== el);
+                    let lastChildNode = children.length > 0 ? children[children.length - 1] : null;
+                    
                     let officalLast;
                     console.log(target, targetRow, lastChildNode)
                     if (lastChildNode) {
@@ -950,8 +979,8 @@ function setUpDrake() {
                 if (mode == 'automatic') {
                     newBlockIndex = parseInt($(el).attr("data-blockindex")) //update blockIndex
                     let trace = $(el).attr("data-traceIndex");
-                    let dest =  $(`#${destID}`).attr("data-dest");
-                    console.log(trace, dest)
+                    let dest = $(el).attr("data-dest") || $(`#${destID}`).attr("data-dest");
+                    console.log("Validation:", {trace, dest, newBlockIndex, destID})
 
                     if (trace && (trace == dest)) {
                         $(el).attr("style", `grid-column: ${newBlockIndex+1}`)
