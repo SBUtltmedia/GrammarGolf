@@ -1,7 +1,7 @@
 {
   "holes": [
     {
-      "expression": "(N (Adj black) (N board))",
+      "expression": "(TP (NP (N Mary)) (T +tns) (VP (V arrived)))",
       "notes": ""
     },
     {

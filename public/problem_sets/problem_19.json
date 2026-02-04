@@ -21,7 +21,7 @@
       "notes": ""
     },
     {
-      "expression": "(TP (NP (N John)) (T will) (VP (V practice) (NP (AP (A syntax)) (N trees)) (PP (P for) (NP (det the) (N test))))))",
+      "expression": "(TP (NP (N John)) (T will) (VP (V practice) (NP  (N syntax)) (PP (P for) (NP (det the) (N test))))))",
       "notes": ""
     },
     {
@@ -33,7 +33,7 @@
       "notes": ""
     },
     {
-      "expression": "(TP (NP (det The) (AP (A Russian)) (N cosmonauts)) (T +tns) (VP (V met) (NP (det the) (AP (A American)) (N astronauts)) (PP (P in) (NP (N space))))))",
+      "expression": "(TP (NP (det The) (AP (A Russian)) (N cosmonauts)) (T +tns) (VP (V met) (NP (det the) (AP (A American)) (N astronauts)) (AP (A often)))))",
       "notes": ""
     }
   ],

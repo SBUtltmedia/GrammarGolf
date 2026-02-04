@@ -1,10 +1,9 @@
 {
-    "holes": [
-      {
-        "expression": "(NP (Det the) (N Ace))",
-        "notes": ""
-      }
-    ],
-    "description": "This is a course for learning Syntax."
-  }
-  
+  "holes": [
+    {
+      "expression": "(S (NP (AP (A colorless)) (AdjP (Adj green)) (N ideas)) (VP (V sleep))     (AP (A colorless)))",
+      "notes": ""
+    }
+  ],
+  "description": "This is a course for learning Syntax."
+}

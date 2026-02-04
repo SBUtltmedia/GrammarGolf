@@ -1,7 +1,7 @@
 {
   "holes": [
     {
-      "expression": "(S (NP (PossNP's (PossN John's#John)) (N friend)) (VP drew syntax trees))",
+      "expression": "(S (NP (DP (NP (N John) (D 's)  ) (N friend))) (VP drew syntax trees))",
       "notes": ""
     },
     {
