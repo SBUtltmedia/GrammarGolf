@@ -1157,16 +1157,16 @@ function generateMenu(e) {
         labelArrayID = 1
     }
     let labels = [
-    ["N", "V", "P", "adj", "adv", "det", "T", "S","PossN", "A", "deg", "C"],
-    ["N", "V", "P", "adj", "adv", "det", "T", "S", "deg", "PossN", "C", "A", "Perf", "Prog", "Conj"],
+    ["N", "V", "P", "adj", "adv", "det", "T", "S","D", "A", "deg", "C"],
+    ["N", "V", "P", "adj", "adv", "det", "T", "S", "deg", "D", "C", "A", "Perf", "Prog", "Conj"],
     ["N", "V", "P", "adj", "adv", "Af"]
     ]
     let labelFilterSet = [{"phrase": ["S", "adj", "adv","det", "deg"], "non" : [], "bar": ["N", "V", "P","T", "adj", "adv", "det", "S", "deg", "PossN", "A"]}, 
-    {"phrase": ["S", "adj", "adv","det", "deg"], "non" : ["Aux"], "bar": ["N", "V", "P", "T", "adj", "adv", "det", "S", "deg", "PossN", "A"]}]
+    {"phrase": ["S", "adj", "adv","det", "deg"], "non" : ["Aux"], "bar": ["N", "V", "P", "T", "adj", "adv", "det", "S", "deg", "D", "A"]}]
 
     let labelFilterByCourse = [{"6":[],"7":[],"8":[],
-    "14":["adv", "deg", "C", "T", "P", "PossN", "A"],
-    "15":["adv","deg", "C", "T", "PossN", "A"],
+    "14":["adv", "deg", "C", "T", "P", "D", "A"],
+    "15":["adv","deg", "C", "T", "D", "A"],
     "16":["adv","deg", "C", "T", "A"],
     "17":["adv","deg", "C", "T", "A"],
     "18":["adv", "adj", "C", "T"],
@@ -1196,8 +1196,15 @@ function generateMenu(e) {
     $(this).append($("<div/>", { class: "labelMenu" }).append([...labelDivArray, typeMenu]))
     let courseNum = parseQuery(window.location.search).problem_id || 7
     if (labelArrayID != 2) {
-        let filterArrayMerge = labelFilterSet[labelArrayID]["non"].concat(labelFilterByCourse[labelArrayID][courseNum])
-        labelFilters($(`.labelItem`), filterArrayMerge, "non")}
+        // let filterArrayMerge = labelFilterSet[labelArrayID]["non"].concat(labelFilterByCourse[labelArrayID][courseNum])
+        // labelFilters($(`.labelItem`), filterArrayMerge, "non")
+        let allowedLabels = getSafeLabels(bracketedSentence, courseNum)
+        $(".labelItem").each(function() {
+            if (!allowedLabels.has($(this).text())) {
+                $(this).addClass("hide")
+            }
+        })
+    }
 
     // drawLines()
     resizeWindow()
@@ -1209,25 +1216,50 @@ function generateMenu(e) {
                 // console.log(symbol, labelHTML)
                 if (symbol != labelHTML) {
                     $(this).parent().parent().find(".labelItem").removeClass(symbolMap[symbol]).removeClass("possPhrase")
-                    filterArrayMerge = labelFilterSet[labelArrayID]["non"].concat(labelFilterByCourse[labelArrayID][courseNum])
-                    labelFilters($(`.labelItem`), filterArrayMerge, "non");
+                    // filterArrayMerge = labelFilterSet[labelArrayID]["non"].concat(labelFilterByCourse[labelArrayID][courseNum])
+                    // labelFilters($(`.labelItem`), filterArrayMerge, "non");
                 }
             }
             let typedLabel = $(".labelItem")
             if (labelHTML == "P") {
                 typedLabel = $(".labelItem").filter(el => ($(".labelItem")[el].innerHTML != ("Aux"))) //no add P after Aux
-                if (!labelFilterByCourse[labelArrayID][courseNum].includes("PossN")) {
+                if (!labelFilterByCourse[labelArrayID][courseNum]?.includes("PossN")) {
                     let PossObject = $(".labelItem").filter(el => ($(".labelItem")[el].innerHTML == ("PossN")))
                     typedLabel.push(PossObject) 
                     PossObject.toggleClass(symbolMap["P's"])} //add not only P but add P's to PossN
             }
             typedLabel.toggleClass(symbolMap[labelHTML])
             if ($(`.${symbolMap[labelHTML]}`).length) {
-                filterArrayMerge = labelFilterSet[labelArrayID][symbolMap[labelHTML]].concat(labelFilterByCourse[labelArrayID][courseNum])
-                labelFilters($(`.${symbolMap[labelHTML]}`), filterArrayMerge, symbolMap[labelHTML]);
+                // filterArrayMerge = labelFilterSet[labelArrayID][symbolMap[labelHTML]].concat(labelFilterByCourse[labelArrayID][courseNum])
+                // labelFilters($(`.${symbolMap[labelHTML]}`), filterArrayMerge, symbolMap[labelHTML]);
+                
+                let structuralFilters = labelFilterSet[labelArrayID][symbolMap[labelHTML]] || []
+                let allowedLabels = getSafeLabels(bracketedSentence, courseNum)
+                
+                $(".labelItem").each(function() {
+                    let label = $(this).text()
+                    let shouldHide = false
+                    
+                    if (!allowedLabels.has(label)) shouldHide = true
+                    if (structuralFilters.includes(label)) shouldHide = true
+                    
+                    if (shouldHide) $(this).addClass("hide")
+                    else $(this).removeClass("hide")
+                })
             } else {
-                filterArrayMerge = labelFilterSet[labelArrayID]["non"].concat(labelFilterByCourse[labelArrayID][courseNum])
-                labelFilters($(`.labelItem`), filterArrayMerge, "non");
+                // filterArrayMerge = labelFilterSet[labelArrayID]["non"].concat(labelFilterByCourse[labelArrayID][courseNum])
+                // labelFilters($(`.labelItem`), filterArrayMerge, "non");
+                 let structuralFilters = labelFilterSet[labelArrayID]["non"] || []
+                 let allowedLabels = getSafeLabels(bracketedSentence, courseNum)
+                 
+                 $(".labelItem").each(function() {
+                    let label = $(this).text()
+                    let shouldHide = false
+                    if (!allowedLabels.has(label)) shouldHide = true
+                    if (structuralFilters.includes(label)) shouldHide = true
+                    if (shouldHide) $(this).addClass("hide")
+                    else $(this).removeClass("hide")
+                })
             }
         }
     })
@@ -2211,4 +2243,76 @@ function bestProgress(progress) {
     let sortedProgress = progressCopy.sort(function(a, b){return a - b})
     // console.log(sortedProgress)
     return sortedProgress[0]
+}
+
+
+function getSafeLabels(bracketedSentence, courseNum) {
+    let labelsInSentence = new Set();
+    let matches = bracketedSentence.matchAll(/\(([A-Za-z0-9"']+)/g);
+    for (const match of matches) {
+        let raw = match[1];
+        let base = raw;
+        if (base.endsWith("P") && base.length > 1 && base !== "TP" && base !== "CP" && base !== "DP" && base !== "PP") {
+             base = base.slice(0, -1);
+        } else if (base === "PP") base = "P";
+        else if (base === "CP") base = "C";
+        else if (base === "TP") base = "T";
+        else if (base === "DP") base = "D";
+        
+        base = base.replace(/'/g, "");
+        
+        if (base.toLowerCase() === "adj") base = "adj";
+        if (base.toLowerCase() === "adv") base = "adv";
+        if (base.toLowerCase() === "det") base = "det";
+        if (base.toLowerCase() === "deg") base = "deg";
+        
+        labelsInSentence.add(base);
+    }
+
+    let allowed = new Set(labelsInSentence);
+    
+    if (parseInt(courseNum) >= 14) {
+        allowed.add("N");
+        allowed.add("V");
+        allowed.add("adj");
+        allowed.add("det");
+        allowed.add("S");
+    }
+
+    allowed.delete("PossN");
+
+    if (labelsInSentence.has("D")) {
+        allowed.delete("det");
+        allowed.add("D");
+    } else if (labelsInSentence.has("det")) {
+        allowed.delete("D");
+        allowed.add("det");
+    } else {
+        if (allowed.has("det")) allowed.delete("D");
+    }
+
+    if (labelsInSentence.has("T") || labelsInSentence.has("TP")) {
+        allowed.delete("S");
+        allowed.add("T");
+    } else if (labelsInSentence.has("S")) {
+        allowed.delete("T");
+        allowed.add("S");
+    } else {
+        if (allowed.has("S")) allowed.delete("T");
+    }
+
+    let hasAdjAdv = (labelsInSentence.has("adj") || labelsInSentence.has("adv"));
+    let hasA = labelsInSentence.has("A");
+
+    if (hasA) {
+        allowed.delete("adj");
+        allowed.delete("adv");
+        allowed.add("A");
+    } else if (hasAdjAdv) {
+        allowed.delete("A");
+    } else {
+        if (allowed.has("adj") || allowed.has("adv")) allowed.delete("A");
+    }
+    
+    return allowed;
 }
