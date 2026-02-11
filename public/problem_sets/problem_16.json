@@ -1,15 +1,15 @@
 {
   "holes": [
     {
-      "expression": "(S (NP (DP (NP (N John) (D 's)  ) (N friend))) (VP drew syntax trees))",
+      "expression": "(S (NP (DP (NP (N John) (D 's)) (N friend))) (VP drew syntax trees))",
       "notes": ""
     },
     {
-      "expression": "(S (NP (PossNP's (PossN Mary's#Mary)) (N cousin)) (VP studies linguistics at Stony Brook))",
+      "expression": "(S (NP (DP (NP (N Mary)) (D 's)) (N cousin)) (VP studies linguistics at Stony Brook))",
       "notes": ""
     },
     {
-      "expression": "(S (NP (PossNP's (det The) (PossN professor's#professor)) (N students)) (VP speak Klingon))",
+      "expression": "(S (NP (DP (NP (D The) (N professor)) (D 's)) (N students)) (VP speak Klingon))",
       "notes": ""
     },
     {

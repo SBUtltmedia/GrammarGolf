@@ -335,6 +335,10 @@
             padding-left: 0 !important;
         }
 
+        div:has(+.noPad) {
+            padding-right:0 !important;
+        }
+
         .labelDiv,#next,#again {
             /* position:absolute; */
             /* margin: auto; */

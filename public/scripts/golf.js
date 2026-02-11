@@ -144,7 +144,7 @@ function loadSentence(sentenceID) {
         bracketedSentence = bracketedSentence.replaceAll("[", "(").replaceAll("]", ")");
         bracketedSentence = bracketedSentence.replace(/[\r\n]/g, '').replace(/  +/g, ' ');
         bracketedSentence = bracketedSentence.replaceAll(")(", ") (");
-        bracketedSentence = bracketedSentence.replaceAll("(Det ", "(det ").replaceAll("(Adj ", "(adj ").replaceAll("(Adv ", "(adv ").replaceAll("(D ", "(det ");
+        bracketedSentence = bracketedSentence.replaceAll("(Det ", "(det ").replaceAll("(Adj ", "(adj ").replaceAll("(Adv ", "(adv ");
         }
     $("#sentenceContainer").attr("data-currentSentenceID", sentenceID)
     if ($("#sentenceContainer").attr("data-morphologyparts") != undefined) {document.querySelector("#sentenceContainer").removeAttribute("data-morphologyparts")}
@@ -408,7 +408,6 @@ function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wron
             blockIndex = parseInt(globals.tree[1][1].column)-1
         } //create selection box for tense
     // put constituent block div in proper row div
-    
     // get unique ID from timestamp
     let blockID = Date.now();
     let traceInclude = globals.tree[row].some(x => {if (x.trace != undefined) {return true}})
@@ -555,7 +554,7 @@ function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wron
         }
 
     }).append(blockElement)
-
+    
     // dragula([...document.getElementsByClassName("container")], {
     //     moves: function (el, container, handle) {
     //         //console.log("move")
@@ -586,7 +585,8 @@ function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wron
     } else {
         rowJQ.append(blockDiv)
     }
-
+    // document.querySelector(".noPad"):has()
+    // $(".noPad").prev().style.paddingRight="0em !important";
     // console.log(rowJQ.children().first())
     // let firstItem = rowJQ.children().first()
     // let firstIndex = firstItem.attr("data-index")
@@ -596,7 +596,7 @@ function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wron
     //leftPad(rowJQ)
     // leftPadAll()
     // console.log($(".noPad").prev().html())
-    $(".noPad").prev().css({"padding-right":0})
+    
 }
 
 function totalColumn(nodeSentence) {
@@ -1173,7 +1173,8 @@ function generateMenu(e) {
     "19":["adv", "adj", "C", "S"],
     "20":["adv", "adj","S"],"21":["adv", "adj","S"]}, {}]
 
-    let symbolMap = { "'": "bar", "P": "phrase", "P's": "possPhrase"}
+    let symbolMap = { "'": "bar", "P": "phrase"}
+        // "P's": "possPhrase"}
 
     let typeMenu = $("<div/>", { class: "typeMenu" }).append(
             [$("<div/>", { class: "typeItem", html: "P", style: "float:right;" })])
@@ -1223,10 +1224,10 @@ function generateMenu(e) {
             let typedLabel = $(".labelItem")
             if (labelHTML == "P") {
                 typedLabel = $(".labelItem").filter(el => ($(".labelItem")[el].innerHTML != ("Aux"))) //no add P after Aux
-                if (!labelFilterByCourse[labelArrayID][courseNum]?.includes("PossN")) {
-                    let PossObject = $(".labelItem").filter(el => ($(".labelItem")[el].innerHTML == ("PossN")))
-                    typedLabel.push(PossObject) 
-                    PossObject.toggleClass(symbolMap["P's"])} //add not only P but add P's to PossN
+                // if (!labelFilterByCourse[labelArrayID][courseNum]?.includes("PossN")) {
+                //     let PossObject = $(".labelItem").filter(el => ($(".labelItem")[el].innerHTML == ("PossN")))
+                //     typedLabel.push(PossObject) 
+                //     PossObject.toggleClass(symbolMap["P's"])} //add not only P but add P's to PossN
             }
             typedLabel.toggleClass(symbolMap[labelHTML])
             if ($(`.${symbolMap[labelHTML]}`).length) {
