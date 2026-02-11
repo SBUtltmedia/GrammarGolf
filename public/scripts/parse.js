@@ -11,6 +11,7 @@ function parse(sentence = `(S
 sentence= sentence.replace(/[\r\n]/gm, '');
 
 sentence =sentence.replaceAll("[","(").replaceAll("]",")");
+sentence = sentence.replace(/([a-zA-Z])\s(\))/g, '$1$2');
 //console.log(sentence)
 let label= sentence.match(/^\(([^ ]*)/)[1].trim()
 //console.log(label)
