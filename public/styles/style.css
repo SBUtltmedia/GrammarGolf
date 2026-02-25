@@ -37,10 +37,18 @@
         }
 
         .gu-transit {
-            display: none
-            /* opacity: 0.8; */
-            /* transition: all 0.3s ease-in-out 33; */
+            display: none;
+            /* opacity: 0.8;
+            transition: all 0.3s ease-in-out 33; */
         }
+
+        /* .gu-mirror {
+            left: auto !important;
+            top: auto !important;
+            position: static !important;
+            pointer-events: none !important;
+            transition: grid-column 0.1s ease-in-out;
+        } */
 
         /* #oneDiv {
             color: blueviolet;
@@ -156,6 +164,7 @@
             right: 1rem;
             width: 3rem;
         }
+
         #toolButton {
             position: absolute;
             top: 1rem;
@@ -163,7 +172,8 @@
             width: 5rem;
         }
 
-        #dialog, #toolDialog {
+        #dialog,
+        #toolDialog {
             top: 15%;
             left: 50%;
             font-size: 2rem;
@@ -175,13 +185,17 @@
         }
 
         .dialogHeader {
-            display: flex; 
-            justify-content: space-between; /* Pushes children to opposite ends */
-            align-items: center; /* Vertically centers the items */
-            left:0%;
-            padding: 0rem; /* Add some spacing */
-            background-color: var(--background); 
-            cursor: move; /* The 'move' cursor for dragging */
+            display: flex;
+            justify-content: space-between;
+            /* Pushes children to opposite ends */
+            align-items: center;
+            /* Vertically centers the items */
+            left: 0%;
+            padding: 0rem;
+            /* Add some spacing */
+            background-color: var(--background);
+            cursor: move;
+            /* The 'move' cursor for dragging */
             width: 90%;
             height: 0.1rem;
             z-index: 1000;
@@ -199,12 +213,13 @@
             font-size: 1.75rem;
             font-weight: bold;
             cursor: pointer;
-            top:5%;
-            right:30rem;
+            top: 5%;
+            right: 30rem;
             z-index: 1000;
         }
 
-        #finishMeme, #toolPic {
+        #finishMeme,
+        #toolPic {
             width: 32rem;
 
         }
@@ -231,10 +246,11 @@
             font-size: 3em;
             display: inline-block;
             color: var(--word);
-            padding:.1em !important;
+            padding: .1em !important;
         }
 
-        .problemList, .problemInList {
+        .problemList,
+        .problemInList {
             display: flex;
             flex-direction: row;
             padding: 1.2rem 1.1rem 0rem 0;
@@ -336,35 +352,38 @@
         }
 
         div:has(+.noPad) {
-            padding-right:0 !important;
+            padding-right: 0 !important;
         }
 
-        .labelDiv,#next,#again {
+        .labelDiv,
+        #next,
+        #again {
             /* position:absolute; */
             /* margin: auto; */
             padding: 0.1em .5em .1em .5em !important;
             /* width: 1.5em; */
 
             /* height: 0.7em; */
-            left: 0!important;
-            top: 0!important;
+            left: 0 !important;
+            top: 0 !important;
             /* background-color: rgba(137, 43, 226, 0.208); */
-            text-align: center!important;
-            font-size: 3em!important;
-            color: #eeeeee!important;
-            position: relative!important;
+            text-align: center !important;
+            font-size: 3em !important;
+            color: #eeeeee !important;
+            position: relative !important;
         }
 
-        #next,#again {
+        #next,
+        #again {
             /* padding: 0.5rem;
             margin-top: 3rem;
             background-color: var(--labelDiv); */
-            border: none!important;
-            margin: 2rem 0 0 0!important;
-            text-align: inherit!important;
-            font: inherit!important;
-            border-radius: 0!important;
-            appearance: none!important;
+            border: none !important;
+            margin: 2rem 0 0 0 !important;
+            text-align: inherit !important;
+            font: inherit !important;
+            border-radius: 0 !important;
+            appearance: none !important;
         }
 
         #sentenceContainer .labelMenu {
@@ -459,7 +478,9 @@
         }
 
         .button,
-        .labelDiv,#next,#again {
+        .labelDiv,
+        #next,
+        #again {
             background-color: var(--labelDiv);
             /* border-radius: 10%; */
             border: .02em solid rgba(255, 255, 255, .8);

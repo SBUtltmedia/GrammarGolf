@@ -260,17 +260,31 @@ function intro() {
       });
 }
 
-function getTraceInfo(el, source){
-    let row = $(source).attr("data-row")
-    // if (isNaN($(el).attr("data-blockindex"))) {
-    //     $(el).attr("data-blockindex", $(el).next().attr("data-blockindex"))
-    // }
-    let index = $(el).attr("data-blockindex")
-    let bracketedSentence = $("#sentenceContainer").attr("data-bracketedSentence")
-    let tree = globals.tree
-    console.log(row,index, tree)
-    let moveThing = tree[row].find(x => x.column == index)
-    return moveThing
+function getTraceInfo(){
+    console.log($("#sentenceContainer").attr("data-traceNum"))
+    let highestTrace = parseInt($("#sentenceContainer").attr("data-traceNum"))
+    let traceInfo = []
+    let trace, dest
+    let traceNum;
+    for (let i = 1; i < highestTrace+1; i++) {
+        traceNum = i
+        for (rowID in globals.tree) {
+            for (columnID in globals.tree[rowID]) {
+                let foundTrace = parseInt(globals.tree[rowID][columnID]?.trace)
+                if (foundTrace != undefined && foundTrace == traceNum) {
+                    trace = {"row":rowID, "info":globals.tree[rowID][columnID]}
+                }
+                let foundDest = parseInt(globals.tree[rowID][columnID]?.destination)
+                if (foundDest != undefined && foundDest == traceNum) {
+                    dest = {"row":rowID, "info":globals.tree[rowID][columnID]}
+                }
+        }}
+        if (trace != undefined && dest != undefined) {
+            traceInfo.push([trace, dest])
+        }
+    }
+    console.log(traceInfo, globals.tree)
+    return traceInfo
 }
 
 function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wrongAnswers = [], different ="") {
@@ -801,6 +815,8 @@ function traverse(callback) {
 
 function setUpDrake() {
     let mode = parseQuery(window.location.search).mode || 'automatic'
+    let traceInfo = getTraceInfo()
+    let traceNum = traceInfo.length
     // if (drake) {drake.destroy();}
     let drake
     drake = dragula([...document.getElementsByClassName("container")], {
@@ -838,27 +854,80 @@ function setUpDrake() {
     const updateLastPosition = (event) => {
         lastDropPosition.x = event.clientX;
         lastDropPosition.y = event.clientY;
+        const transitEl = document.querySelector('.gu-transit');
+        // transitEl.style.removeProperty('grid-column');
+        console.log(transitEl)
+        if (!transitEl) return;
+
+        const elementBelow = document.elementFromPoint(lastDropPosition.x, lastDropPosition.y);
+    
+        if (!elementBelow) return;
+    
+        // Find the specific row/container your mouse is currently inside
+        const gridContainer = elementBelow.closest('.constituentContainer');
+    
+        if (gridContainer) {
+            // 1. Get the container's exact position on the screen
+            const rect = gridContainer.getBoundingClientRect();
+            
+            // 2. Calculate the mouse's X position relative to the container's left edge
+            const mouseX = lastDropPosition.x - rect.left;
+    
+            // 3. Ask the browser for the exact pixel widths of the grid columns
+            const gridStyle = window.getComputedStyle(gridContainer);
+            
+            // This splits the computed columns into an array (e.g., ["100px", "100px", "100px"])
+            const columns = gridStyle.gridTemplateColumns.split(' '); 
+            
+            // Get the gap between columns if you have one (defaults to 0)
+            const columnGap = parseFloat(gridStyle.columnGap) || 0; 
+    
+            let currentWidthTracker = 0;
+            let targetColumn = 1;
+    
+            // 4. Loop through the columns and add up their widths until we catch the mouse
+            for (let i = 0; i < columns.length; i++) {
+                const colWidth = parseFloat(columns[i]);
+                
+                // Add the column width and the gap to our tracker
+                currentWidthTracker += colWidth + columnGap;
+    
+                // If the mouse is within this accumulated width, we found our column!
+                if (mouseX <= currentWidthTracker) {
+                    targetColumn = i + 1; // CSS Grid columns are 1-indexed (1, 2, 3...)
+                    break;
+                }
+            }
+    
+            // 5. Force the transit object to snap into that calculated column
+            transitEl.style.gridColumn = targetColumn;
+        }
     };
     // drake.on("out",resizeWindow)
     // drake.on("shadow",resizeWindow)
     drake.on("drag", (el, source)=> {
-        console.log(el, el.id)
-        if (getTraceInfo(el, source).destination) {
-            let destNum = getTraceInfo(el, source).destination
-            $(el).attr("data-dest", parseInt(destNum))
-            // console.log($(el).attr("data-dest"))
+        console.log(el, el.id, source) 
+        let row = $(source).attr("data-row")
+        let column = $(el).attr("data-blockindex")
+        for (let i=0; i< traceNum; i++) {
+            if (traceInfo[i][1]["row"] == row && traceInfo[i][1]["info"].column==column) {
+                $(el).attr("data-dest", i+1)
+            }
         }
-        let targetRow = parseInt($("#problemConstituent").attr("data-targetRow"))
-        let target = document.querySelectorAll(`[data-row='${targetRow}']`)[0]
-        console.log(target)
+        traceNum = parseInt($(el).attr("data-dest"))-1 ||0
         document.addEventListener('mousemove', updateLastPosition);
         // if (target) {labelEmptyGridColumns(target)}
     })
     drake.on("drop", (el, target, source, sibling) => {//resizeWindow()
         console.log({el, target, source, sibling})
+        console.log(traceNum, $(target).attr("data-row"))
+        let targetRow = parseInt(traceInfo[traceNum][0]["row"])
+        let targetColumn = parseInt(traceInfo[traceNum][0]["info"].column)
         // $(".gu-mirror").remove()
-        if (target === null) { // dropped back where it originated
+        console.log(traceInfo, traceNum, targetRow, targetColumn)
+        if (target === null || targetRow != parseInt($(target).attr("data-row"))) { // dropped back where it originated
             console.log("no movement")
+            $(el).remove()
             return
         }
         console.log($(target)[0].childNodes)
@@ -912,29 +981,21 @@ function setUpDrake() {
         $(el).attr("data-blockindex", newBlockIndex)
         // console.log($(el).attr("data-blockindex")) 
         //console.log(findParent($(el)))
-        if (getTraceInfo(el, target)?.trace) {
-            let traceNum = getTraceInfo(el, target).trace
-            $(el).attr("data-traceIndex", parseInt(traceNum))
-            // console.log($(el))
-        }
-        let traceInfo = getTraceInfo(el, target)
         document.removeEventListener('mousemove', updateLastPosition);
         // console.log(getTraceInfo(el, target))
 
         // test if this placement is valid for automatic mode
         if (mode == 'automatic') {
             newBlockIndex = parseInt($(el).attr("data-blockindex")) //update blockIndex
-            let trace = $(el).attr("data-traceIndex");
-            let dest =  $(`#${destID}`).attr("data-dest");
             // $("#problemConstituent").attr("data-strokes", parseInt($("#problemConstituent").attr("data-strokes"))+1)
-            console.log(trace, dest)
             // console.log(globals.tree)
             // trueRow.some(x => ((x.constituent === constituent)
             // && (x.column === newBlockIndex || tracePad(trueRow, x.column, newBlockIndex))
             // && 
-            if (trace && (trace == dest)) {
+            if (targetColumn==newBlockIndex) {
                 $(el).attr("style", `grid-column: ${newBlockIndex+1}`)
                 console.log(el)
+                $(el).attr("data-traceindex", traceNum+1)
                 // $(el).next().attr("style", `grid-column: ${newBlockIndex+2}`)
                 // updateIndicesAfterTrace(el)
                 $("#problemConstituent").attr("data-strokes", parseInt($("#problemConstituent").attr("data-strokes"))+1)
@@ -1529,6 +1590,9 @@ function treeToRows(tree, accumulator = [], row = 0, leaves = [], morphologyPart
         }
         if (typeof tree.trace !== 'undefined') {
             newEntry['trace'] = tree.trace
+            if (($("#sentenceContainer").attr("data-traceNum") && $("#sentenceContainer").attr("data-traceNum") < tree.trace) || ($("#sentenceContainer").attr("data-traceNum")==undefined)) {
+                $("#sentenceContainer").attr("data-traceNum", tree.trace)
+            }
             $("#problemConstituent").attr("data-targetRow", row)
         }
         if (typeof tree.index !== 'undefined') {
@@ -1567,6 +1631,9 @@ function treeToRows(tree, accumulator = [], row = 0, leaves = [], morphologyPart
         let newEntry = { label: tree.label, constituent: groupedConstituent, column: column }
         if (typeof tree.trace !== 'undefined') {
             newEntry['trace'] = tree.trace
+            if (($("#sentenceContainer").attr("data-traceNum") && $("#sentenceContainer").attr("data-traceNum") < tree.trace) || ($("#sentenceContainer").attr("data-traceNum")==undefined)) {
+                $("#sentenceContainer").attr("data-traceNum", tree.trace)
+            }
             $("#problemConstituent").attr("data-targetRow", row)
         }
         if (changed != "") {
@@ -2104,12 +2171,11 @@ function drawArrows() {
     $("#lineContainer").append(defs);
 
     // --- Draw curves for each traced element ---
-    $(`[data-traceindex]`).each((i, block) => {
+    $(".traced").each((i, block) => {
         if (block.classList.contains("gu-mirror")) {
             return; // Skip the temporary drag element
         }
         console.log(i, block)
-        console.log($(block).attr("data-traceindex"))
         let endPoint = $(block).find(".constituentContainer")
 
         // The arrow should go FROM the original element TO the new one.
