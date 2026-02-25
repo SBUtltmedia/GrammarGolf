@@ -1228,11 +1228,11 @@ function generateMenu(e) {
     let labelFilterByCourse = [{"6":[],"7":[],"8":[],
     "14":["adv", "deg", "C", "T", "P", "D", "A"],
     "15":["adv","deg", "C", "T", "D", "A"],
-    "16":["adv","deg", "C", "T", "A"],
-    "17":["adv","deg", "C", "T", "A"],
-    "18":["adv", "adj", "C", "T"],
-    "19":["adv", "adj", "C", "S"],
-    "20":["adv", "adj","S"],"21":["adv", "adj","S"]}, {}]
+    "16":["adv","deg", "det", "C", "T", "A"],
+    "17":["adv","deg", "det", "C", "T", "A"],
+    "18":["adv", "adj", "det", "C", "T"],
+    "19":["adv", "adj", "det", "C", "S"],
+    "20":["adv", "adj", "det", "S"],"21":["adv", "adj", "det", "S"]}, {}]
 
     let symbolMap = { "'": "bar", "P": "phrase"}
         // "P's": "possPhrase"}
@@ -1258,14 +1258,14 @@ function generateMenu(e) {
     $(this).append($("<div/>", { class: "labelMenu" }).append([...labelDivArray, typeMenu]))
     let courseNum = parseQuery(window.location.search).problem_id || 7
     if (labelArrayID != 2) {
-        // let filterArrayMerge = labelFilterSet[labelArrayID]["non"].concat(labelFilterByCourse[labelArrayID][courseNum])
-        // labelFilters($(`.labelItem`), filterArrayMerge, "non")
-        let allowedLabels = getSafeLabels(bracketedSentence, courseNum)
-        $(".labelItem").each(function() {
-            if (!allowedLabels.has($(this).text())) {
-                $(this).addClass("hide")
-            }
-        })
+        let filterArrayMerge = labelFilterSet[labelArrayID]["non"].concat(labelFilterByCourse[labelArrayID][courseNum])
+        labelFilters($(`.labelItem`), filterArrayMerge, "non")
+        // let allowedLabels = getSafeLabels(bracketedSentence, courseNum)
+        // $(".labelItem").each(function() {
+        //     if (!allowedLabels.has($(this).text())) {
+        //         $(this).addClass("hide")
+        //     }
+        // })
     }
 
     // drawLines()
@@ -1278,8 +1278,8 @@ function generateMenu(e) {
                 // console.log(symbol, labelHTML)
                 if (symbol != labelHTML) {
                     $(this).parent().parent().find(".labelItem").removeClass(symbolMap[symbol]).removeClass("possPhrase")
-                    // filterArrayMerge = labelFilterSet[labelArrayID]["non"].concat(labelFilterByCourse[labelArrayID][courseNum])
-                    // labelFilters($(`.labelItem`), filterArrayMerge, "non");
+                    filterArrayMerge = labelFilterSet[labelArrayID]["non"].concat(labelFilterByCourse[labelArrayID][courseNum])
+                    labelFilters($(`.labelItem`), filterArrayMerge, "non");
                 }
             }
             let typedLabel = $(".labelItem")
@@ -1292,36 +1292,36 @@ function generateMenu(e) {
             }
             typedLabel.toggleClass(symbolMap[labelHTML])
             if ($(`.${symbolMap[labelHTML]}`).length) {
-                // filterArrayMerge = labelFilterSet[labelArrayID][symbolMap[labelHTML]].concat(labelFilterByCourse[labelArrayID][courseNum])
-                // labelFilters($(`.${symbolMap[labelHTML]}`), filterArrayMerge, symbolMap[labelHTML]);
+                filterArrayMerge = labelFilterSet[labelArrayID][symbolMap[labelHTML]].concat(labelFilterByCourse[labelArrayID][courseNum])
+                labelFilters($(`.${symbolMap[labelHTML]}`), filterArrayMerge, symbolMap[labelHTML]);
                 
-                let structuralFilters = labelFilterSet[labelArrayID][symbolMap[labelHTML]] || []
-                let allowedLabels = getSafeLabels(bracketedSentence, courseNum)
+                // let structuralFilters = labelFilterSet[labelArrayID][symbolMap[labelHTML]] || []
+                // let allowedLabels = getSafeLabels(bracketedSentence, courseNum)
                 
-                $(".labelItem").each(function() {
-                    let label = $(this).text()
-                    let shouldHide = false
+                // $(".labelItem").each(function() {
+                //     let label = $(this).text()
+                //     let shouldHide = false
                     
-                    if (!allowedLabels.has(label)) shouldHide = true
-                    if (structuralFilters.includes(label)) shouldHide = true
+                //     if (!allowedLabels.has(label)) shouldHide = true
+                //     if (structuralFilters.includes(label)) shouldHide = true
                     
-                    if (shouldHide) $(this).addClass("hide")
-                    else $(this).removeClass("hide")
-                })
+                //     if (shouldHide) $(this).addClass("hide")
+                //     else $(this).removeClass("hide")
+                // })
             } else {
-                // filterArrayMerge = labelFilterSet[labelArrayID]["non"].concat(labelFilterByCourse[labelArrayID][courseNum])
-                // labelFilters($(`.labelItem`), filterArrayMerge, "non");
-                 let structuralFilters = labelFilterSet[labelArrayID]["non"] || []
-                 let allowedLabels = getSafeLabels(bracketedSentence, courseNum)
+                filterArrayMerge = labelFilterSet[labelArrayID]["non"].concat(labelFilterByCourse[labelArrayID][courseNum])
+                labelFilters($(`.labelItem`), filterArrayMerge, "non");
+                //  let structuralFilters = labelFilterSet[labelArrayID]["non"] || []
+                //  let allowedLabels = getSafeLabels(bracketedSentence, courseNum)
                  
-                 $(".labelItem").each(function() {
-                    let label = $(this).text()
-                    let shouldHide = false
-                    if (!allowedLabels.has(label)) shouldHide = true
-                    if (structuralFilters.includes(label)) shouldHide = true
-                    if (shouldHide) $(this).addClass("hide")
-                    else $(this).removeClass("hide")
-                })
+                //  $(".labelItem").each(function() {
+                //     let label = $(this).text()
+                //     let shouldHide = false
+                //     if (!allowedLabels.has(label)) shouldHide = true
+                //     if (structuralFilters.includes(label)) shouldHide = true
+                //     if (shouldHide) $(this).addClass("hide")
+                //     else $(this).removeClass("hide")
+                // })
             }
         }
     })
@@ -2184,7 +2184,7 @@ function drawArrows() {
         // endPoint is the original source element.
         let startPoint = $(block).find(".constituentContainer");
         endPoint = $(`[data-dest=${$(block).attr("data-traceindex")}]`).find(".constituentContainer");
-
+    
         if (!startPoint.length || !endPoint.length) {
             return; // Skip if either element isn't found
         }
@@ -2203,6 +2203,15 @@ function drawArrows() {
         let control2X = endCenterX;
         let control2Y = endBottom + 100; // Adjust this value as well
 
+        if ($(block).attr("data-traceindex") == "1") {
+            // Control point 1 is vertically aligned with the start point.
+            control1X = startCenterX;
+            control1Y = startBottom + 100; // Adjust this value to change the curve steepness
+
+            // Control point 2 is vertically aligned with the end point.
+            control2X = endCenterX;
+            control2Y = endBottom + 300;
+        }
         // Create the SVG path element
         var path = document.createElementNS("http://www.w3.org/2000/svg", "path");
         $("#lineContainer").append(path);
