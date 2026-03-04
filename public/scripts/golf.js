@@ -496,7 +496,7 @@ function makeSelectable(sentence, row, blockIndex, selectionMode=undefined, wron
                             return true
                         }
                         if (trueRow[i-2] && trueRow[i-2].trace != undefined&&((x.constituent === constituent)|| (x.changed === constituent))) {
-                            return true
+                            return trues
                         }
                         if (((x.constituent === constituent)|| (x.changed === constituent)) && (x.trace == undefined) && (x.column === newIndex + (tracePad(row+1, x.column, newIndex, treeRow)))){
                             if ($("#sentenceContainer").attr("data-flexAf")){
