@@ -855,81 +855,87 @@ function setUpDrake() {
         lastDropPosition.x = event.clientX;
         lastDropPosition.y = event.clientY;
         const transitEl = document.querySelector('.gu-transit');
-        // transitEl.style.removeProperty('grid-column');
-        console.log(transitEl)
-        if (!transitEl) return;
+    
+    if (!transitEl) return;
 
-        const elementBelow = document.elementFromPoint(lastDropPosition.x, lastDropPosition.y);
-    
-        if (!elementBelow) return;
-    
-        // Find the specific row/container your mouse is currently inside
-        const gridContainer = elementBelow.closest('.constituentContainer');
-    
-        if (gridContainer) {
-            // 1. Get the container's exact position on the screen
-            const rect = gridContainer.getBoundingClientRect();
-            
-            // 2. Calculate the mouse's X position relative to the container's left edge
-            const mouseX = lastDropPosition.x - rect.left;
-    
-            // 3. Ask the browser for the exact pixel widths of the grid columns
-            const gridStyle = window.getComputedStyle(gridContainer);
-            
-            // This splits the computed columns into an array (e.g., ["100px", "100px", "100px"])
-            const columns = gridStyle.gridTemplateColumns.split(' '); 
-            
-            // Get the gap between columns if you have one (defaults to 0)
-            const columnGap = parseFloat(gridStyle.columnGap) || 0; 
-    
-            let currentWidthTracker = 0;
-            let targetColumn = 1;
-    
-            // 4. Loop through the columns and add up their widths until we catch the mouse
-            for (let i = 0; i < columns.length; i++) {
-                const colWidth = parseFloat(columns[i]);
-                
-                // Add the column width and the gap to our tracker
-                currentWidthTracker += colWidth + columnGap;
-    
-                // If the mouse is within this accumulated width, we found our column!
-                if (mouseX <= currentWidthTracker) {
-                    targetColumn = i + 1; // CSS Grid columns are 1-indexed (1, 2, 3...)
-                    break;
-                }
-            }
-    
-            // 5. Force the transit object to snap into that calculated column
-            transitEl.style.gridColumn = targetColumn;
+    const container = transitEl.parentElement; // The .container grid
+    if (!container) return;
+
+    // 1. Get all actual grid items (ignore Dragula's transit and mirror elements)
+    const items = Array.from(container.children).filter(child => 
+        !child.classList.contains('gu-transit') && 
+        !child.classList.contains('gu-mirror')
+    );
+
+    if (items.length === 0) return;
+
+    // 2. Find the item closest to the mouse's X position
+    let closestIndex = 0;
+    let minDistance = Infinity;
+
+    items.forEach((item, index) => {
+        const rect = item.getBoundingClientRect();
+        // Calculate the center X coordinate of the grid item
+        const itemCenterX = rect.left + (rect.width / 2);
+        
+        // Find the absolute distance between the mouse and the item's center
+        const distance = Math.abs(lastDropPosition.x - itemCenterX);
+
+        if (distance < minDistance) {
+            minDistance = distance;
+            closestIndex = index;
         }
+    });
+
+    // 3. Force the transit element into the closest column
+    // CSS Grid columns are 1-indexed, so we add 1
+    const targetColumn = closestIndex + 1;
+    
+    transitEl.style.gridColumn = targetColumn;
+    
+    // Force it into row 1 so it stacks perfectly under the existing item
+    transitEl.style.gridRow = '1';
     };
     // drake.on("out",resizeWindow)
     // drake.on("shadow",resizeWindow)
     drake.on("drag", (el, source)=> {
         console.log(el, el.id, source) 
         let row = $(source).attr("data-row")
-        let column = $(el).attr("data-blockindex")
+        let column = parseInt($(el).attr("data-blockindex"))
         for (let i=0; i< traceNum; i++) {
+            console.log(traceInfo[i][1]["row"], row, traceInfo[i][1]["info"].column, column)
             if (traceInfo[i][1]["row"] == row && traceInfo[i][1]["info"].column==column) {
+                console.log(i+1)
                 $(el).attr("data-dest", i+1)
             }
         }
-        traceNum = parseInt($(el).attr("data-dest"))-1 ||0
+        if ($(el).attr("data-dest")) {
+            traceNum = parseInt($(el).attr("data-dest"))-1 ||0
+        } else {
+            traceNum = "non"
+        }
         document.addEventListener('mousemove', updateLastPosition);
         // if (target) {labelEmptyGridColumns(target)}
     })
     drake.on("drop", (el, target, source, sibling) => {//resizeWindow()
         console.log({el, target, source, sibling})
         console.log(traceNum, $(target).attr("data-row"))
+        if (traceNum == "non") {
+            $(el).remove()
+            traceNum = traceInfo.length;
+            return
+        }
         let targetRow = parseInt(traceInfo[traceNum][0]["row"])
         let targetColumn = parseInt(traceInfo[traceNum][0]["info"].column)
         // $(".gu-mirror").remove()
         console.log(traceInfo, traceNum, targetRow, targetColumn)
-        if (target === null || targetRow != parseInt($(target).attr("data-row"))) { // dropped back where it originated
+        // if (target === null || targetRow != parseInt($(target).attr("data-row"))) { // dropped back where it originated
+        if (target === null) {
             console.log("no movement")
             $(el).remove()
             return
         }
+        
         console.log($(target)[0].childNodes)
         let destID = $(el).attr("id")
         console.log(destID)

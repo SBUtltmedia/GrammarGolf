@@ -1,7 +1,7 @@
 {
   "holes": [
     {
-      "expression": "(CP (NP What ^1) (C' (C has ^2) (TP (NP (N Sonny)) (T has ^t2) (VP (V given) (NP (N Connie)) (NP What ^t1)))))",
+      "expression": "(CP (NP What ^1) (C' (C was ^2) (TP (NP (N Bart))  (T was ^t2) (VP (V writing) (NP What ^t1))))))",
       "notes": ""
     },
     {
@@ -21,7 +21,7 @@
       "notes": ""
     },
     {
-      "expression": "(CP (NP What ^1) (C' (C has ^2) (TP (NP (N John))  (T has ^t2) (VP (V taken) (NP What ^t1) (PP (P from) (NP (N Mary))) (PP (P behind) (NP (Det her) (N back)))))))",
+      "expression": "(CP (NP What ^1) (C' (C has ^2) (TP (NP (N John))  (T has ^t2) (VP (V taken) (NP What ^t1) (PP (P from) (NP (N Mary)))))))",
       "notes": ""
     },
     {

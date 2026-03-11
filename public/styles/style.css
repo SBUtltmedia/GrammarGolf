@@ -37,9 +37,21 @@
         }
 
         .gu-transit {
-            display: none;
+            /* display: none; */
             /* opacity: 0.8;
             transition: all 0.3s ease-in-out 33; */
+            /* Ensure it spans the whole height/width of the grid cell */
+            width: 100% !important;
+            height: 100% !important;
+            margin: 0 !important;
+
+            /* Visual "background change" styling */
+            background-color: rgba(0, 123, 255, 0.2) !important;
+            /* Semi-transparent blue */
+            border: 2px dashed #007bff;
+
+            /* Put it underneath the actual grid items */
+            z-index: -1;
         }
 
         /* .gu-mirror {
@@ -68,7 +80,7 @@
         }
 
         .arrow {
-            z-index: -1;
+            z-index: 0;
         }
 
         .selected {
@@ -512,14 +524,16 @@
             /* grid-template-columns: repeat(1, 1fr); */
             /* justify-content: center; */
             align-items: center;
-            margin: 3em 10em 0 10em;
+            margin: 0em 5em 0 5em;
             cursor: pointer;
+            z-index: 1;
         }
 
         .container:first-child {
             grid-template-columns: auto;
             /* justify-content: flex-start; */
             justify-content: center;
+            margin: 2em 5em 0 5em;
         }
 
         #stage #menu {
