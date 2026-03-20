@@ -21,6 +21,12 @@ EOT;
 		$_SESSION['nickname']=  $_SERVER['nickname'];
 		$_SESSION['sn']=  $_SERVER['sn'];
 	}
+	else if(strpos($_SERVER['SERVER_NAME'], 'ddev')!== false) {
+		$_SESSION['mail']=   $_ENV['MAIL'];
+		$_SESSION['givenName']= $_ENV['GIVENNAME'];
+		$_SESSION['nickname']=  $_ENV['NICKNAME'];
+		$_SESSION['sn']=  $_ENV['SN'];
+	}
 	else{
 		if (!isset($_SERVER['cn'])){
 			$server= $_SERVER['SERVER_NAME'];

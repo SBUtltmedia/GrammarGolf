@@ -1,13 +1,13 @@
 <?php
-
-exit;
+//  exit;
+include("auth.php");
 $problem_set=glob("./problem_sets/". "*");
-$description = array();
+$title = array();
 foreach ($problem_set as $key => $value) {
     $JSON = json_decode(file_get_contents($value));
-    $description[$key]=$JSON->description;
-    //print_r($JSON->description);
-    // echo "Key: " . $key . ", Value: " . $value . "<br>";
+    $title[$key]=$JSON->title;
+    //  print_r($JSON->title);
+    // echo "Key: " . $key . ", Value: " .     $title[$key]. "<br>";
 }
 
 ?>
@@ -18,99 +18,99 @@ foreach ($problem_set as $key => $value) {
     <script> 
     document.addEventListener('DOMContentLoaded', ()=>loadCourse(), { once: true });
 
-    let courseCount = <?php echo json_encode(glob("./problem_sets/". "*"));?>
-    let courseList = <?php echo json_encode($description);?>
+    let courseCount = <?php echo json_encode(glob("./problem_sets/". "*"));?>;
+    let courseList = <?php echo json_encode($title);?>;
     console.log(courseList)
-    </script>
-// function loadCourse(courseID=1){
-//     JSON_API(undefined,courseID,undefined, "admin")
-//         .then((data) => {
-//             problemJSON = data
-//             init(problemJSON, courseID)
-//         })
-// }
 
-//     function resizeInput(inputEl) {
-//     inputEl.style.height = Math.min(inputEl.scrollHeight, 3000000) + "px";
-//     inputEl.style.width = Math.min(inputEl.scrollWidth, 3000000) + "px";
-//     };
+ function loadCourse(courseID=1){
+     JSON_API(undefined,courseID,undefined, "admin")
+         .then((data) => {
+             problemJSON = data
+             init(problemJSON, courseID)
+         })
+ }
+
+     function resizeInput(inputEl) {
+     inputEl.style.height = Math.min(inputEl.scrollHeight, 3000000) + "px";
+     inputEl.style.width = Math.min(inputEl.scrollWidth, 3000000) + "px";
+     };
         
-//     function init(problemJSON, courseID=1) 
-// {document.body.innerHTML = ""
-// let select = Object.assign(document.createElement("select"),{id:"select", innerHTML:"Select from here"})
-// for (i=0; i < courseCount.length; i++){
-//  console.log( courseCount[i]);
-//     let courseID_select=courseCount[i]?.split(".json")[0].split("_").pop()
-//    let courseString=`course_${courseID}`;
-//     let option = Object.assign(document.createElement("option"),{innerHTML:`${courseID_select}`, id:`${courseID_select}`})
-//     select.appendChild(option);
-// }
-// document.body.append(select);
-// introText(`Select Course: `, select);
-// document.getElementById('select').options.selectedIndex = courseID-1
-// document.getElementById("select").addEventListener('change', ()=>changeCourse());
-//     document.body.append(Object.assign(document.createElement("button"),{id:"submit", innerHTML:"Submit All"})) 
-//     br()
-//     var i = 1;
-//     problemJSON.holes.forEach(hole=> {
-//         let expressionArea=Object.assign(document.createElement("textArea"),{className:"expression", value:hole.expression, style:"width:35rem"})
-//         let descArea=Object.assign(document.createElement("input"),{className: "notes",type:"text", value:hole.notes, style:"width:40rem"})
-//         document.body.append(expressionArea)  
-//         introText(`hole ${i}'s expression: `, expressionArea);      
-//         br()
-//         document.body.append(descArea)
-//         introText(`note: `, descArea);  
-//         br()
-//         i +=1;
-//     });
-//     let description = Object.assign(document.createElement("textArea"),{className:"description",innerHTML:problemJSON.description, style:"width:20rem"})
-//     document.body.append(description)
-//     introText(`Description for course ${courseID}: `, description);  
-//     document.querySelectorAll("textArea").forEach(resizeInput)
-//     document.getElementById("submit").addEventListener('click', ()=>submitCourse(courseID), { once: true });
+     function init(problemJSON, courseID=1) 
+ {document.body.innerHTML = ""
+ let select = Object.assign(document.createElement("select"),{id:"select", innerHTML:"Select from here"})
+ for (i=0; i < courseCount.length; i++){
+  console.log( courseCount[i]);
+     let courseID_select=courseCount[i]?.split(".json")[0].split("_").pop()
+    let courseString=`course_${courseID}`;
+     let option = Object.assign(document.createElement("option"),{innerHTML:`${courseID_select}`, id:`${courseID_select}`})
+     select.appendChild(option);
+ }
+ document.body.append(select);
+ introText(`Select Course: `, select);
+ document.getElementById('select').options.selectedIndex = courseID-1
+ document.getElementById("select").addEventListener('change', ()=>changeCourse());
+     document.body.append(Object.assign(document.createElement("button"),{id:"submit", innerHTML:"Submit All"})) 
+     br()
+     var i = 1;
+     problemJSON.holes.forEach(hole=> {
+         let expressionArea=Object.assign(document.createElement("textArea"),{className:"expression", value:hole.expression, style:"width:35rem"})
+         let descArea=Object.assign(document.createElement("input"),{className: "notes",type:"text", value:hole.notes, style:"width:40rem"})
+         document.body.append(expressionArea)  
+         introText(`hole ${i}'s expression: `, expressionArea);      
+         br()
+         document.body.append(descArea)
+         introText(`note: `, descArea);  
+         br()
+         i +=1;
+     });
+     let title = Object.assign(document.createElement("textArea"),{className:"title",innerHTML:problemJSON.title, style:"width:20rem"})
+     document.body.append(title)
+     introText(`title for course ${courseID}: `, title);  
+     document.querySelectorAll("textArea").forEach(resizeInput)
+     document.getElementById("submit").addEventListener('click', ()=>submitCourse(courseID), { once: true });
 
 
-// }
-// function changeCourse(){
-//     let courseID = document.getElementById("select").value;
-//     console.log(courseID);
-//     loadCourse(courseID);
+ }
+ function changeCourse(){
+     let courseID = document.getElementById("select").value;
+     console.log(courseID);
+     loadCourse(courseID);
 
-// }
-// function submitCourse(courseID){
-//     console.log(courseID)
-//     let expressions = document.querySelectorAll(".expression")
-//     let allNotes =  document.querySelectorAll(".notes")
-//     let description =  document.querySelector(".description")
-//     console.log(expressions)
-//     let problemJSON = {holes:[], description:description.value}
-//     expressions.forEach((expression, i)=>{
-//         console.log(expression.value)
-//         let notes = allNotes[i]
-//         problemJSON.holes[i] = {expression:expression.value, notes:notes.value}
-//         // console.log(problemJSON.holes[i].value)
-//     })
-//     console.log(problemJSON)
-//     JSON_API(problemJSON,courseID,"POST", "admin")
-//     alert("You successfully submitted your problem set!");
-//     loadCourse(courseID)
-// }
-// function br(){
-//     document.body.append(document.createElement("br"))
-// }
+ }
+ function submitCourse(courseID){
+     console.log(courseID)
+     let expressions = document.querySelectorAll(".expression")
+     let allNotes =  document.querySelectorAll(".notes")
+     let title =  document.querySelector(".title")
+     console.log(expressions)
+     let problemJSON = {holes:[], title:title.value}
+     expressions.forEach((expression, i)=>{
+         console.log(expression.value)
+         let notes = allNotes[i]
+         problemJSON.holes[i] = {expression:expression.value, notes:notes.value}
+          console.log(problemJSON.holes[i].value)
+     })
+     console.log(problemJSON)
+     JSON_API(problemJSON,courseID,"POST", "admin")
+     alert("You successfully submitted your problem set!");
+     loadCourse(courseID)
+ }
+ function br(){
+     document.body.append(document.createElement("br"))
+ }
 
-// function introText(txt, el) {
-//     var text = document.createTextNode(txt);
-//     el.parentNode.insertBefore(text, el);
-// }
+ function introText(txt, el) {
+     var text = document.createTextNode(txt);
+     el.parentNode.insertBefore(text, el);
+ }
 
 
-//         </script>
-//     <meta charset="UTF-8">
-//     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-//     <title>Document</title>
-// </head>
-// <body>
+         </script>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Document</title>
+ </head>
+ <body>
     
-// </body>
-// </html>
+ </body>
+ </html>

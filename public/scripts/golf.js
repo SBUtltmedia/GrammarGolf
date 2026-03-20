@@ -804,7 +804,7 @@ function drawLines() {
 }
 
 function traverse(callback) {
-    $("#problemConstituent").children().each(function (row) {
+    $("#problemConstituent").children().not('.gu-transit, .gu-mirror').each(function (row) {
         let rowThis = $(this)
         let rowIndex = parseInt(rowThis.attr("data-row"))
         if (rowIndex > 0) { // skip root node           
@@ -869,32 +869,43 @@ function setUpDrake() {
 
     if (items.length === 0) return;
 
-    // 2. Find the item closest to the mouse's X position
-    let closestIndex = 0;
-    let minDistance = Infinity;
+    let targetColumn = 1;
+    let found = false;
 
-    items.forEach((item, index) => {
-        const rect = item.getBoundingClientRect();
-        // Calculate the center X coordinate of the grid item
-        const itemCenterX = rect.left + (rect.width / 2);
+    // 2. Loop through items to see which one the mouse is currently hovering over
+    for (let i = 0; i < items.length; i++) {
+        const rect = items[i].getBoundingClientRect();
         
-        // Find the absolute distance between the mouse and the item's center
-        const distance = Math.abs(lastDropPosition.x - itemCenterX);
-
-        if (distance < minDistance) {
-            minDistance = distance;
-            closestIndex = index;
+        // If the mouse X is within the left and right edges of this item
+        if (lastDropPosition.x >= rect.left && lastDropPosition.x <= rect.right) {
+            targetColumn = i + 1; // CSS Grid is 1-indexed
+            found = true;
+            
+            // Optionally match the exact width of the hovered item
+            transitEl.style.width = `${rect.width}px`;
+            break;
         }
-    });
+    }
 
-    // 3. Force the transit element into the closest column
-    // CSS Grid columns are 1-indexed, so we add 1
-    const targetColumn = closestIndex + 1;
-    
+    // 3. If the mouse isn't over an item, check if it's on the far right side
+    if (!found) {
+        const lastItemRect = items[items.length - 1].getBoundingClientRect();
+        
+        if (lastDropPosition.x > lastItemRect.right) {
+            // Put it in the next empty column after the last item
+            targetColumn = items.length + 1; 
+            
+            // Maintain the width of the last item for visual consistency
+            transitEl.style.width = `${lastItemRect.width}px`;
+        } else if (lastDropPosition.x < items[0].getBoundingClientRect().left) {
+            // Or if it's on the far left side
+            targetColumn = 1;
+            transitEl.style.width = `${items[0].getBoundingClientRect().width}px`;
+        }
+    }
+
+    // 4. Force the transit background into the correct column
     transitEl.style.gridColumn = targetColumn;
-    
-    // Force it into row 1 so it stacks perfectly under the existing item
-    transitEl.style.gridRow = '1';
     };
     // drake.on("out",resizeWindow)
     // drake.on("shadow",resizeWindow)
@@ -1036,8 +1047,8 @@ function findParent(block) {
     row = $(`[data-row="${rowIndex - 1}"]`)
     // console.log(row)
     indexVarificator = parseInt($(block).attr("data-blockindex"))
-    let maxBlock =row.children()
-    row.children().each(function () {
+    let maxBlock =row.children().not('.gu-transit, .gu-mirror')
+    row.children().not('.gu-transit, .gu-mirror').each(function () {
         // console.log($(this), $(this).attr("data-blockindex"))
         // console.log($(block), $(block).attr("data-blockindex"), $(block)[0].dataset.blockindex)
         // console.log($(this))
@@ -1058,64 +1069,49 @@ function findParent(block) {
 }
 
 function drawLine(child, parent) {
+    let topElement = parent.find(".constituentContainer");
+    let parentLabel = parent.find(".labelDiv");
+    let childLabel = child.find(".labelDiv");
 
-    // takes jquery items
-
-    //console.log({child, parent})
-
-    // let containerWidth = $("#lineContainer").width()
-    // let containerHeight = $("#lineContainer").height()
-
-    [containerWidth, containerHeight] = getSize()
-
-    let topElement = parent.find(".constituentContainer")
-
-    let parentLabel = parent.find(".labelDiv")
-    //console.log(parentLabel)
-    // drawDot(parentLabel)
-    // drawDot(parent)
-    let childLabel = child.find(".labelDiv")
-
-    let offset = .5
-    let needsOffset = 0
-
-    //console.log(parent.find(".constituentContainer").hasClass("hidden"))
-    //console.log(parent.find(".constituentContainer").find(".wordContainer").first())
+    // We'll use pixel offsets instead of percentages
+    let pixelOffset = 10; // Adjust this number (in pixels) to match your old percentage offset
+    let needsOffset = 0;
 
     if (parent.find(".constituentContainer").hasClass("hidden")) {
-        topElement = parentLabel
-        needsOffset = 1
+        topElement = parentLabel;
+        needsOffset = 1;
     }
 
+    // 1. Get the exact bounding boxes of the elements and the SVG container
+    let pRect = topElement[0].getBoundingClientRect();
+    let cRect = childLabel[0].getBoundingClientRect();
+    let svgRect = document.getElementById("lineContainer").getBoundingClientRect();
 
-    // let [pleft, ptop, pright, pbottom] = getCorners(topElement)
-    // //console.log({pleft, ptop, pright, pbottom})
-    // let pCenterX = (pleft+pright) / 2
-    // let pCenterXPercent = pCenterX / containerWidth * 100
-    // let pbottomPercent = (pbottom + offset * needsOffset) / containerHeight * 100
-    // // pbottomPercent += offset * needsOffset
-    // // start of line will be (pCenterXPercent, pbottomPercent)
+    // 2. Calculate X and Y in exact pixels relative to the SVG container's top-left corner
+    
+    // Parent X (Center) and Y (Bottom)
+    let pCenterX = (pRect.left + (pRect.width / 2)) - svgRect.left;
+    let pBottomY = (pRect.bottom) - svgRect.top;
 
-    // let [cleft, ctop, cright, cbottom] = getCorners(childLabel)
-    // let cCenterX = (cleft+cright) / 2
-    // let cCenterXPercent = cCenterX / containerWidth * 100
-    // let ctopPercent = (ctop - offset) / containerHeight * 100
-    // // ctopPercent -= offset
-    // // end of line will be (cCenterXPercent, ctopPercent)
+    // Child X (Center) and Y (Top)
+    let cCenterX = (cRect.left + (cRect.width / 2)) - svgRect.left;
+    let cTopY = (cRect.top) - svgRect.top+6;
 
-    let [, , , pbottomPercent, pCenterXPercent,] = getCornerPercentages(topElement)
-    let [, ctopPercent, , , cCenterXPercent,] = getCornerPercentages(childLabel)
-    // console.log(pbottomPercent, pCenterXPercent, ctopPercent, cCenterXPercent)
+    // Apply offsets
+    pBottomY = pBottomY + (pixelOffset * needsOffset);
+    cTopY = cTopY - pixelOffset;
 
-    pbottomPercent = pbottomPercent + offset * needsOffset
-    ctopPercent = ctopPercent - offset
-
-    // x1 pCenterXPercent, y1 pbottomPercent, x2 cCenterXPercent, y2 ctopPercent
+    // 3. Draw the line using absolute pixel coordinates
     var line = document.createElementNS("http://www.w3.org/2000/svg", "line");
     $("#lineContainer").append(line);
-    $(line).attr({ x1: `${pCenterXPercent}%`, y1: `${pbottomPercent}%`, x2: `${cCenterXPercent}%`, y2: `${ctopPercent}%`, class: "branch" })
-
-
+    
+    $(line).attr({ 
+        x1: pCenterX, 
+        y1: pBottomY, 
+        x2: cCenterX, 
+        y2: cTopY, 
+        class: "branch" 
+    });
 }
 
 function drawDot(elem) {
@@ -2157,79 +2153,79 @@ function updateIndicesAfterTrace(trace) {
 }
 
 function drawArrows() {
-    // $("#lineContainer").empty() 
-    // Recreate defs for arrows, ensuring it's cleared and rebuilt if needed
-    $("#lineContainer").find("defs").remove(); // Remove old defs
-    var defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
-    var marker = document.createElementNS("http://www.w3.org/2000/svg", "marker");
-    var triangle = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    // 1. Clear and recreate Defs/Marker using pure DOM methods
+    // This avoids jQuery SVG namespace bugs
+    $("#lineContainer").find("defs").remove();
+    
+    const svgNS = "http://www.w3.org/2000/svg";
+    let defs = document.createElementNS(svgNS, "defs");
+    let marker = document.createElementNS(svgNS, "marker");
+    let trianglePath = document.createElementNS(svgNS, "path");
 
-    $(marker).attr({
-        id: "triangle", viewBox: "0 0 10 10", refX: "1", refY: "5",
-        markerUnits: "strokeWidth", markerWidth: "5", markerHeight: "5", orient: "auto", href: "#triangle"
-    })
-    var triangle = document.createElementNS("http://www.w3.org/2000/svg", "path")
-    $("#triangle").append(triangle)
-    $(triangle).attr({ d: "M 0 0 L 10 5 L 0 10 z" })
+    // Set marker attributes properly
+    marker.setAttribute("id", "triangle");
+    marker.setAttribute("viewBox", "0 0 10 10");
+    marker.setAttribute("refX", "8"); // Moves the triangle tip to the exact end of the line
+    marker.setAttribute("refY", "5");
+    marker.setAttribute("markerUnits", "strokeWidth");
+    marker.setAttribute("markerWidth", "5");
+    marker.setAttribute("markerHeight", "5");
+    marker.setAttribute("orient", "auto");
 
-    $(marker).append(triangle);
-    $(defs).append(marker);
-    $("#lineContainer").append(defs);
+    // Draw the triangle
+    trianglePath.setAttribute("d", "M 0 0 L 10 5 L 0 10 z");
+    trianglePath.setAttribute("fill", "#000"); // Ensure arrow head has a color
 
-    // --- Draw curves for each traced element ---
-    $(".traced").each((i, block) => {
-        if (block.classList.contains("gu-mirror")) {
-            return; // Skip the temporary drag element
-        }
-        console.log(i, block)
-        let endPoint = $(block).find(".constituentContainer")
+    marker.appendChild(trianglePath);
+    defs.appendChild(marker);
+    document.getElementById("lineContainer").appendChild(defs);
 
-        // The arrow should go FROM the original element TO the new one.
-        // Your naming seems reversed, so let's clarify:
-        // startPoint is the new, dropped element.
-        // endPoint is the original source element.
+    // 2. Get the SVG container's exact bounding box
+    const svgRect = document.getElementById("lineContainer").getBoundingClientRect();
+
+    // 3. Draw curves for each traced element
+    // Safely ignore Dragula clones!
+    $(".traced").not('.gu-transit, .gu-mirror').each((i, block) => {
         let startPoint = $(block).find(".constituentContainer");
-        endPoint = $(`[data-dest=${$(block).attr("data-traceindex")}]`).find(".constituentContainer");
+        let endPoint = $(`[data-dest=${$(block).attr("data-traceindex")}]`).find(".constituentContainer");
     
         if (!startPoint.length || !endPoint.length) {
             return; // Skip if either element isn't found
         }
 
-        // Get coordinates for the start and end of the arrow
-        let [, , , startBottom, startCenterX] = getCorners(startPoint);
-        let [, , , endBottom, endCenterX] = getCorners(endPoint);
+        // --- Exact pixel calculations (Replacing getCorners) ---
+        let startRect = startPoint[0].getBoundingClientRect();
+        let endRect = endPoint[0].getBoundingClientRect();
 
-        // --- Define two control points for the cubic Bezier curve
-        // This creates a nice "S" curve shape.
-        // Control point 1 is vertically aligned with the start point.
+        // Start X/Y
+        let startCenterX = (startRect.left + (startRect.width / 2)) - svgRect.left;
+        let startBottom = startRect.bottom - svgRect.top;
+
+        // End X/Y
+        let endCenterX = (endRect.left + (endRect.width / 2)) - svgRect.left;
+        let endBottom = endRect.bottom - svgRect.top;
+
+        // --- Define control points for the cubic Bezier curve ---
         let control1X = startCenterX;
-        let control1Y = startBottom + 100; // Adjust this value to change the curve steepness
+        let control1Y = startBottom + 100;
 
-        // Control point 2 is vertically aligned with the end point.
         let control2X = endCenterX;
-        let control2Y = endBottom + 100; // Adjust this value as well
+        let control2Y = endBottom + 100;
 
         if ($(block).attr("data-traceindex") == "1") {
-            // Control point 1 is vertically aligned with the start point.
-            control1X = startCenterX;
-            control1Y = startBottom + 100; // Adjust this value to change the curve steepness
-
-            // Control point 2 is vertically aligned with the end point.
-            control2X = endCenterX;
+            control1Y = startBottom + 100; 
             control2Y = endBottom + 300;
         }
-        // Create the SVG path element
-        var path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-        $("#lineContainer").append(path);
 
-        // --- Use the Cubic Bezier curve command 'C' in the path data ---
-        // The format is: M(startX, startY) C(control1X, control1Y, control2X, control2Y, endX, endY)
-        $(path).attr({
-            d: `M ${startCenterX} ${startBottom} C ${control1X} ${control1Y}, ${control2X} ${control2Y}, ${endCenterX} ${endBottom}`,
-            class: "arrow",
-            fill: "transparent",
-            "marker-end": "url(#triangle)"
-        });
+        // 4. Create and append the SVG path element
+        let path = document.createElementNS(svgNS, "path");
+        
+        path.setAttribute("d", `M ${startCenterX} ${startBottom} C ${control1X} ${control1Y}, ${control2X} ${control2Y}, ${endCenterX} ${endBottom}`);
+        path.setAttribute("class", "arrow");
+        path.setAttribute("fill", "transparent"); // Crucial so the curve doesn't fill in like a shape
+        path.setAttribute("marker-end", "url(#triangle)");
+
+        document.getElementById("lineContainer").appendChild(path);
     });
 }
 
