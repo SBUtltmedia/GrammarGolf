@@ -877,8 +877,11 @@ function setUpDrake() {
 
     let targetGridColumn = 1;
     let found = false;
+<<<<<<< Updated upstream
+=======
     let targetGridEndColumn = 2;
     let itemRow;
+>>>>>>> Stashed changes
 
     // 2. Loop through items to see which one the mouse is currently hovering over
     for (let i = 0; i < items.length; i++) {
@@ -898,12 +901,10 @@ function setUpDrake() {
             (!nextExist && lastDropPosition.x >= rect.left)) {
             targetGridColumn = parseInt(rectColumn) + 1; // CSS Grid is 1-indexed
             found = true;
-            targetGridEndColumn = targetGridColumn+1
             itemRow = items[i].firstElementChild.id;
             break;
         } else {
             targetGridColumn = 1;
-            targetGridEndColumn = parseInt(rectColumn)
         }
     }
 
@@ -914,15 +915,17 @@ function setUpDrake() {
         if (lastDropPosition.x > lastItemRect.right) {
             // Put it in the next empty column after the last item
             targetGridColumn = parseInt(lastRectColumn) + 1; 
-            targetGridEndColumn = targetGridColumn+1
         } else if (lastDropPosition.x < items[0].getBoundingClientRect().left) {
             // Or if it's on the far left side
             targetGridColumn =1;
-            targetGridEndColumn = parseInt(items[0].style.gridColumn)
+            
         }
         itemRow = items[items.length - 1].firstElementChild.id
     }
     // 4. Force the transit background into the correct column
+<<<<<<< Updated upstream
+    transitEl.style.gridColumn = targetGridColumn;
+=======
     transitEl.style.gridColumn = `${parseInt(targetGridColumn)}/${parseInt(targetGridEndColumn)}` ||0;
     console.log(transitEl)
     console.log(transitEl, transitEl.style.gridColumn, parseInt(traceInfo[traceNum][0]["info"].column), traceInfo[traceNum][0].row)
@@ -931,6 +934,7 @@ function setUpDrake() {
         } else {
             transitEl.style.display = 'none';
         }
+>>>>>>> Stashed changes
     };
     // drake.on("out",resizeWindow)
     // drake.on("shadow",resizeWindow)
