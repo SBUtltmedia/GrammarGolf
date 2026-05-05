@@ -3,24 +3,6 @@ let globals = {"problemJSON":null, "tree":null}
 $(document).ready(init)
 
 function init() {
-
-    if (window.location.href.includes("localhost")){
-        fetch(`/set_NetID?netID=liu36`)
-    }
-
-    let problem_id = parseQuery(window.location.search).problem_id || 7
-    let savedData = sessionStorage.getItem(`draft_problem_${problem_id}`);
-    if (savedData) {
-        console.log("Loaded progress from sessionStorage!");
-        // 2. Parse the string back into JSON and load the page
-        globals.problemJSON = JSON.parse(savedData);
-        setupPageAfterLoad();
-    } else {
-JSON_API(undefined, problem_id)
-        .then((data) => {
-            // console.log({data})
-            globals.problemJSON = data
-            setupPageAfterLoad();});}
     function setupPageAfterLoad() {
         let problemJSON = globals.problemJSON;
         let startingSentence = parseQuery(window.location.search).string;
@@ -32,7 +14,26 @@ JSON_API(undefined, problem_id)
         loadMenu();
         hashLoadSentence();
         intro();
-}}
+    }
+    if (window.location.href.includes("localhost")){
+        fetch(`/set_NetID?netID=liu36`)
+    }
+
+    let problem_id = parseQuery(window.location.search).problem_id || 7
+    let savedData = sessionStorage.getItem(`draft_problem_${problem_id}`);
+    
+    if (savedData) {
+        console.log("Loaded progress from sessionStorage!");
+        // 2. Parse the string back into JSON and load the page
+        globals.problemJSON = JSON.parse(savedData);
+        setupPageAfterLoad();
+    } else {
+JSON_API(undefined, problem_id)
+        .then((data) => {
+            // console.log({data})
+            globals.problemJSON = data
+            setupPageAfterLoad();});}
+    }
 
 
 function loadMenu() {
