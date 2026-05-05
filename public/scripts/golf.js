@@ -9,26 +9,32 @@ function init() {
     }
 
     let problem_id = parseQuery(window.location.search).problem_id || 7
-    
+    let savedData = sessionStorage.getItem(`draft_problem_${problem_id}`);
+    if (savedData) {
+        console.log("Loaded progress from sessionStorage!");
+        // 2. Parse the string back into JSON and load the page
+        globals.problemJSON = JSON.parse(savedData);
+        setupPageAfterLoad();
+    } else {
 JSON_API(undefined, problem_id)
         .then((data) => {
             // console.log({data})
             globals.problemJSON = data
-            let problemJSON = globals.problemJSON;
-            let startingSentence = parseQuery(window.location.search).string 
-            // || "(S (NP Mary) (VP (V had) (NP (D a) (N' (Adj little) (N lamb)))))"
-            //let sentence = treeToString(parse(bracketedSentence))
-            if (startingSentence) {
-                problemJSON.holes[0].expression = startingSentence
-                problemJSON.holes = [problemJSON.holes[0]]
-                problemJSON.description = "tests"
-            }
-           // sendJSON(problemJSON, 1)
-            loadMenu()
-            hashLoadSentence()
-            intro()
-        })
-}
+            setupPageAfterLoad();});
+    function setupPageAfterLoad() {
+        let problemJSON = globals.problemJSON;
+        let startingSentence = parseQuery(window.location.search).string;
+        if (startingSentence) {
+            problemJSON.holes[0].expression = startingSentence;
+            problemJSON.holes = [problemJSON.holes[0]];
+            problemJSON.title = "tests";
+        }
+        loadMenu();
+        hashLoadSentence();
+        intro();
+    }
+}}
+
 
 function loadMenu() {
     let problemJSON = globals.problemJSON;
@@ -49,7 +55,10 @@ function loadMenu() {
             }
         }))
     } else { // display steps in automatic mode
-        $("#menu").append($("<div/>", { id: "title", html: `${problemJSON.title} <hr style="border-top: dotted 1px;" />` }))
+        let title = problemJSON.title;
+        if (title == undefined) {title = problemJSON.description}
+        $("#menu").append($("<div/>", { id: "title", html: `${title} <hr style="border-top: dotted 1px;" />` }))
+        console.log(problemJSON.title, problemJSON)
         $("#menu").append($("<div/>", { id: "points" }))
         $("#menu").append($("<div/>", { id: "problemSet" }))
     }
@@ -134,6 +143,10 @@ function enableNext() {
 }
 // ready function
 function loadSentence(sentenceID) {
+    // if (localStorage.getItem('local')!=null) {
+    //     globals.problemJSON = localStorage.getItem('local')
+
+    // }
     let problemJSON = globals.problemJSON;
     document.querySelector("#note")?.remove();
     document.querySelector("#next")?.remove();
@@ -635,15 +648,16 @@ function totalColumn(nodeSentence) {
 ["hashchange" ].forEach( event=>addEventListener(event,hashLoadSentence))
 
 function hashLoadSentence() {
-    let sentenceID = parseInt(location.hash.split("#")[1])-1 || 0
-    if (localStorage.getItem('loaded')==null) {
-        localStorage.setItem('loaded', '1');
-        location.reload()
-    } else {
-        setTimeout(() => {
-            localStorage.removeItem('loaded')
-        }, 500);
-    }
+    let sentenceID = parseInt(location.hash.split("#")[1]) - 1 || 0;
+    // localStorage.setItem('local', globals.problemJSON)
+    // if (localStorage.getItem('loaded')==null) {
+    //     localStorage.setItem('loaded', '1');
+    //     location.reload()
+    // } else {
+    //     setTimeout(() => {
+    //         localStorage.removeItem('loaded')
+    //     }, 500);
+    // }
     loadSentence(sentenceID)
 }
 
@@ -810,7 +824,7 @@ function drawLines() {
 }
 
 function traverse(callback) {
-    $("#problemConstituent").children().not('.gu-transit, .gu-mirror').each(function (row) {
+    $("#problemConstituent").children().not('.gu-transit, .gu-mirror, .ignore-draw').each(function (row) {
         let rowThis = $(this)
         let rowIndex = parseInt(rowThis.attr("data-row"))
         if (rowIndex > 0) { // skip root node           
@@ -822,9 +836,10 @@ function traverse(callback) {
 function setUpDrake() {
     let mode = parseQuery(window.location.search).mode || 'automatic'
     let traceInfo = getTraceInfo()
-    let traceNum = traceInfo.length
+    const totalTraces = traceInfo.length;
+    let currentTraceNum = "non";
     // if (drake) {drake.destroy();}
-    let drake
+    let drake;
     drake = dragula([...document.getElementsByClassName("container")], {
         isContainer: function (el) {
             let showDropHint = !($(el).attr("data-row") == "0") && $(el).hasClass("container") 
@@ -866,71 +881,70 @@ function setUpDrake() {
 
     const container = transitEl.parentElement; // The .container grid
     if (!container) return;
+    // // 1. Get all actual grid items (ignore Dragula's transit and mirror elements)
+    // const items = Array.from(container.children).filter(child => 
+    //     !child.classList.contains('gu-transit') && 
+    //     !child.classList.contains('gu-mirror')
+    // );
 
-    // 1. Get all actual grid items (ignore Dragula's transit and mirror elements)
-    const items = Array.from(container.children).filter(child => 
-        !child.classList.contains('gu-transit') && 
-        !child.classList.contains('gu-mirror')
-    );
+    // if (items.length === 0) return;
 
-    if (items.length === 0) return;
+    // let targetGridColumn = 1;
+    // let found = false;
+    // let targetGridEndColumn = 2;
+    // let itemRow;
 
-    let targetGridColumn = 1;
-    let found = false;
-    let targetGridEndColumn = 2;
-    let itemRow;
-
-    // 2. Loop through items to see which one the mouse is currently hovering over
-    for (let i = 0; i < items.length; i++) {
-        const rect = items[i].getBoundingClientRect();
-        let nextExist = false;
-        let rectNext;
-        console.log(items[i])
-        if (i != items.length-1) {
-            nextExist = true
-            rectNext = items[i+1].getBoundingClientRect();
-        }
-        console.log(items[i])
-        const rectColumn = items[i].style.gridColumn
+    // // 2. Loop through items to see which one the mouse is currently hovering over
+    // for (let i = 0; i < items.length; i++) {
+    //     const rect = items[i].getBoundingClientRect();
+    //     let nextExist = false;
+    //     let rectNext;
+    //     console.log(items[i])
+    //     if (i != items.length-1) {
+    //         nextExist = true
+    //         rectNext = items[i+1].getBoundingClientRect();
+    //     }
+    //     console.log(items[i])
+    //     const rectColumn = items[i].style.gridColumn
         
-        // If the mouse X is within the left and right edges of this item
-        if ((nextExist && lastDropPosition.x >= rect.left&& lastDropPosition.x <= rectNext.left) || 
-            (!nextExist && lastDropPosition.x >= rect.left)) {
-            targetGridColumn = parseInt(rectColumn) + 1; // CSS Grid is 1-indexed
-            found = true;
-            targetGridEndColumn = targetGridColumn+1
-            itemRow = items[i].firstElementChild.id;
-            break;
-        } else {
-            targetGridColumn = 1;
-            targetGridEndColumn = parseInt(rectColumn)
-        }
-    }
+    //     // If the mouse X is within the left and right edges of this item
+    //     if ((nextExist && lastDropPosition.x >= rect.left&& lastDropPosition.x <= rectNext.left) || 
+    //         (!nextExist && lastDropPosition.x >= rect.left)) {
+    //         targetGridColumn = parseInt(rectColumn) + 1; // CSS Grid is 1-indexed
+    //         found = true;
+    //         targetGridEndColumn = targetGridColumn+1
+    //         itemRow = items[i].firstElementChild.id;
+    //         break;
+    //     } else {
+    //         targetGridColumn = 1;
+    //         targetGridEndColumn = parseInt(rectColumn)
+    //     }
+    // }
 
-    // 3. If the mouse isn't over an item, check if it's on the far right side
-    if (!found) {
-        const lastItemRect = items[items.length - 1].getBoundingClientRect();
-        const lastRectColumn = items[items.length - 1].style.gridColumn
-        if (lastDropPosition.x > lastItemRect.right) {
-            // Put it in the next empty column after the last item
-            targetGridColumn = parseInt(lastRectColumn) + 1; 
-            targetGridEndColumn = targetGridColumn+1
-        } else if (lastDropPosition.x < items[0].getBoundingClientRect().left) {
-            // Or if it's on the far left side
-            targetGridColumn =1;
-            targetGridEndColumn = parseInt(items[0].style.gridColumn)
-        }
-        itemRow = items[items.length - 1].firstElementChild.id
-    }
-    // 4. Force the transit background into the correct column
-    transitEl.style.gridColumn = `${parseInt(targetGridColumn)}/${parseInt(targetGridEndColumn)}` ||0;
-    console.log(transitEl)
-    console.log(transitEl, transitEl.style.gridColumn, parseInt(traceInfo[traceNum][0]["info"].column), traceInfo[traceNum][0].row)
-        if (targetGridEndColumn-2 == parseInt(traceInfo[traceNum][0]["info"].column) && itemRow == `label_row_${traceInfo[traceNum][0].row}`) {
-            transitEl.style.display = 'block';
-        } else {
-            transitEl.style.display = 'none';
-        }
+    // // 3. If the mouse isn't over an item, check if it's on the far right side
+    // if (!found) {
+    //     const lastItemRect = items[items.length - 1].getBoundingClientRect();
+    //     const lastRectColumn = items[items.length - 1].style.gridColumn
+    //     if (lastDropPosition.x > lastItemRect.right) {
+    //         // Put it in the next empty column after the last item
+    //         targetGridColumn = parseInt(lastRectColumn) + 1; 
+    //         targetGridEndColumn = targetGridColumn+1
+    //     } else if (lastDropPosition.x < items[0].getBoundingClientRect().left) {
+    //         // Or if it's on the far left side
+    //         targetGridColumn =1;
+    //         targetGridEndColumn = parseInt(items[0].style.gridColumn)
+    //     }
+    //     itemRow = items[items.length - 1].firstElementChild.id
+    // }
+    // // 4. Force the transit background into the correct column
+    // transitEl.style.gridColumn = `${parseInt(targetGridColumn)}/${parseInt(targetGridEndColumn)}` ||0;
+    // console.log(transitEl)
+    // console.log(transitEl, transitEl.style.gridColumn, parseInt(traceInfo[currentTraceNum][0]["info"].column), traceInfo[currentTraceNum][0].row)
+        // if (targetGridEndColumn-2 == parseInt(traceInfo[currentTraceNum][0]["info"].column) && itemRow == `label_row_${traceInfo[currentTraceNum][0].row}`) {
+        //     transitEl.style.display = 'block';
+        // } else {
+        //     transitEl.style.display = 'none';
+        // }
     };
     // drake.on("out",resizeWindow)
     // drake.on("shadow",resizeWindow)
@@ -939,34 +953,49 @@ function setUpDrake() {
         $(".animateWrong").removeClass("animateWrong")
         $(el).removeClass("animateWrong")
         let row = $(source).attr("data-row")
+        let rowNum;
+        let columnNum;
         let column = parseInt($(el).attr("data-blockindex"))
-        for (let i=0; i< traceNum; i++) {
-            console.log(traceInfo[i][1]["row"], row, traceInfo[i][1]["info"].column, column)
-            if (traceInfo[i][1]["row"] == row && traceInfo[i][1]["info"].column==column) {
-                console.log(i+1)
-                $(el).attr("data-dest", i+1)
+        for (let i = 0; i < totalTraces; i++) {
+            if (traceInfo[i][1]["row"] == row && traceInfo[i][1]["info"].column == column) {
+                $(el).attr("data-dest", i + 1);
+                rowNum = traceInfo[i][0]["row"];
+                columnNum = traceInfo[i][0]["info"].column;
+            }
+        }
+        if (rowNum !== undefined) {
+            let $targetLabel = $(`
+                <div id="targetLabel" class="ignore-draw" style="grid-column: ${columnNum + 1}; pointer-events: none; z-index: 0;">
+                    <img src='images/target.png' id='targetLabelImg'/>
+                </div>
+            `);
+            let $childLabel = $(`#label_row_${rowNum}`);
+            if ($childLabel.length) {
+                let $rowContainer = $childLabel.parent().parent();
+                $rowContainer.append($targetLabel);
+            } else {
+                console.error(`Could not find row container for label_row_${rowNum}`);
             }
         }
         if ($(el).attr("data-dest")) {
-            traceNum = parseInt($(el).attr("data-dest"))-1 ||0
+            currentTraceNum = parseInt($(el).attr("data-dest")) - 1 || 0;
         } else {
-            traceNum = "non"
+            currentTraceNum = "non";
         }
         document.addEventListener('mousemove', updateLastPosition);
         // if (target) {labelEmptyGridColumns(target)}
     })
     drake.on("drop", (el, target, source, sibling) => {//resizeWindow()
-        $(el).removeClass("animateWrong")
+        document.querySelector("#targetLabel")?.remove();
         $(".animateWrong").removeClass("animateWrong")
         console.log({el, target, source, sibling})
-        console.log(traceNum, $(target).attr("data-row"))
-        if (traceNum == "non") {
+        console.log(currentTraceNum, $(target).attr("data-row"))
+        if (currentTraceNum == "non") {
             $(el).remove()
-            traceNum = traceInfo.length;
             return
         }
-        let targetRow = parseInt(traceInfo[traceNum][0]["row"])
-        let targetColumn = parseInt(traceInfo[traceNum][0]["info"].column)
+        let targetRow = parseInt(traceInfo[currentTraceNum][0]["row"])
+        let targetColumn = parseInt(traceInfo[currentTraceNum][0]["info"].column)
         // if (target === null || targetRow != parseInt($(target).attr("data-row"))) { // dropped back where it originated
         if (target === null) {
             console.log("no movement")
@@ -975,7 +1004,7 @@ function setUpDrake() {
         } else {
             let rowOfTarget = target.attributes["data-row"].value
             // $(".gu-mirror").remove()
-            console.log(traceInfo, traceNum, targetRow, targetColumn, rowOfTarget)
+            console.log(traceInfo, currentTraceNum, targetRow, targetColumn, rowOfTarget)
             if (rowOfTarget != targetRow) {
                 console.log("target no right")
                 $(el).remove()
@@ -1050,7 +1079,7 @@ function setUpDrake() {
                 }
                 $(el).attr("style", `grid-column: ${newBlockIndex+1}`)
                 console.log(el)
-                $(el).attr("data-traceindex", traceNum+1)
+                $(el).attr("data-traceindex", currentTraceNum+1)
                 // $(el).next().attr("style", `grid-column: ${newBlockIndex+2}`)
                 // updateIndicesAfterTrace(el)
                 $("#problemConstituent").attr("data-strokes", parseInt($("#problemConstituent").attr("data-strokes"))+1)
@@ -1085,8 +1114,8 @@ function findParent(block) {
     row = $(`[data-row="${rowIndex - 1}"]`)
     // console.log(row)
     indexVarificator = parseInt($(block).attr("data-blockindex"))
-    let maxBlock =row.children().not('.gu-transit, .gu-mirror')
-    row.children().not('.gu-transit, .gu-mirror').each(function () {
+    let maxBlock =row.children().not('.gu-transit, .gu-mirror, .ignore-draw')
+    row.children().not('.gu-transit, .gu-mirror, .ignore-draw').each(function () {
         // console.log($(this), $(this).attr("data-blockindex"))
         // console.log($(block), $(block).attr("data-blockindex"), $(block)[0].dataset.blockindex)
         // console.log($(this))
@@ -1107,6 +1136,8 @@ function findParent(block) {
 }
 
 function drawLine(child, parent) {
+    console.log(child)
+    // if (child.getAttribute('id') == "targetLabel") {return}
     let topElement = parent.find(".constituentContainer");
     let parentLabel = parent.find(".labelDiv");
     let childLabel = child.find(".labelDiv");
@@ -1262,7 +1293,7 @@ function generateMenu(e) {
     ["N", "V", "P", "adj", "adv", "det", "T", "S", "deg", "D", "C", "A", "Perf", "Prog", "Conj"],
     ["N", "V", "P", "adj", "adv", "Af"]
     ]
-    let labelFilterSet = [{"phrase": ["S", "adj", "adv","det", "deg"], "non" : [], "bar": ["N", "V", "P","T", "adj", "adv", "det", "S", "deg", "PossN", "A"]}, 
+    let labelFilterSet = [{"phrase": ["S", "adj", "adv","det", "deg"], "non" : [], "bar": ["N", "V", "P","T", "adj", "adv", "det", "S", "deg", "PossN", "A", "D"]}, 
     {"phrase": ["S", "adj", "adv","det", "deg"], "non" : ["Aux"], "bar": ["N", "V", "P", "T", "adj", "adv", "det", "S", "deg", "D", "A"]}]
 
     let labelFilterByCourse = [{"6":[],"7":[],"8":[],
@@ -1917,6 +1948,8 @@ function finishAlarm() {
         PJ.progress = PJ.progress || [] 
         PJ.progress.push(strokes);
        console.log(JSON.stringify(PJ),strokes)
+        let problemID = parseQuery(window.location.search).problem_id || 7;
+        sessionStorage.setItem(`draft_problem_${problemID}`, JSON.stringify(globals.problemJSON));
 	    let bestStep = bestProgress(PJ.progress)
 	    let {flagColor, alarmForBest} = getProgressSignal(bestStep,good,minStep)
         console.log(bestStep, good, minStep)
@@ -1925,7 +1958,6 @@ function finishAlarm() {
         $(`#${currentSentenceID}`).attr("style", color)
         // if (PJ.progress.length == 1) {enableNext()}
         console.log(scoreUpdater())
-    let problem_id = parseQuery(window.location.search).problem_id || 1
     
 	if (!(typeof ses=== "undefined")){
         // ses.grade= globalScore(globals.problemJSON)/100;  
@@ -1933,7 +1965,7 @@ function finishAlarm() {
         console.log(ses)
         postLTI(ses,"du"); 
     }
-    JSON_API(globals.problemJSON, problem_id,"POST").then(console.log)
+    JSON_API(globals.problemJSON, problemID,"POST").then(console.log)
     let {flagColor1, alarm} = getProgressSignal(strokes,good,minStep, true)
     finishDialog(alarm)
     
@@ -2051,7 +2083,7 @@ function nextButton(returnItem) {
     document.body.addEventListener('click', (event) => {
         if (event.target.id === 'next') {
             window.location.hash=parseInt(location.hash.split("#")[1])+1 ||2
-            location.reload();
+            // location.reload();
         }
     });
     // document.querySelector("#next")?.addEventListener('click', ()=>{
@@ -2222,7 +2254,7 @@ function drawArrows() {
 
     // 3. Draw curves for each traced element
     // Safely ignore Dragula clones!
-    $(".traced").not('.gu-transit, .gu-mirror').each((i, block) => {
+    $(".traced").not('.gu-transit, .gu-mirror, .ignore-draw').each((i, block) => {
         let startPoint = $(block).find(".constituentContainer");
         let endPoint = $(`[data-dest=${$(block).attr("data-traceindex")}]`).find(".constituentContainer");
     

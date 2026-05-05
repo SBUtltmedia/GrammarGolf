@@ -35,9 +35,8 @@
             --labelDiv: rgb(54, 125, 105);
             --disable: #15241d;
         }
-
         .gu-transit {
-            /* display: none; */
+            display: none;
             /* opacity: 0.8;
             transition: all 0.3s ease-in-out 33; */
             /* Ensure it spans the whole height/width of the grid cell */
@@ -202,6 +201,11 @@
             overflow: hidden;
         }
 
+        #targetLabelImg {
+            width:10rem;
+            pointer-events: none;
+        }
+
         .dialogHeader {
             display: flex;
             justify-content: space-between;
@@ -239,7 +243,6 @@
         #finishMeme,
         #toolPic {
             width: 32rem;
-
         }
 
         #problemInfo {

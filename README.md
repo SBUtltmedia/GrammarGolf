@@ -2,8 +2,8 @@
 
 This project is a web-based application for learning and practicing sentence diagramming and syntax tree construction in a "golf" themed game. The goal is to correctly diagram a sentence in as few "strokes" as possible.
 
-- **Live Application:** [https://sbutltmedia.github.io/GrammarGolf/public](https://sbutltmedia.github.io/GrammarGolf/public)
-- **Test Page:** [https://sbutltmedia.github.io/GrammarGolf/public/test.html](https://sbutltmedia.github.io/GrammarGolf/public/test.html)
+- **Live Application:** [https://tltmedia.github.io/GrammarGolf/public](https://tltmedia.github.io/GrammarGolf/public)
+- **Test Page:** [https://tltmedia.github.io/GrammarGolf/public/test.html](https://tltmedia.github.io/GrammarGolf/public/test.html)
 
 ## Core Concepts
 
