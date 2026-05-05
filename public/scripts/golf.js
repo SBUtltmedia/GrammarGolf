@@ -20,7 +20,7 @@ JSON_API(undefined, problem_id)
         .then((data) => {
             // console.log({data})
             globals.problemJSON = data
-            setupPageAfterLoad();});
+            setupPageAfterLoad();});}
     function setupPageAfterLoad() {
         let problemJSON = globals.problemJSON;
         let startingSentence = parseQuery(window.location.search).string;
@@ -32,7 +32,6 @@ JSON_API(undefined, problem_id)
         loadMenu();
         hashLoadSentence();
         intro();
-    }
 }}
 
 
