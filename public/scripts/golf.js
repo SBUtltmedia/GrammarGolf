@@ -1420,7 +1420,7 @@ function generateMenu(e) {
             $("#problemConstituent").attr("data-strokes", parseInt($("#problemConstituent").attr("data-strokes"))+1)
             console.log(label,correctLabel)
             if ((label == "D" && correctLabel == "det") ||(label == "det" && correctLabel == "D")) {
-                label = correctLabel
+                correctLabel = label
             }
             if (correctLabel == undefined) {correctLabel = "T"}
             if ((mode == 'manual') || (mode == 'automatic' && label == correctLabel)) {
