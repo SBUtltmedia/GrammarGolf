@@ -526,16 +526,22 @@
         }
 
 
-        .branch,
-        .arrow {
+        .branch {
             /* lines of tree */
             stroke: var(--line);
             stroke-width: 0.3em;
             stroke-linecap: round;
         }
 
+        .arrow {
+            stroke: yellow;
+            opacity: 0.55;
+            stroke-width: 0.3em;
+            stroke-linecap: round;
+        }
+
         #triangle {
-            fill: var(--line);
+            fill: yellow;
         }
 
         .container {

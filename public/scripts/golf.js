@@ -832,14 +832,14 @@ function traverse(callback) {
         }
     })
 }
-
+let drake = null;
+let lastDropTime = 0;
 function setUpDrake() {
     let mode = parseQuery(window.location.search).mode || 'automatic'
     let traceInfo = getTraceInfo()
     const totalTraces = traceInfo.length;
     let currentTraceNum = "non";
-    // if (drake) {drake.destroy();}
-    let drake;
+    if (drake) {drake.destroy();}
     drake = dragula([...document.getElementsByClassName("container")], {
         isContainer: function (el) {
             let showDropHint = !($(el).attr("data-row") == "0") && $(el).hasClass("container") 
@@ -948,7 +948,13 @@ function setUpDrake() {
     };
     // drake.on("out",resizeWindow)
     // drake.on("shadow",resizeWindow)
+    drake.on("cancel", (el, container, source) => {
+        // 2. THE FIX: Clean up if the drag fails or is aborted
+        $("#targetLabel").remove();
+        document.removeEventListener('mousemove', updateLastPosition);
+    });
     drake.on("drag", (el, source)=> {
+        $("#targetLabel").remove();
         console.log(el, el.id, source) 
         $(".animateWrong").removeClass("animateWrong")
         $(el).removeClass("animateWrong")
@@ -986,6 +992,12 @@ function setUpDrake() {
         // if (target) {labelEmptyGridColumns(target)}
     })
     drake.on("drop", (el, target, source, sibling) => {//resizeWindow()
+        const now = Date.now();
+        if (now - lastDropTime < 100) {
+            $(el).remove();
+            return false;
+        }
+        lastDropTime = now;
         document.querySelector("#targetLabel")?.remove();
         $(".animateWrong").removeClass("animateWrong")
         console.log({el, target, source, sibling})
@@ -1011,11 +1023,10 @@ function setUpDrake() {
                 return
             }
         }
-        
         console.log($(target)[0].childNodes)
         let destID = $(el).attr("id")
         console.log(destID)
-        $(el).attr("id", Date.now()) // new distinct id
+        $(el).attr("id", now) // new distinct id
         let index = $(`[data-wastraced]`).length + 1
         $(`#${destID}`).attr("data-destination", index)
         $(el).attr("data-wastraced", index)
@@ -1408,6 +1419,9 @@ function generateMenu(e) {
             // replace ? with label and close menu
             $("#problemConstituent").attr("data-strokes", parseInt($("#problemConstituent").attr("data-strokes"))+1)
             console.log(label,correctLabel)
+            if ((label == "D" && correctLabel == "det") ||(label == "det" && correctLabel == "D")) {
+                label = correctLabel
+            }
             if (correctLabel == undefined) {correctLabel = "T"}
             if ((mode == 'manual') || (mode == 'automatic' && label == correctLabel)) {
                 if (treeRow[row+1] && $("#sentenceContainer").attr("data-bracketedsentence").includes("+") && (correctLabel == "S" || correctLabel == "TP")) {

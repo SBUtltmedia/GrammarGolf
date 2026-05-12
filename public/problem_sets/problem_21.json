@@ -5,7 +5,7 @@
       "notes": ""
     },
     {
-      "expression": "(CP (NP What ^1) (C' (C was ^2) (TP (NP (N Bart))  (T was ^t2) (VP (V writing) (NP What ^t1))))))",
+      "expression": "(CP (NP Whom ^1) (C' (C was ^2) (TP (NP (N Lisa))  (T was ^t2) (VP (V painting) (NP Whom ^t1))))))",
       "notes": ""
     },
     {

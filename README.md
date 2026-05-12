@@ -4,6 +4,7 @@ This project is a web-based application for learning and practicing sentence dia
 
 - **Live Application:** [https://tltmedia.github.io/GrammarGolf/public](https://tltmedia.github.io/GrammarGolf/public)
 - **Test Page:** [https://tltmedia.github.io/GrammarGolf/public/test.html](https://tltmedia.github.io/GrammarGolf/public/test.html)
+- **Double Drag Application:** [https://tltmedia.github.io/GrammarGolf/public/?problem_id=21](https://tltmedia.github.io/GrammarGolf/public/?problem_id=21)
 
 ## Core Concepts
 
